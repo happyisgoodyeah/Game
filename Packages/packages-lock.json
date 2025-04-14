@@ -42,6 +42,12 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "cn.etetet.gameplay": {
+      "version": "file:cn.etetet.gameplay",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "cn.etetet.http": {
       "version": "file:cn.etetet.http",
       "depth": 0,
