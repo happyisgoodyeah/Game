@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "cn.etetet.yiuistatesync": "1.1.2",
     "cn.etetet.packagemanager": "1.0.5",
     "cn.etetet.statesync": "3.0.11",
     "com.unity.ai.navigation": "2.0.4",

@@ -141,7 +141,9 @@ PlayerSettings:
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
   bundleVersion: 1.0
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 11400000, guid: 78f363bf828a60449a957bfe7a2761e8, type: 2}
+  - {fileID: 11400000, guid: 4d37d48cb5c9e0d41b0a2d8a9445399f, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -876,11 +878,24 @@ PlayerSettings:
   webGLCloseOnQuit: 0
   webWasm2023: 0
   scriptingDefineSymbols:
-    Android: UNITY;ENABLE_VIEW
+    Android: UNITY;ENABLE_VIEW;DOTWEEN;TextMeshPro
+    EmbeddedLinux: DOTWEEN;TextMeshPro
+    GameCoreScarlett: DOTWEEN
+    GameCoreXboxOne: DOTWEEN;TextMeshPro
+    LinuxHeadlessSimulation: DOTWEEN
+    Nintendo Switch: DOTWEEN;TextMeshPro
+    PS4: DOTWEEN;TextMeshPro
+    PS5: DOTWEEN;TextMeshPro
+    QNX: DOTWEEN;TextMeshPro
+    ReservedCFE: DOTWEEN;TextMeshPro
     Server: UNITY;ENABLE_VIEW
-    Standalone: UNITY;ENABLE_VIEW;INITED;ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;ODIN_INSPECTOR_3_2;ODIN_INSPECTOR_3_3
-    WebGL: UNITY;ENABLE_VIEW
-    iPhone: UNITY;ENABLE_VIEW
+    Standalone: UNITY;ENABLE_VIEW;INITED;ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;ODIN_INSPECTOR_3_2;ODIN_INSPECTOR_3_3;DOTWEEN;TextMeshPro
+    VisionOS: DOTWEEN;TextMeshPro
+    WebGL: UNITY;ENABLE_VIEW;DOTWEEN;TextMeshPro
+    Windows Store Apps: DOTWEEN
+    XboxOne: DOTWEEN;TextMeshPro
+    iPhone: UNITY;ENABLE_VIEW;DOTWEEN;TextMeshPro
+    tvOS: DOTWEEN;TextMeshPro
   additionalCompilerArguments: {}
   platformArchitecture:
     iPhone: 1
