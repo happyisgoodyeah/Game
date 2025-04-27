@@ -8,7 +8,7 @@ namespace ET
         protected override async ETTask Run(Scene root, GameStart a)
         {
             //切换场景
-            await SceneChangeHelper.SceneChangeTo(root, "Map1", root.InstanceId);
+            await SceneChangeHelper.SceneChangeTo(root, "Test", root.InstanceId);
         }
     }
 }

@@ -18,6 +18,7 @@
             Scene currentScene = CurrentSceneFactory.Create(sceneInstanceId, sceneName, currentScenesComponent);
             
             // 可以订阅这个事件中创建Loading界面
+            // 数据层已经更改 事件修改表现层
             EventSystem.Instance.Publish(root, new SceneChangeStart());
             EventSystem.Instance.Publish(currentScene, new SceneChangeFinish());
 

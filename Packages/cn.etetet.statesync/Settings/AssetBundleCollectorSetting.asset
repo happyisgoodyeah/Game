@@ -76,6 +76,14 @@ MonoBehaviour:
         FilterRuleName: CollectScene
         AssetTags: 
         UserData: 
+      - CollectPath: Packages/cn.etetet.gameplay/Resources/Scenes
+        CollectorGUID: cc86a1e9c7e332e4491c64f72607fd97
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackSeparately
+        FilterRuleName: CollectScene
+        AssetTags: 
+        UserData: 
     - GroupName: UI
       GroupDesc: 
       AssetTags: 
@@ -156,7 +164,7 @@ MonoBehaviour:
         AssetTags: 
         UserData: 
       - CollectPath: Assets/GameRes/YIUI
-        CollectorGUID: 7df93ffc8327ee443a9ffadd3c94bd53
+        CollectorGUID: 
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory
