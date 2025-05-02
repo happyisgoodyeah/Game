@@ -15,7 +15,7 @@ namespace ET
         /// <param name="self"></param>
         /// <param name="spawnPosition"></param>
         /// <param name="cellSize"></param>
-        public static void SpawnPuzzle(PuzzleSpawnComponent self, IntVector2 spawnPosition, int cellSize)
+        public static void SpawnPuzzle(this PuzzleSpawnComponent self, IntVector2 spawnPosition, int cellSize)
         {
             var puzzle = self.GetParent<Grid>().AddChild<Puzzle>();
             puzzle.InitComponent(spawnPosition, cellSize);
