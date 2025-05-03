@@ -6,9 +6,8 @@ namespace ET
         [EntitySystem]
         private static void Awake(this ET.SlotSpawnComponent self)
         {
-
         }
-    
+
         /// <summary>
         /// 生成Puzzle
         /// </summary>
@@ -16,7 +15,8 @@ namespace ET
         /// <param name="spawnPosition"></param>
         public static void SpawnSlot(this SlotSpawnComponent self, IntVector2 spawnPosition)
         {
-            var slot = self.GetParent<Grid>().AddChild<Slot>();
+            var slot = self.GetParent<Grid>().AddChild<Slot, int>(1001);
+            EventSystem.Instance.Publish(self.Scene(), new AfterCreateSlot(){slot = slot});
         }
-    }        
+    }
 }

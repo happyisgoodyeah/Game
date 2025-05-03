@@ -3,12 +3,24 @@ namespace ET
     [EntitySystemOf(typeof(Grid))]
     public static partial class GridSystem
     {
-        [EntitySystem]
-        private static void Awake(this ET.Grid self, int x, int y, int cellSize)
+        /// <summary>
+        /// 获取配置
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static GridConfig Config(this Grid self)
         {
-            self.InitComponent(x,y,cellSize);
-            self.SpawnSlot();
+            return GridConfigCategory.Instance.Get(self.configId);
         }
+
+        [EntitySystem]
+        private static void Awake(this ET.Grid self, int configId)
+        {
+            self.configId = configId;
+
+            self.InitComponent(self.Config().X, self.Config().Y, 1);
+        }
+
         public static void InitComponent(this ET.Grid self, int x, int y, int cellSize)
         {
             //数据
@@ -41,9 +53,10 @@ namespace ET
         /// <param name="self"></param>
         public static void SpawnPuzzle(this Grid self)
         {
-            self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(new IntVector2(0,0) , 1);
-            self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(new IntVector2(0,0) , 1);
-            self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(new IntVector2(0,0) , 1);
+            for (int i = 0; i < self.Config().PuzzleCount; i++)
+            {
+                self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(new IntVector2(0, 0), 1);
+            }
         }
     }
 }
