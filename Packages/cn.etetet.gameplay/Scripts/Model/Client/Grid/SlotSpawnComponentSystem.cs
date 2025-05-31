@@ -15,7 +15,8 @@ namespace ET
         /// <param name="spawnPosition"></param>
         public static void SpawnSlot(this SlotSpawnComponent self, IntVector2 spawnPosition)
         {
-            var slot = self.GetParent<Grid>().AddChild<Slot, int>(1001);
+            var grid = self.GetParent<Grid>();
+            var slot = grid.AddChild<Slot, int , IntVector2>(1001 , spawnPosition);
             EventSystem.Instance.Publish(self.Scene(), new AfterCreateSlot(){slot = slot});
         }
     }

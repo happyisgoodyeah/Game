@@ -10,6 +10,12 @@ namespace ET.Client
         {
             self.transform = transform;
             self.parentTransform = transform.parent;
+
+            if (self.transform != null)
+            {
+                self.slotTransform = transform.Find("SlotTransform");
+                self.puzzleTransform = transform.Find("PuzzleTransform");;
+            }
         }
     }
 }
