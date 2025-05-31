@@ -3,15 +3,15 @@ namespace ET
     [EntitySystemOf(typeof(Puzzle))]
     public static partial class PuzzleSystem
     {
+        [EntitySystem]
+        private static void Awake(this ET.Puzzle self, int configId, int positionId)
+        {
+            self.configId = configId;
+            self.positionIndex = positionId;
+        }
         public static PuzzleConfig Config(this Puzzle self)
         {
             return PuzzleConfigCategory.Instance.Get(self.configId);
-        }
-
-        [EntitySystem]
-        private static void Awake(this ET.Puzzle self, int configId)
-        {
-            self.configId = configId;
         }
 
         public static void InitComponent(this Puzzle self, IntVector2 position, int rotation)

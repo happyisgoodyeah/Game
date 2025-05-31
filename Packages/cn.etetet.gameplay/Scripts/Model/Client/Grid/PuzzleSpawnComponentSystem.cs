@@ -16,11 +16,12 @@ namespace ET
         /// <param name="self"></param>
         /// <param name="spawnPosition"></param>
         /// <param name="cellSize"></param>
-        public static void SpawnPuzzle(this PuzzleSpawnComponent self, IntVector2 spawnPosition, int cellSize)
+        public static Puzzle SpawnPuzzle(this PuzzleSpawnComponent self, IntVector2 spawnPosition, int cellSize)
         {
-            var puzzle = self.GetParent<Grid>().AddChild<Puzzle, int>(1001);
+            var puzzle = self.GetParent<Grid>().AddChild<Puzzle, int , int>(1001 , self.GetParent<Grid>().GetPuzzleCount());
             EventSystem.Instance.Publish(self.Scene(), new AfterCreatePuzzle(){puzzle = puzzle});
             puzzle.InitComponent(spawnPosition, cellSize);
+            return puzzle;
         }
     }
 }

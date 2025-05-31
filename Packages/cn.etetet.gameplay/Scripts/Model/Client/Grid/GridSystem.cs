@@ -42,7 +42,8 @@ namespace ET
             {
                 for (int j = 0; j < self.gridSize.Y; j++)
                 {
-                    self.GetComponent<SlotSpawnComponent>().SpawnSlot(new IntVector2(i, j));
+                    var slot = self.GetComponent<SlotSpawnComponent>().SpawnSlot(new IntVector2(i, j));
+                    self.slotDic.TryAdd(slot.InstanceId, slot);
                 }
             }
         }
@@ -55,8 +56,30 @@ namespace ET
         {
             for (int i = 0; i < self.Config().PuzzleCount; i++)
             {
-                self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(new IntVector2(0, 0), 1);
+                var puzzle = self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(new IntVector2(0, 0), 1);
+                self.PuzzleDic.TryAdd(puzzle.InstanceId, puzzle);
             }
         }
+
+        /// <summary>
+        /// 获得Grid下Slot的数量
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static int GetSlotSCount(this Grid self)
+        {
+            return self.slotDic.Count;
+        }
+
+        /// <summary>
+        /// 获得Grid下Puzzle的数量
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static int GetPuzzleCount(this Grid self)
+        {
+            return self.PuzzleDic.Count;
+        }
+        
     }
 }
