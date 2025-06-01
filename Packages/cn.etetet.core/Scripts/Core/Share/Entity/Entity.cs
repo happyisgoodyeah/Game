@@ -610,6 +610,16 @@ namespace ET
             }
         }
 
+        public bool HasComponent<K>() where K : Entity
+        {
+            if (this.GetComponent<K>() == null)
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        
         public K GetComponent<K>() where K : Entity
         {
             if (this.components == null)

@@ -5,5 +5,10 @@ namespace ET
     {
         public int configId;
         public IntVector2 position;
+        
+        /// <summary>
+        /// 当前绑定的Puzzle
+        /// </summary>
+        public EntityRef<Puzzle> puzzleRef;
     }
 }

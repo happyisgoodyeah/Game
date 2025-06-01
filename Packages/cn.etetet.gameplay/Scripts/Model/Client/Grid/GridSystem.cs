@@ -1,6 +1,7 @@
 namespace ET
 {
     [EntitySystemOf(typeof(Grid))]
+    [FriendOf(typeof(Slot))]
     public static partial class GridSystem
     {
         /// <summary>
@@ -80,6 +81,22 @@ namespace ET
         {
             return self.PuzzleDic.Count;
         }
-        
+
+        /// <summary>
+        /// 检测所有slot是否已经有绑定的puzzle
+        /// </summary>
+        /// <returns></returns>
+        public static bool CheckGameOver(this Grid self)
+        {
+            foreach (var slotRef in self.slotDic.Values)
+            {
+                var slot = slotRef.Entity;
+                if (slot.puzzleRef.Entity != null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
