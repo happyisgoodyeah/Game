@@ -1,0 +1,9 @@
+[
+  {
+    "Id": 1001,
+    "Name": "单格拼图",
+    "X": 1,
+    "Y": 1,
+    "PrefabPath": "Puzzle/Puzzle1001"
+  }
+]
