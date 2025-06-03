@@ -11,12 +11,12 @@ namespace ET
             Grid grid = data.grid;
             
             //生成预制体
-            // var bundleObj = await ResourcesLoaderHelper.LoadAssetPrefabAsync<GameObject>(scene,grid.Config().PrefabPath);
-            // GlobalComponent globalComponent = scene.Root().GetComponent<GlobalComponent>();
-            // var Obj = UnityEngine.Object.Instantiate(bundleObj, globalComponent.Grid);
-            //
-            // //生成View
-            // var gridView = data.grid.AddComponent<GridView,Transform>(Obj.transform);
+            var bundleObj = await ResourcesLoaderHelper.LoadAssetPrefabAsync<GameObject>(scene,grid.Config().PrefabPath);
+            GlobalComponent globalComponent = scene.Root().GetComponent<GlobalComponent>();
+            var Obj = UnityEngine.Object.Instantiate(bundleObj, globalComponent.Grid);
+            
+            //生成View
+            var gridView = data.grid.AddComponent<GridView,Transform>(Obj.transform);
             await ETTask.CompletedTask;
         }
     }

@@ -23,6 +23,7 @@ namespace ET
             Y = _buf.ReadInt();
             PuzzleCount = _buf.ReadInt();
             PrefabPath = _buf.ReadString();
+            {int n0 = System.Math.Min(_buf.ReadSize(), _buf.Size);PuzzleList = new System.Collections.Generic.List<int>(n0);for(var i0 = 0 ; i0 < n0 ; i0++) { int _e0;  _e0 = _buf.ReadInt(); PuzzleList.Add(_e0);}}
 
             EndInit();
         }
@@ -41,21 +42,25 @@ namespace ET
         /// </summary>
         public readonly string Name;
         /// <summary>
-        /// 位置
+        /// 行
         /// </summary>
         public readonly int X;
         /// <summary>
-        /// 身高
+        /// 列
         /// </summary>
         public readonly int Y;
         /// <summary>
-        /// 体重
+        /// 拼图数量
         /// </summary>
         public readonly int PuzzleCount;
         /// <summary>
         /// 预制体路径
         /// </summary>
         public readonly string PrefabPath;
+        /// <summary>
+        /// 拼图IdList
+        /// </summary>
+        public readonly System.Collections.Generic.List<int> PuzzleList;
     
         public const int __ID__ = -2067346872;
         public override int GetTypeId() => __ID__;
@@ -74,6 +79,7 @@ namespace ET
             + "Y:" + Y + ","
             + "PuzzleCount:" + PuzzleCount + ","
             + "PrefabPath:" + PrefabPath + ","
+            + "PuzzleList:" + Luban.StringUtil.CollectionToString(PuzzleList) + ","
             + "}";
         }
 

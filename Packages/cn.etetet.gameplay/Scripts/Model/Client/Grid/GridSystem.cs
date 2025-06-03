@@ -18,7 +18,7 @@ namespace ET
         private static void Awake(this ET.Grid self, int configId)
         {
             self.configId = configId;
-
+            
             self.InitComponent(self.Config().X, self.Config().Y, 1);
         }
 
@@ -43,7 +43,7 @@ namespace ET
             {
                 for (int j = 0; j < self.gridSize.Y; j++)
                 {
-                    var slot = self.GetComponent<SlotSpawnComponent>().SpawnSlot(new IntVector2(i, j));
+                    var slot = self.GetComponent<SlotSpawnComponent>().SpawnSlot(1001 , new IntVector2(i, j));
                     self.slotDic.TryAdd(slot.InstanceId, slot);
                 }
             }
@@ -57,7 +57,7 @@ namespace ET
         {
             for (int i = 0; i < self.Config().PuzzleCount; i++)
             {
-                var puzzle = self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(new IntVector2(0, 0), 1);
+                var puzzle = self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(self.Config().PuzzleList[i] , new IntVector2(0, 0), 1);
                 self.PuzzleDic.TryAdd(puzzle.InstanceId, puzzle);
             }
         }
