@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using Unity.Mathematics.Geometry;
 using UnityEngine;
 
 namespace ET
@@ -6,6 +7,7 @@ namespace ET
     [EntitySystemOf(typeof(SlotView))]
     [FriendOf(typeof(Slot))]
     [FriendOf(typeof(Grid))]
+    [FriendOf(typeof(Puzzle))]
     public static partial class SlotViewSystem
     {
         [EntitySystem]
@@ -31,7 +33,8 @@ namespace ET
         public static bool CheckPuzzle(this ET.SlotView self , PuzzleView puzzleView)
         {
             Vector3 position = puzzleView.transform.position;
-            if (Vector3.Distance(self.transform.position, position) <= (200 / 100f))
+            //if (Vector3.Distance(self.transform.position, position) <= (100 / 100f))
+            if (Mathf.Abs(position.x-self.transform.position.x) <= 1f && Mathf.Abs(position.y-self.transform.position.y) <= 1f)
             {
                 return true;
             }
@@ -49,7 +52,8 @@ namespace ET
             {
                 nowPuzzle.GetComponent<PuzzleView>().BackToOriginPosition();
             }
-
+            puzzle.ResetSlots();
+            puzzle.slots.Add(self.GetParent<Slot>());
             self.GetParent<Slot>().puzzleRef = puzzle;
             EventSystem.Instance.Publish(self.Root() , new SlotSetPuzzle{slot = self.GetParent<Slot>()});
         }

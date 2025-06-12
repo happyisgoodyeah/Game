@@ -20,10 +20,12 @@ namespace ET
                 
                 //位置绑定
                 puzzleView.transform.position = index.Item2.transform.position;
+                
             }
             else //不合法
             {
                 puzzleView.BackToOriginPosition();
+                
             }
 
             await ETTask.CompletedTask;

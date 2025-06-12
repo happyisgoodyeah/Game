@@ -4,6 +4,7 @@ namespace ET
 {
     [EntitySystemOf(typeof(PuzzleView))]
     [FriendOf(typeof(Puzzle))]
+    [FriendOf(typeof(Slot))]
     public static partial class PuzzleViewSystem
     {
         [EntitySystem]
@@ -31,6 +32,7 @@ namespace ET
             //todo dotween
             //使用dotween线性移动 先直接复原位置
             self.transform.position = self.originPosition;
+            self.GetParent<Puzzle>().ResetSlots();
         }
     }
 }
