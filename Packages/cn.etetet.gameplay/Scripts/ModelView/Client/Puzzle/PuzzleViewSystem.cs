@@ -21,6 +21,7 @@ namespace ET
                 self.transform.position = puzzlePosition.GetChild(puzzle.positionIndex).position;
                 self.originPosition = self.transform.position;
                 self.transform.Find("Square").GetComponent<SpriteRenderer>().color = new Color(Random.Range(0,255) / 255f , Random.Range(0,255) / 255f , Random.Range(0,255) / 255f, 1);
+                self.AddComponent<SpriteRenderComponent , GameObject>(self.transform.Find("Square").gameObject);
             }
 
             self.AddComponent<DragComponent>();

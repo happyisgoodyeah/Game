@@ -15,14 +15,23 @@ namespace ET
         {
             self.transform = transform;
             self.parentTransform = transform.parent;
+            self.AddComponent<SpriteRenderComponent , GameObject>(transform.Find("Square").gameObject);
+            self.UpdatePosition();
+        }
 
+        /// <summary>
+        /// 更新位置
+        /// </summary>
+        /// <param name="self"></param>
+        public static void UpdatePosition(this ET.SlotView self)
+        {
             Slot slot = self.GetParent<Slot>();
             Grid grid = slot.GetParent<Grid>();
-
             var gridSize = grid.gridSize;
             
             // (int)不然会出现一个警告
-            var index = new Vector2((slot.position.X - (int)(gridSize.X / 2)) * (200 / 100f) , (slot.position.Y - (int)(gridSize.Y / 2)) * (200 / 100f));
+            var index = new Vector2((slot.position.X - (int)(gridSize.X / 2)) * self.GetComponent<SpriteRenderComponent>().SpriteSize.x ,
+                (slot.position.Y - (int)(gridSize.Y / 2)) * self.GetComponent<SpriteRenderComponent>().SpriteSize.y);
             self.transform.position = index;
         }
 
@@ -33,8 +42,7 @@ namespace ET
         public static bool CheckPuzzle(this ET.SlotView self , PuzzleView puzzleView)
         {
             Vector3 position = puzzleView.transform.position;
-            //if (Vector3.Distance(self.transform.position, position) <= (100 / 100f))
-            if (Mathf.Abs(position.x-self.transform.position.x) <= 1f && Mathf.Abs(position.y-self.transform.position.y) <= 1f)
+            if (Vector3.Distance(self.transform.position, position) <= self.GetComponent<SpriteRenderComponent>().SpriteSize.x / 2)
             {
                 return true;
             }
