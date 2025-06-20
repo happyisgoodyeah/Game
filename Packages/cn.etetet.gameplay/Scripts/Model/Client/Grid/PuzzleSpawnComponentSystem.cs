@@ -14,13 +14,13 @@ namespace ET
         /// 生成Puzzle
         /// </summary>
         /// <param name="self"></param>
-        /// <param name="spawnPosition"></param>
-        /// <param name="cellSize"></param>
-        public static Puzzle SpawnPuzzle(this PuzzleSpawnComponent self, int puzzleId , IntVector2 spawnPosition, int cellSize)
+        /// <param name="puzzleId">puzzleConfig的id</param>
+        /// <param name="index">生成的puzzle的下标 用于对应获取gameobject</param>
+        /// <returns></returns>
+        public static Puzzle SpawnPuzzle(this PuzzleSpawnComponent self, int puzzleId , int index)
         {
             var puzzle = self.GetParent<Grid>().AddChild<Puzzle, int , int>(puzzleId , self.GetParent<Grid>().GetPuzzleCount());
-            EventSystem.Instance.Publish(self.Scene(), new AfterCreatePuzzle(){puzzle = puzzle});
-            puzzle.InitComponent(spawnPosition, cellSize);
+            EventSystem.Instance.Publish(self.Scene(), new AfterCreatePuzzle(){puzzle = puzzle , index = index});
             return puzzle;
         }
     }

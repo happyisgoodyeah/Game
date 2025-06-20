@@ -57,7 +57,7 @@ namespace ET
         {
             for (int i = 0; i < self.Config().PuzzleCount; i++)
             {
-                var puzzle = self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(self.Config().PuzzleList[i] , new IntVector2(0, 0), 1);
+                var puzzle = self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(self.Config().PuzzleList[i] , i);
                 self.PuzzleDic.TryAdd(puzzle.InstanceId, puzzle);
             }
         }

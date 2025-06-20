@@ -12,16 +12,16 @@ namespace ET
             Puzzle puzzle = data.puzzle;
 
             //生成预制体
-            var bundleObj = await ResourcesLoaderHelper.LoadAssetPrefabAsync<GameObject>(scene, puzzle.Config().PrefabPath);
+            // var bundleObj = await ResourcesLoaderHelper.LoadAssetPrefabAsync<GameObject>(scene, puzzle.Config().PrefabPath);
 
-            var Obj = UnityEngine.Object.Instantiate(bundleObj, puzzle.GetParent<Grid>().GetComponent<GridView>().puzzleTransform);
+            var transform = puzzle.GetParent<Grid>().GetComponent<GridView>().puzzleTransform.Find("Puzzle");
+            var Obj = transform.GetChild(data.index).gameObject;
 
             //生成View
             var puzzleView = puzzle.AddComponent<PuzzleView, Transform>(Obj.transform);
 
             //关联
             Obj.GetComponent<GameObjectEntityRef>().Entity = puzzleView;
-            EntityLink.Link(Obj, puzzleView);
 
             await ETTask.CompletedTask;
         }

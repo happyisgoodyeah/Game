@@ -15,14 +15,9 @@ namespace ET
             
             var puzzle = self.GetParent<Puzzle>();
             //拼图位置
-            var puzzlePosition = self.parentTransform.Find("PuzzlePosition");
-            if (puzzle.positionIndex < puzzlePosition.childCount)
-            {
-                self.transform.position = puzzlePosition.GetChild(puzzle.positionIndex).position;
-                self.originPosition = self.transform.position;
-                self.transform.Find("Square").GetComponent<SpriteRenderer>().color = new Color(Random.Range(0,255) / 255f , Random.Range(0,255) / 255f , Random.Range(0,255) / 255f, 1);
-                self.AddComponent<SpriteRenderComponent , GameObject>(self.transform.Find("Square").gameObject);
-            }
+            self.originPosition = self.transform.position;
+            self.transform.Find("Square").GetComponent<SpriteRenderer>().color = new Color(Random.Range(0,255) / 255f , Random.Range(0,255) / 255f , Random.Range(0,255) / 255f, 1);
+            self.AddComponent<SpriteRenderComponent , GameObject>(self.transform.Find("Square").gameObject);
 
             self.AddComponent<DragComponent>();
             self.AddComponent<DraggableTag>();
