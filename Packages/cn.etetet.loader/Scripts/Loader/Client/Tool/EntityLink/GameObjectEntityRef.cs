@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace ET
 {
+    /// <summary>
+    /// 连接GameObject和表现层
+    /// </summary>
     public class GameObjectEntityRef : MonoBehaviour
     {
         private EntityRef<Entity> entityRef;
