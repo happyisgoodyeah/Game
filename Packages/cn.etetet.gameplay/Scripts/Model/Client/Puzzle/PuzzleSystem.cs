@@ -9,29 +9,40 @@ namespace ET
         {
             self.configId = configId;
             self.positionIndex = positionId;
+            self.Init();
         }
         public static PuzzleConfig Config(this Puzzle self)
         {
             return PuzzleConfigCategory.Instance.Get(self.configId);
         }
 
-        public static void InitComponent(this Puzzle self, IntVector2 position, int rotation)
+        /// <summary>
+        /// 初始化 根据配置同步信息 生成slot数据层
+        /// </summary>
+        /// <param name="self"></param>
+        public static void Init(this Puzzle self)
         {
-            //self.AddComponent<PuzzleDataComponent, IntVector2, int>(new IntVector2(0, 0), 0);
+            var spawn = self.AddComponent<SlotSpawnComponent>();
+            var list = self.Config().SlotOffset;
+            for (int i = 0; i < list.Count; i++)
+            {
+                //拼图用slot ConfigID为1000 偏移量为二维数组坐标
+                spawn.PuzzleSpawnSlot(1000 , new IntVector2(list[i][0] , list[i][1]));
+            }
         }
+        
         /// <summary>
         /// 重置拼图绑定的所有格子
         /// </summary>
         /// <param name="self"></param>
-        public static void ResetSlots(this ET.Puzzle self)
+        public static void ResetBindSlots(this ET.Puzzle self)
         {
-            
-            foreach (var slotRef in self.slots)
+            foreach (var slotRef in self.bindSlots)
             {
-                var slot = slotRef.Entity;
+                var slot = slotRef.Entity; 
                 slot.puzzleRef = default;
             }
-            self.slots.Clear();
+            self.bindSlots.Clear();
         }
     }
 }

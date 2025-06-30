@@ -24,5 +24,6 @@ namespace ET
     public struct AfterCreateSlot
     {
         public Slot slot;
+        public int count;
     }
 }

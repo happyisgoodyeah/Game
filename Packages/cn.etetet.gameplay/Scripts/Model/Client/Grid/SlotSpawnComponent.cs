@@ -1,6 +1,6 @@
 namespace ET
 {
-    [ComponentOf(typeof(Grid))]
+    [ComponentOf()]
     public partial class SlotSpawnComponent : Entity, IAwake
     {
     }
