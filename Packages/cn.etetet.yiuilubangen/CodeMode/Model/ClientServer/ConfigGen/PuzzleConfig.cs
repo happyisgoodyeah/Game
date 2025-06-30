@@ -22,6 +22,7 @@ namespace ET
             X = _buf.ReadInt();
             Y = _buf.ReadInt();
             PrefabPath = _buf.ReadString();
+            {int n0 = System.Math.Min(_buf.ReadSize(), _buf.Size);SlotOffset = new System.Collections.Generic.List<System.Collections.Generic.List<int>>(n0);for(var i0 = 0 ; i0 < n0 ; i0++) { System.Collections.Generic.List<int> _e0;  {int n1 = System.Math.Min(_buf.ReadSize(), _buf.Size);_e0 = new System.Collections.Generic.List<int>(n1);for(var i1 = 0 ; i1 < n1 ; i1++) { int _e1;  _e1 = _buf.ReadInt(); _e0.Add(_e1);}} SlotOffset.Add(_e0);}}
 
             EndInit();
         }
@@ -51,6 +52,10 @@ namespace ET
         /// 预制体路径
         /// </summary>
         public readonly string PrefabPath;
+        /// <summary>
+        /// 偏移量数组
+        /// </summary>
+        public readonly System.Collections.Generic.List<System.Collections.Generic.List<int>> SlotOffset;
     
         public const int __ID__ = -1306596032;
         public override int GetTypeId() => __ID__;
@@ -68,6 +73,7 @@ namespace ET
             + "X:" + X + ","
             + "Y:" + Y + ","
             + "PrefabPath:" + PrefabPath + ","
+            + "SlotOffset:" + Luban.StringUtil.CollectionToString(SlotOffset) + ","
             + "}";
         }
 

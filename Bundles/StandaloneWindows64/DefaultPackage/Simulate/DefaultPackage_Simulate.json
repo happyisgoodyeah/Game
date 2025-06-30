@@ -8,7 +8,7 @@
     "BuildPipeline": "EditorSimulateBuildPipeline",
     "PackageName": "DefaultPackage",
     "PackageVersion": "Simulate",
-    "PackageNote": "2025/6/20 21:14:48",
+    "PackageNote": "2025/6/30 22:03:51",
     "AssetList": [
         {
             "Address": "YIUIConstAsset",
@@ -59,11 +59,27 @@
             "DependBundleIDs": []
         },
         {
+            "Address": "Puzzle1002",
+            "AssetPath": "Packages/cn.etetet.gameplay/Resources/Puzzle/Puzzle1002.prefab",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 5,
+            "DependBundleIDs": []
+        },
+        {
             "Address": "Test",
             "AssetPath": "Packages/cn.etetet.gameplay/Resources/Scenes/Test.unity",
             "AssetGUID": "",
             "AssetTags": [],
             "BundleID": 6,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "Slot1000",
+            "AssetPath": "Packages/cn.etetet.gameplay/Resources/Slot/Slot1000.prefab",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 7,
             "DependBundleIDs": []
         },
         {
@@ -497,7 +513,7 @@
             "UnityCRC": 0,
             "FileHash": "78ea9574b5862f3dce0ae0d7fe743eed",
             "FileCRC": "00000000",
-            "FileSize": 22889,
+            "FileSize": 45751,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []
@@ -507,7 +523,7 @@
             "UnityCRC": 0,
             "FileHash": "9cd25ae57ff44751224ec2c2176b7027",
             "FileCRC": "00000000",
-            "FileSize": 5306,
+            "FileSize": 16416,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []
@@ -527,7 +543,7 @@
             "UnityCRC": 0,
             "FileHash": "9cfeb97f963fa8d18444910b4ba9c494",
             "FileCRC": "00000000",
-            "FileSize": 3496,
+            "FileSize": 9959,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []
@@ -537,7 +553,7 @@
             "UnityCRC": 0,
             "FileHash": "5d422a8e9aa72135bcd9d3f40d45f7b9",
             "FileCRC": "00000000",
-            "FileSize": 1393140,
+            "FileSize": 1396544,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []
@@ -647,7 +663,7 @@
             "UnityCRC": 0,
             "FileHash": "73da6ffc51985ea6254f8742cba56632",
             "FileCRC": "00000000",
-            "FileSize": 222,
+            "FileSize": 306,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []

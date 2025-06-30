@@ -4,6 +4,33 @@
     "Name": "单格拼图",
     "X": 1,
     "Y": 1,
-    "PrefabPath": "Puzzle/Puzzle1001"
+    "PrefabPath": "Puzzle/Puzzle1001",
+    "SlotOffset": [
+      [
+        0,
+        0
+      ]
+    ]
+  },
+  {
+    "Id": 1002,
+    "Name": "三格拼图",
+    "X": 1,
+    "Y": 1,
+    "PrefabPath": "Puzzle/Puzzle1002",
+    "SlotOffset": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        -1
+      ]
+    ]
   }
 ]

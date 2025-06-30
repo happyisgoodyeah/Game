@@ -43,7 +43,7 @@ namespace ET
             {
                 for (int j = 0; j < self.gridSize.Y; j++)
                 {
-                    var slot = self.GetComponent<SlotSpawnComponent>().SpawnSlot(1001 , new IntVector2(i, j));
+                    var slot = self.GetComponent<SlotSpawnComponent>().GridSpawnSlot(1001 , new IntVector2(i, j));
                     self.slotDic.TryAdd(slot.InstanceId, slot);
                 }
             }
@@ -67,7 +67,7 @@ namespace ET
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static int GetSlotSCount(this Grid self)
+        public static int GetSlotCount(this Grid self)
         {
             return self.slotDic.Count;
         }

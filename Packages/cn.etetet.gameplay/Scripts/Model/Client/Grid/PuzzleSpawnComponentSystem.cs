@@ -3,6 +3,7 @@ using ET.Client;
 namespace ET
 {
     [EntitySystemOf(typeof(PuzzleSpawnComponent))]
+    [FriendOf(typeof(Grid))]
     public static partial class PuzzleSpawnComponentSystem
     {
         [EntitySystem]
@@ -19,7 +20,9 @@ namespace ET
         /// <returns></returns>
         public static Puzzle SpawnPuzzle(this PuzzleSpawnComponent self, int puzzleId , int index)
         {
+            var grid = self.GetParent<Grid>();
             var puzzle = self.GetParent<Grid>().AddChild<Puzzle, int , int>(puzzleId , self.GetParent<Grid>().GetPuzzleCount());
+            grid.PuzzleDic.TryAdd(grid.InstanceId, puzzle);
             EventSystem.Instance.Publish(self.Scene(), new AfterCreatePuzzle(){puzzle = puzzle , index = index});
             return puzzle;
         }

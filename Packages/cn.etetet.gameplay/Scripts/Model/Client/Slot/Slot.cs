@@ -1,9 +1,16 @@
 namespace ET
 {
-    [ChildOf(typeof(Grid))]
+    [ChildOf()]
     public partial class Slot : Entity, IAwake<int , IntVector2>
     {
+        /// <summary>
+        /// 配置ConfigId
+        /// </summary>
         public int configId;
+        
+        /// <summary>
+        /// 坐标
+        /// </summary>
         public IntVector2 position;
         
         /// <summary>

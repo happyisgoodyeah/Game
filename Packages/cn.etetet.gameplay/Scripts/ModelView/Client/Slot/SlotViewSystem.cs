@@ -26,13 +26,25 @@ namespace ET
         public static void UpdatePosition(this ET.SlotView self)
         {
             Slot slot = self.GetParent<Slot>();
-            Grid grid = slot.GetParent<Grid>();
-            var gridSize = grid.gridSize;
+            var spriteSize = self.GetComponent<SpriteRenderComponent>().SpriteSize;
+
+            if (self.GetParent<Grid>() != null) //grid的slot
+            {
+                Grid grid = slot.GetParent<Grid>();
+                var gridSize = grid.gridSize;
             
-            // (int)不然会出现一个警告
-            var index = new Vector2((slot.position.X - (int)(gridSize.X / 2)) * self.GetComponent<SpriteRenderComponent>().SpriteSize.x ,
-                (slot.position.Y - (int)(gridSize.Y / 2)) * self.GetComponent<SpriteRenderComponent>().SpriteSize.y);
-            self.transform.position = index;
+                // (int)不然会出现一个警告
+                var index = new Vector2((slot.position.X - (int)(gridSize.X / 2)) * spriteSize.x ,
+                    (slot.position.Y - (int)(gridSize.Y / 2)) * spriteSize.y);
+                self.transform.position = index;    
+            }
+            else if (self.GetParent<Puzzle>() != null) //puzzle的slot
+            {
+                Puzzle puzzle = self.GetParent<Puzzle>();
+                
+                var index = new Vector2(slot.position.X * spriteSize.x , slot.position.Y * spriteSize.y);
+                self.transform.position = index;
+            }
         }
 
         /// <summary>
@@ -60,10 +72,47 @@ namespace ET
             {
                 nowPuzzle.GetComponent<PuzzleView>().BackToOriginPosition();
             }
-            puzzle.ResetSlots();
+            puzzle.ResetBindSlots();
             puzzle.slots.Add(self.GetParent<Slot>());
             self.GetParent<Slot>().puzzleRef = puzzle;
             EventSystem.Instance.Publish(self.Root() , new SlotSetPuzzle{slot = self.GetParent<Slot>()});
+        }
+
+        /// <summary>
+        /// slot检测
+        /// </summary>
+        public static (bool isPass , Slot slot) SlotCheck(this ET.SlotView self)
+        {
+            // 从主摄像机发射射线
+            var position = Camera.main.WorldToScreenPoint(self.transform.position);
+            Ray ray = Camera.main.ScreenPointToRay(position);
+
+            // 使用Physics2D.Raycast用于2D场景
+            RaycastHit2D hit = Physics2D.Raycast(
+                ray.origin,
+                ray.direction,
+                Mathf.Infinity,
+                LayerMask.GetMask("Slot")
+            );
+
+            if (hit.collider != null)
+            {
+                // 通过EntityLink获取关联的ET实体
+                GameObjectEntityRef gameObjectEntityRef = hit.collider.GetComponent<GameObjectEntityRef>();
+                if (gameObjectEntityRef != null && gameObjectEntityRef.Entity != null)
+                {
+                    if (gameObjectEntityRef.Entity is SlotView slotView)
+                    {
+                        var slot = slotView.GetParent<Slot>();
+                        if (slot.puzzleRef.Entity == null)
+                        {
+                            return (true , slot);
+                        }
+                    }
+                }
+            }
+
+            return (false , null);
         }
     }
 }

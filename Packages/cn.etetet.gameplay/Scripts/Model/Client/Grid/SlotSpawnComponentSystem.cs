@@ -1,6 +1,9 @@
 namespace ET
 {
     [EntitySystemOf(typeof(SlotSpawnComponent))]
+    [FriendOf(typeof(Slot))]
+    [FriendOf(typeof(Puzzle))]
+    [FriendOf(typeof(Grid))]
     public static partial class SlotSpawnComponentSystem
     {
         [EntitySystem]
@@ -12,12 +15,29 @@ namespace ET
         /// 生成Puzzle
         /// </summary>
         /// <param name="self"></param>
+        /// <param name="configId"></param>
         /// <param name="spawnPosition"></param>
-        public static Slot SpawnSlot(this SlotSpawnComponent self, int slotId , IntVector2 spawnPosition)
+        public static Slot GridSpawnSlot(this SlotSpawnComponent self, int configId , IntVector2 spawnPosition)
         {
             var grid = self.GetParent<Grid>();
-            var slot = grid.AddChild<Slot, int , IntVector2>(slotId , spawnPosition);
-            EventSystem.Instance.Publish(self.Scene(), new AfterCreateSlot(){slot = slot});
+            var slot = grid.AddChild<Slot, int , IntVector2>(configId , spawnPosition);
+            grid.slotDic.TryAdd(slot.InstanceId , slot);
+            EventSystem.Instance.Publish(self.Scene(), new AfterCreateSlot(){slot = slot , count = grid.GetSlotCount()});
+            return slot;
+        }
+        
+        /// <summary>
+        /// 生成Puzzle
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="configId"></param>
+        /// <param name="offset"></param>
+        public static Slot PuzzleSpawnSlot(this SlotSpawnComponent self, int configId , IntVector2 offset)
+        {
+            var puzzle = self.GetParent<Puzzle>();
+            var slot = puzzle.AddChild<Slot, int , IntVector2>(configId , offset);
+            puzzle.slots.Add(slot);
+            EventSystem.Instance.Publish(self.Scene(), new AfterCreateSlot(){slot = slot , count = puzzle.slots.Count});
             return slot;
         }
     }
