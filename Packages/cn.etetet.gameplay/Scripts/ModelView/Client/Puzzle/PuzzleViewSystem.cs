@@ -36,25 +36,5 @@ namespace ET
             self.transform.position = self.originPosition;
             self.GetParent<Puzzle>().ResetBindSlots();
         }
-
-        /// <summary>
-        /// 检测所有slot是否合法
-        /// </summary>
-        public static (bool isPass , List<Slot> slots) CheckAllSlot(this ET.PuzzleView self)
-        {
-            List<Slot> slots = new List<Slot>();
-            var puzzle = self.GetParent<Puzzle>();
-            foreach (var slotRef in puzzle.slots)
-            {
-                var index = slotRef.Entity.GetComponent<SlotView>().SlotCheck();
-                if (!index.isPass)
-                {
-                    return (false , null);
-                }
-                slots.Add(index.slot);
-            }
-
-            return (true , slots);
-        }
     }
 }

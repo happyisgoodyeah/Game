@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace ET
 {
     [EntitySystemOf(typeof(Puzzle))]
@@ -11,9 +13,27 @@ namespace ET
             self.positionIndex = positionId;
             self.Init();
         }
+        
         public static PuzzleConfig Config(this Puzzle self)
         {
             return PuzzleConfigCategory.Instance.Get(self.configId);
+        }
+        
+        /// <summary>
+        /// 获得slot的偏移量数组
+        /// </summary>
+        /// <returns></returns>
+        public static List<IntVector2> GetCoveredPositions(this Puzzle self , IntVector2 originPosition)
+        {
+            var positions = new List<IntVector2>();
+            foreach (var slotRef in self.slots)
+            {
+                positions.Add(new IntVector2(
+                    originPosition.X + slotRef.Entity.position.X,
+                    originPosition.Y + slotRef.Entity.position.Y
+                ));
+            }
+            return positions;
         }
 
         /// <summary>
@@ -27,7 +47,8 @@ namespace ET
             for (int i = 0; i < list.Count; i++)
             {
                 //拼图用slot ConfigID为1000 偏移量为二维数组坐标
-                spawn.PuzzleSpawnSlot(1000 , new IntVector2(list[i][0] , list[i][1]));
+                var slot = spawn.PuzzleSpawnSlot(1000 , new IntVector2(list[i][0] , list[i][1]));
+                self.slots.Add(slot);
             }
         }
         

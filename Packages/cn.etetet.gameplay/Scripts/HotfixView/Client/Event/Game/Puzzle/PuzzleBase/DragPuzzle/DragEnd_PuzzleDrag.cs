@@ -15,7 +15,7 @@ namespace ET
                 puzzleView.transform.position = data.EndPosition;
 
                 //进行判定是否合法
-                EventSystem.Instance.Publish(scene, new DragPuzzleEndEvent() { puzzle = puzzleView.GetParent<Puzzle>() });
+                EventSystem.Instance.Publish(scene, new DragPuzzleEndEvent() { puzzle = puzzleView.GetParent<Puzzle>() , worldPosition = data.EndPosition});
             }
 
             await ETTask.CompletedTask;
