@@ -1,4 +1,5 @@
-using UnityEngine;
+using System.Numerics;
+using Vector3 = UnityEngine.Vector3;
 
 namespace ET
 {
@@ -6,6 +7,8 @@ namespace ET
     public class DragComponent : Entity, IAwake, IUpdate
     {
         public bool IsDragging;
+        public bool IsClickDown;
         public Vector3 StartWorldPos;
+        public Vector3 DragStartPos;
     }
 }

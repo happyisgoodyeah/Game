@@ -19,4 +19,13 @@ namespace ET
         public Puzzle puzzle;
         public Vector3 worldPosition;
     }
+
+    /// <summary>
+    /// 单机旋转事件
+    /// </summary>
+    public struct ClickPuzzleRotateEvent
+    {
+        public Puzzle puzzle;
+        public float angle;
+    }
 }
