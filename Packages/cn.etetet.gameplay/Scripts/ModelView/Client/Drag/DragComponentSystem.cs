@@ -29,8 +29,7 @@ namespace ET
             if (currentDraggingEntity != null && self.IsClickDown)
             {
                 float dis = Vector3.Distance(self.DragStartPos, Input.mousePosition);
-                Log.Info($"Dis: {dis}");
-                if (dis > 350)
+                if (dis > 10)
                 {
                     self.StartDrag(currentDraggingEntity, self.DragStartPos);
                 }
@@ -92,7 +91,7 @@ namespace ET
                     if (entity.HasComponent<DraggableTag>() && entity.HasComponent<DragComponent>())
                     {
                         currentDraggingEntity = entity;
-                        return hit.point;
+                        return Input.mousePosition;
                         //self.StartDrag(entity, hit.point);
                     }
                 }
