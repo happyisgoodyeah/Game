@@ -18,6 +18,11 @@ namespace ET
         public int positionIndex;
 
         /// <summary>
+        /// 当前拼图旋转
+        /// </summary>
+        public int rotate;
+
+        /// <summary>
         /// 当前puzzle的slot
         /// </summary>
         public List<EntityRef<Slot>> slots = new List<EntityRef<Slot>>();

@@ -4,16 +4,22 @@ using UnityEngine;
 namespace ET
 {
     [Event(SceneType.StateSync)]
-    [FriendOf(typeof(GridView))]
+    [FriendOf(typeof(Puzzle))]
     public class Click_PuzzleClick : AEvent<Scene, ClickRotateEvent>
     {
         protected override async ETTask Run(Scene scene, ClickRotateEvent data)
         {
             if (data.Entity is PuzzleView puzzleView)
             {
-                puzzleView.transform.Rotate(Vector3.forward, data.Angle, Space.Self);
+                Puzzle puzzle = puzzleView.GetParent<Puzzle>();
                 
-                EventSystem.Instance.Publish(scene, new ClickPuzzleRotateEvent() { puzzle = puzzleView.GetParent<Puzzle>(), angle = data.Angle });
+                //没有绑定的slot才允许旋转
+                if (puzzle.bindSlots.Count == 0)
+                {
+                    puzzle.RotatePuzzle();
+                
+                    EventSystem.Instance.Publish(scene, new ClickPuzzleRotateEvent() { puzzle = puzzleView.GetParent<Puzzle>(), angle = data.Angle });    
+                }
             }
 
             await ETTask.CompletedTask;

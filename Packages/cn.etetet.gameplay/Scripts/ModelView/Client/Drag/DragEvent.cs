@@ -24,7 +24,7 @@ namespace ET
     }
     
     /// <summary>
-    /// 单机旋转事件
+    /// 单击旋转事件
     /// </summary>
     public struct ClickRotateEvent
     {

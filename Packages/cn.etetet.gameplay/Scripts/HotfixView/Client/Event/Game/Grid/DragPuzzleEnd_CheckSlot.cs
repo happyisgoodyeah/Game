@@ -35,13 +35,13 @@ namespace ET
                         slot.puzzleRef = puzzle;
                         puzzle.bindSlots.Add(slot);
                     }
+                    
+                    puzzleView.transform.position = grid.GetSlot(originPosition).GetComponent<SlotView>().transform.position;
+                    return;
                 }
-                puzzleView.transform.position = grid.GetSlot(originPosition).GetComponent<SlotView>().transform.position;
             }
-            else
-            {
-                puzzleView.BackToOriginPosition();
-            }
+            
+            puzzleView.BackToOriginPosition();
             
             await ETTask.CompletedTask;
         }
