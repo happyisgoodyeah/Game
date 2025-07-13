@@ -22,4 +22,13 @@ namespace ET
         public Entity Entity;
         public Vector3 EndPosition;
     }
+    
+    /// <summary>
+    /// 单机旋转事件
+    /// </summary>
+    public struct ClickRotateEvent
+    {
+        public Entity Entity;
+        public float Angle;
+    }
 }

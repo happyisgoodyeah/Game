@@ -9,52 +9,40 @@ namespace ET
     public static partial class PuzzleViewSystem
     {
         [EntitySystem]
-        private static void Awake(this ET.PuzzleView self , Transform transform)
+        private static void Awake(this ET.PuzzleView self, Transform transform)
         {
             self.transform = transform;
             self.parentTransform = transform.parent;
-            
+
             var puzzle = self.GetParent<Puzzle>();
             //拼图位置
             self.originPosition = self.transform.position;
-            
+
             //随机颜色方便认
             var color = new Color(Random.Range(0, 255) / 255f, Random.Range(0, 255) / 255f, Random.Range(0, 255) / 255f, 1);
             for (int i = 0; i < puzzle.slots.Count; i++)
             {
                 self.transform.GetChild(i).Find("Square").GetComponent<SpriteRenderer>().color = color;
             }
-            
+
             self.AddComponent<DragComponent>();
             self.AddComponent<DraggableTag>();
+        }
+
+        public static void Rotate(this ET.PuzzleView self, float angle)
+        {
+            self.transform.Rotate(Vector3.up, angle);
         }
 
         public static void BackToOriginPosition(this ET.PuzzleView self)
         {
             //todo dotween
             //使用dotween线性移动 先直接复原位置
+            //转回需要重置旋转角度
             self.transform.position = self.originPosition;
+            self.transform.rotation = Quaternion.Euler(Vector3.zero);
+            
             self.GetParent<Puzzle>().ResetBindSlots();
-        }
-
-        /// <summary>
-        /// 检测所有slot是否合法
-        /// </summary>
-        public static (bool isPass , List<Slot> slots) CheckAllSlot(this ET.PuzzleView self)
-        {
-            List<Slot> slots = new List<Slot>();
-            var puzzle = self.GetParent<Puzzle>();
-            foreach (var slotRef in puzzle.slots)
-            {
-                var index = slotRef.Entity.GetComponent<SlotView>().SlotCheck();
-                if (!index.isPass)
-                {
-                    return (false , null);
-                }
-                slots.Add(index.slot);
-            }
-
-            return (true , slots);
         }
     }
 }

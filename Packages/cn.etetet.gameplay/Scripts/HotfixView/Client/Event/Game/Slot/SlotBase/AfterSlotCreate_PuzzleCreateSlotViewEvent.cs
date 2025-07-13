@@ -16,7 +16,7 @@ namespace ET
 
             if (slot.GetParent<Puzzle>() != null)
             {
-                var Obj = slot.GetParent<Puzzle>().GetComponent<PuzzleView>().transform.GetChild(data.count - 1);
+                var Obj = slot.GetParent<Puzzle>().GetComponent<PuzzleView>().transform.GetChild(data.count);
             
                 //生成View
                 var slotView = slot.AddComponent<SlotView,Transform>(Obj.transform);

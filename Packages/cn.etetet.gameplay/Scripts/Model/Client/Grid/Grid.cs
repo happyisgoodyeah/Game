@@ -5,16 +5,25 @@ namespace ET
     [ChildOf(typeof(Scene))]
     public partial class Grid : Entity, IAwake<int>
     {
-        //配置id
+        /// <summary>
+        /// 配置id
+        /// </summary>
         public int configId;
-
+        
+        /// <summary>
+        /// Grid行列大小
+        /// </summary>
         public IntVector2 gridSize;
+        
+        /// <summary>
+        /// 单元格大小
+        /// </summary>
         public int cellSize;
         
         /// <summary>
         /// SlotDic
         /// </summary>
-        public DictionaryComponent<long , EntityRef<Slot>> slotDic = new DictionaryComponent<long, EntityRef<Slot>>();
+        public DictionaryComponent<IntVector2 , EntityRef<Slot>> slotDic = new DictionaryComponent<IntVector2, EntityRef<Slot>>();
         
         /// <summary>
         /// PuzzleDic

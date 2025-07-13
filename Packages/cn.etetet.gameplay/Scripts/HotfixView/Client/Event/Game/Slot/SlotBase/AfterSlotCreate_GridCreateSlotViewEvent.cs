@@ -16,7 +16,7 @@ namespace ET
 
             if (slot.GetParent<Grid>() != null)
             {
-                var Obj = slot.GetParent<Grid>().GetComponent<GridView>().slotTransform.GetChild(data.count - 1);
+                var Obj = slot.GetParent<Grid>().GetComponent<GridView>().slotTransform.GetChild(data.count);
             
                 //生成View
                 var slotView = slot.AddComponent<SlotView,Transform>(Obj.transform);    

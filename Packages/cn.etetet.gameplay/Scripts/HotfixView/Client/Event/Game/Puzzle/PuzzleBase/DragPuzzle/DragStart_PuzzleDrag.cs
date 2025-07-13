@@ -13,6 +13,9 @@ namespace ET
             if (data.Entity is PuzzleView puzzleView)
             {
                 puzzleView.transform.position = data.StartPosition;
+                
+                //进行判定是否合法
+                EventSystem.Instance.Publish(scene, new DragPuzzleStartEvent() { puzzle = puzzleView.GetParent<Puzzle>() });
             }
 
             await ETTask.CompletedTask;
