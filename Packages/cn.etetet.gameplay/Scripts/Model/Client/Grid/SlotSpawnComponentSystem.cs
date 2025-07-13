@@ -35,6 +35,7 @@ namespace ET
         {
             var puzzle = self.GetParent<Puzzle>();
             var slot = puzzle.AddChild<Slot, int , IntVector2>(configId , offset);
+            puzzle.slotOffset.Add(offset);
             EventSystem.Instance.Publish(self.Scene(), new AfterCreateSlot(){slot = slot , count = puzzle.slots.Count});
             return slot;
         }

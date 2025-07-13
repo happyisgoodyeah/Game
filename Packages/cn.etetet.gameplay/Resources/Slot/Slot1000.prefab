@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 506788489958065673}
   - component: {fileID: 5863852331458386122}
   - component: {fileID: -6896235304115188649}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Slot1000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
