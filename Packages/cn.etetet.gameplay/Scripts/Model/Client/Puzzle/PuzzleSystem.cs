@@ -30,8 +30,9 @@ namespace ET
             var positions = new List<IntVector2>();
             for (int i = 0; i < self.slots.Count; i++)
             {
-                var index = self.GetOffsetByRotate(self.slotOffset[i]);
-                positions.Add(new IntVector2(originPosition.X + index.X, originPosition.Y + index.Y));
+                IntVector2 index = self.GetOffsetByRotate(self.slotOffset[i]);
+                /*IntVector2 index = self.slotOffset[i];*/
+                positions.Add(new IntVector2(originPosition.X + index.Y, originPosition.Y + index.X));
             }
 
             return positions;
@@ -44,27 +45,27 @@ namespace ET
         /// <param name="position"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static IntVector2 GetOffsetByRotate(this Puzzle self , IntVector2 position)
+        public static IntVector2 GetOffsetByRotate(this Puzzle self, IntVector2 position)
         {
             if (Math.Abs(self.rotate % 90) > 1e-5)
             {
                 throw new ArgumentException("角度不为90°倍数");
             }
-            
+
             // 将角度转换为等效的[0, 360)范围内的正角度
             double normalizedAngle = self.rotate % 360;
             if (normalizedAngle < 0) normalizedAngle += 360;
-        
+
             // 计算旋转次数（90°倍数）
             int rotations = (int)(normalizedAngle / 90) % 4;
-        
+
             // 应用旋转公式
             return rotations switch
             {
-                0 => new IntVector2( position.X,  position.Y), // 0°
-                1 => new IntVector2(-position.Y,  position.X), // 90°逆时针
+                0 => new IntVector2(position.X, position.Y), // 0°
+                1 => new IntVector2(-position.Y, position.X), // 90°逆时针
                 2 => new IntVector2(-position.X, -position.Y), // 180°
-                3 => new IntVector2( position.Y, -position.X), // 270°逆时针
+                3 => new IntVector2(position.Y, -position.X), // 270°逆时针
                 _ => position
             };
         }
@@ -106,7 +107,15 @@ namespace ET
         /// <param name="self"></param>
         public static void RotatePuzzle(this Puzzle self)
         {
+            //rotate view & rotate offsetVector
             self.rotate = (self.rotate + 90) % 360;
+
+            //顺时针旋转90度
+            /*for (int i = 0; i < self.slotOffset.Count; i++)
+            {
+                self.slotOffset[i] = new IntVector2(self.slotOffset[i].Y, -self.slotOffset[i].X);
+            }*/
+            
             EventSystem.Instance.Publish(self.Scene(), new PuzzleRotate { puzzle = self });
         }
     }
