@@ -29,5 +29,10 @@ namespace ET
         /// PuzzleDic
         /// </summary>
         public DictionaryComponent<long , EntityRef<Puzzle>> PuzzleDic = new DictionaryComponent<long, EntityRef<Puzzle>>();
+        
+        /// <summary>
+        /// 吸附slot
+        /// </summary>
+        public List<EntityRef<Slot>> adsorptionSlots = new List<EntityRef<Slot>>();
     }
 }

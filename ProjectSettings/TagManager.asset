@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Grid
   layers:
   - Default
   - TransparentFX
@@ -14,10 +15,10 @@ TagManager:
   - 
   - 
   - Map
-  - Hidden
-  - Drag
+  - Grid
   - Slot
-  - 
+  - Puzzle
+  - Drag
   - 
   - 
   - 

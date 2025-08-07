@@ -49,6 +49,11 @@ namespace ET
                 {
                     var slot = self.GetComponent<SlotSpawnComponent>().GridSpawnSlot(1001 , new IntVector2(i, j));
                     self.slotDic.TryAdd(new IntVector2(i , j), slot);
+                    //最外围一圈判定可吸附
+                    if (i == 0 || j == 0)
+                    {
+                        self.adsorptionSlots.Add(slot);
+                    }
                 }
             }
         }

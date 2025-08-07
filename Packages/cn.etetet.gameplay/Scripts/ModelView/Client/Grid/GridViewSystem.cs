@@ -16,6 +16,12 @@ namespace ET.Client
             {
                 self.slotTransform = transform.Find("SlotTransform");
                 self.puzzleTransform = transform.Find("PuzzleTransform");;
+                
+                var objEntityRefSlot = self.slotTransform.gameObject.AddComponent<GameObjectEntityRef>();
+                objEntityRefSlot.Entity = self;
+                
+                var objEntityRefPuzzle = self.puzzleTransform.gameObject.AddComponent<GameObjectEntityRef>();
+                objEntityRefPuzzle.Entity = self;
             }
         }
 
@@ -39,6 +45,17 @@ namespace ET.Client
                 }
             }
             return (false, null);
+        }
+
+        /// <summary>
+        /// 根据碰撞点返回对应的SlotView
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static SlotView GetSlotViewByClosePoint(this GridView self , Vector3 closePoint)
+        {
+            var index = closePoint;
+            return null;
         }
     }
 }

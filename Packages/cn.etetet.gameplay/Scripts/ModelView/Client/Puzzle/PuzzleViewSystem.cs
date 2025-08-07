@@ -25,8 +25,13 @@ namespace ET
                 self.transform.GetChild(i).Find("Square").GetComponent<SpriteRenderer>().color = color;
             }
 
+            //拖拽相关组件
             self.AddComponent<DragComponent>();
             self.AddComponent<DraggableTag>();
+            
+            //碰撞相关组件
+            var triggerColliderComponent = self.AddComponent<TriggerColliderComponent, Entity, GameObject>(self , transform.gameObject);
+            triggerColliderComponent.SetTagList(new List<string>(){"Grid"});
         }
 
         public static void Rotate(this ET.PuzzleView self, float angle)
