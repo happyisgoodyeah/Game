@@ -81,8 +81,17 @@ namespace ET
             for (int i = 0; i < list.Count; i++)
             {
                 //拼图用slot ConfigID为1000 偏移量为二维数组坐标
-                var slot = spawn.PuzzleSpawnSlot(1000, new IntVector2(list[i][0], list[i][1]));
+                var x = list[i][0];
+                var y = list[i][1];
+                
+                var slot = spawn.PuzzleSpawnSlot(1000, new IntVector2(x , y));
                 self.slots.Add(slot);
+                
+                //若处于最边缘一圈 加入吸附slots中
+                if (x == 0 || y == 0)
+                {
+                    self.adsorptionSlots.Add(slot);
+                }
             }
         }
 
@@ -118,5 +127,31 @@ namespace ET
             
             EventSystem.Instance.Publish(self.Scene(), new PuzzleRotate { puzzle = self });
         }
+
+        /// <summary>
+        /// 更改移动模式
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="moveModeType"></param>
+        public static void ChangeMoveMode(this Puzzle self, PuzzleMoveModeType moveModeType)
+        {
+            self.moveMode = moveModeType;
+        }
+    }
+    
+    /// <summary>
+    /// 吸附方向枚举
+    /// </summary>
+    public enum SnapDirection
+    {
+        None,
+        Up,
+        Down,
+        Left,
+        Right,
+        UpRight,
+        UpLeft,
+        DownRight,
+        DownLeft,
     }
 }

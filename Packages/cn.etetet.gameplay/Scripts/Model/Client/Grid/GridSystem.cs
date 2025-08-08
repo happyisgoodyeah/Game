@@ -22,7 +22,7 @@ namespace ET
         private static void Awake(this ET.Grid self, int configId)
         {
             self.configId = configId;
-
+            
             self.InitComponent(self.Config().X, self.Config().Y, 2);
         }
 
@@ -47,8 +47,13 @@ namespace ET
             {
                 for (int j = 0; j < self.gridSize.Y; j++)
                 {
-                    var slot = self.GetComponent<SlotSpawnComponent>().GridSpawnSlot(1001, new IntVector2(i, j));
-                    self.slotDic.TryAdd(new IntVector2(i, j), slot);
+                    var slot = self.GetComponent<SlotSpawnComponent>().GridSpawnSlot(1001 , new IntVector2(i, j));
+                    self.slotDic.TryAdd(new IntVector2(i , j), slot);
+                    //最外围一圈判定可吸附
+                    if (i == 0 || j == 0)
+                    {
+                        self.adsorptionSlots.Add(slot);
+                    }
                 }
             }
         }
@@ -61,7 +66,7 @@ namespace ET
         {
             for (int i = 0; i < self.Config().PuzzleCount; i++)
             {
-                var puzzle = self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(self.Config().PuzzleList[i], i);
+                var puzzle = self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(self.Config().PuzzleList[i] , i);
                 self.PuzzleDic.TryAdd(puzzle.InstanceId, puzzle);
             }
         }
@@ -100,42 +105,42 @@ namespace ET
                     return false;
                 }
             }
-
             return true;
         }
-
+        
         /// <summary>
         /// 检测位置是否在网格范围内
         /// </summary>
         /// <param name="self"></param>
         /// <param name="worldPos"></param>
         /// <returns></returns>
-        public static bool ContainsPosition(this Grid self, FloatVector2 worldPos)
+        public static bool ContainsPosition(this Grid self , FloatVector2 worldPos)
         {
-            float halfWidth = (self.gridSize.Y * self.cellSize) / 2f;
-            float halfHeight = (self.gridSize.X * self.cellSize) / 2f;
-
+            float halfWidth = (self.gridSize.X * self.cellSize) / 2f;
+            float halfHeight = (self.gridSize.Y * self.cellSize) / 2f;
+        
             return worldPos.X >= -halfWidth &&
                     worldPos.X <= halfWidth &&
                     worldPos.Y >= -halfHeight &&
                     worldPos.Y <= halfHeight;
         }
-
+        
         /// <summary>
         /// 网格坐标转世界坐标（中心点对齐）
         /// </summary>
         /// <param name="self"></param>
         /// <param name="gridPos"></param>
         /// <returns></returns>
-        public static FloatVector2 GridToWorldPosition(this Grid self, IntVector2 gridPos)
+        public static FloatVector2 GridToWorldPosition(this Grid self , IntVector2 gridPos)
         {
             // 计算总尺寸
             float totalWidth = self.gridSize.X * self.cellSize;
             float totalHeight = self.gridSize.Y * self.cellSize;
-
+        
             // 计算世界坐标
-            return new FloatVector2(totalHeight / 2 - gridPos.X * self.cellSize - self.cellSize / 2f, // 行方向：从上到下
-                -totalWidth / 2 + gridPos.Y * self.cellSize + self.cellSize / 2f // 列方向：从左到右
+            return new FloatVector2(
+                totalHeight / 2 - gridPos.X * self.cellSize - self.cellSize / 2f,   // 行方向：从上到下
+                -totalWidth / 2 + gridPos.Y * self.cellSize + self.cellSize / 2f    // 列方向：从左到右
             );
         }
 
@@ -145,29 +150,30 @@ namespace ET
         /// <param name="self"></param>
         /// <param name="worldPos"></param>
         /// <returns></returns>
-        public static IntVector2 WorldToGridPosition(this Grid self, FloatVector2 worldPos)
+        public static IntVector2 WorldToGridPosition(this Grid self , FloatVector2 worldPos)
         {
             // 计算总尺寸
             float totalWidth = self.gridSize.X * self.cellSize;
             float totalHeight = self.gridSize.Y * self.cellSize;
-
-            return new IntVector2((int)Math.Round((totalHeight / 2 - worldPos.Y - self.cellSize / 2f) / self.cellSize), // 行索引
-                (int)Math.Round((worldPos.X + totalWidth / 2 - self.cellSize / 2f) / self.cellSize) // 列索引
+        
+            return new IntVector2(
+                (int)Math.Round((totalHeight / 2 - worldPos.Y - self.cellSize / 2f) / self.cellSize),   // 行索引
+                (int)Math.Round((worldPos.X + totalWidth / 2 - self.cellSize / 2f) / self.cellSize)     // 列索引
             );
-        }
-
+        }   
+        
         /// <summary>
         /// 获取指定位置的格子
         /// </summary>
         /// <param name="self"></param>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public static Slot GetSlot(this Grid self, IntVector2 pos)
+        public static Slot GetSlot(this Grid self , IntVector2 pos)
         {
             // 检查边界
             if (pos.X < 0 || pos.X >= self.gridSize.X || pos.Y < 0 || pos.Y >= self.gridSize.Y)
                 return null;
-
+        
             return self.slotDic.TryGetValue(pos, out var slotRef) ? slotRef : null;
         }
 
@@ -181,7 +187,7 @@ namespace ET
         {
             return puzzle.GetCoveredPositions(originPosition);
         }
-
+        
         /// <summary>
         /// 检查是否可以放置拼图
         /// </summary>
@@ -189,23 +195,22 @@ namespace ET
         /// <param name="puzzle"></param>
         /// <param name="originPosition"></param>
         /// <returns></returns>
-        public static bool CanPlacePuzzle(this Grid self, Puzzle puzzle, IntVector2 originPosition)
+        public static bool CanPlacePuzzle(this Grid self , Puzzle puzzle , IntVector2 originPosition)
         {
             //获取puzzle的偏移量数组
-            var coveredPositions = self.GetCoveredPositions(puzzle, originPosition);
-
+            var coveredPositions = self.GetCoveredPositions(puzzle , originPosition);
+        
             foreach (var pos in coveredPositions)
             {
-                //todo 网格边界比一定是矩形判断逻辑需要修改
                 // 检查是否超出网格边界
                 if (pos.X < 0 || pos.X >= self.gridSize.X || pos.Y < 0 || pos.Y >= self.gridSize.Y)
                     return false;
-
+            
                 Slot slot = self.GetSlot(pos);
                 if (slot == null || slot.puzzleRef.Entity != null)
                     return false;
             }
-
+        
             return true;
         }
     }
