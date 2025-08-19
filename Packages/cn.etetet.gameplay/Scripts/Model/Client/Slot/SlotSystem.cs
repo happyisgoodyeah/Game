@@ -16,11 +16,11 @@ namespace ET
         }
 
         /// <summary>
-        /// 复位偏移
+        /// 获取偏移offset
         /// </summary>
         /// <param name="direction"></param>
         /// <returns></returns>
-        public static (int x, int y) GetResetOffset(this ET.Slot self , SnapDirection direction)
+        public static (int x, int y) GetDirOffset(this ET.Slot self , SnapDirection direction)
         {
             switch (direction)
             {
