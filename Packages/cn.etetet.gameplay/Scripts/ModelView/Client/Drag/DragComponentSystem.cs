@@ -29,7 +29,7 @@ namespace ET
             if (currentDraggingEntity != null && self.IsClickDown)
             {
                 float dis = Vector3.Distance(self.DragStartPos, Input.mousePosition);
-                if (dis > 10)
+                if (dis > 15)
                 {
                     self.StartDrag(currentDraggingEntity, self.DragStartPos);
                 }
@@ -51,11 +51,9 @@ namespace ET
             }
 
             // 拖拽中更新位置
-            if (currentDraggingEntity != null)
+            if (currentDraggingEntity != null && self.IsDragging)
             {
                 self.UpdateDragPosition();
-
-                // 鼠标释放时结束拖拽
             }
         }
 
