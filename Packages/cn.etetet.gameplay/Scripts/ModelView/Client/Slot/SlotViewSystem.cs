@@ -77,42 +77,29 @@ namespace ET
             self.GetParent<Slot>().puzzleRef = puzzle;
             EventSystem.Instance.Publish(self.Root() , new SlotSetPuzzle{slot = self.GetParent<Slot>()});
         }
-
+        
         /// <summary>
-        /// slot检测
+        /// 方向检测
         /// </summary>
-        public static (bool isPass , Slot slot) SlotCheck(this ET.SlotView self)
+        /// <param name="normal"></param>
+        /// <returns></returns>
+        public static SnapDirection GetSnapDirection(this ET.SlotView self , float x , float y)
         {
-            // 从主摄像机发射射线
-            var position = Camera.main.WorldToScreenPoint(self.transform.position);
-            Ray ray = Camera.main.ScreenPointToRay(position);
-
-            // 使用Physics2D.Raycast用于2D场景
-            RaycastHit2D hit = Physics2D.Raycast(
-                ray.origin,
-                ray.direction,
-                Mathf.Infinity,
-                LayerMask.GetMask("Slot")
-            );
-
-            if (hit.collider != null)
-            {
-                // 通过EntityLink获取关联的ET实体
-                GameObjectEntityRef gameObjectEntityRef = hit.collider.GetComponent<GameObjectEntityRef>();
-                if (gameObjectEntityRef != null && gameObjectEntityRef.Entity != null)
-                {
-                    if (gameObjectEntityRef.Entity is SlotView slotView)
-                    {
-                        var slot = slotView.GetParent<Slot>();
-                        if (slot.puzzleRef.Entity == null)
-                        {
-                            return (true , slot);
-                        }
-                    }
-                }
-            }
-
-            return (false , null);
+            // 计算法线角度
+            float angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
+        
+            // 标准化角度
+            if (angle < 0) angle += 360;
+        
+            // 划分为8个方向
+            if (angle >= 337.5 || angle < 22.5) return SnapDirection.Right;
+            if (angle >= 22.5 && angle < 67.5) return SnapDirection.UpRight;
+            if (angle >= 67.5 && angle < 112.5) return SnapDirection.Up;
+            if (angle >= 112.5 && angle < 157.5) return SnapDirection.UpLeft;
+            if (angle >= 157.5 && angle < 202.5) return SnapDirection.Left;
+            if (angle >= 202.5 && angle < 247.5) return SnapDirection.DownLeft;
+            if (angle >= 247.5 && angle < 292.5) return SnapDirection.Down;
+            return SnapDirection.DownRight;
         }
     }
 }

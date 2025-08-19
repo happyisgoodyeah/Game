@@ -21,6 +21,11 @@ namespace ET
         /// 当前拼图旋转
         /// </summary>
         public int rotate;
+        
+        /// <summary>
+        /// 当前拼图移动模式
+        /// </summary>
+        public PuzzleMoveModeType moveMode;
 
         /// <summary>
         /// 当前puzzle的slot
@@ -36,5 +41,18 @@ namespace ET
         /// 当前绑定的Slot
         /// </summary>
         public List<EntityRef<Slot>> bindSlots = new List<EntityRef<Slot>>();
+        
+        /// <summary>
+        /// 吸附slot
+        /// </summary>
+        public List<EntityRef<Slot>> adsorptionSlots = new List<EntityRef<Slot>>();
+    }
+    
+    public enum PuzzleMoveModeType
+    {
+        //普通
+        Normal,
+        //吸附
+        Adsorption
     }
 }

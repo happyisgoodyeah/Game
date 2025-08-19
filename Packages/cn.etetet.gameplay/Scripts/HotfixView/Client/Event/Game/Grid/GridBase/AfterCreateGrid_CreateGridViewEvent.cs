@@ -17,6 +17,9 @@ namespace ET
             
             //生成View
             var gridView = data.grid.AddComponent<GridView,Transform>(Obj.transform);
+            //绑定GameObjectEntityRef
+            Obj.AddComponent<GameObjectEntityRef>().Entity = gridView;
+            
             await ETTask.CompletedTask;
         }
     }
