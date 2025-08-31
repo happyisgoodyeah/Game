@@ -114,7 +114,7 @@ namespace ET
         /// </summary>
         /// <param name="normal"></param>
         /// <returns></returns>
-        public static SnapDirection GetSnapDirection(this ET.SlotView self , Vector2 pos, float r)
+        public static SnapDirection GetSnapDirection(this ET.SlotView self , Vector2 pos, float r , bool isDistinction = false)
         {
             // 1. 将点转换到以A为中心的坐标系
             Vector2 relativePoint = pos - new Vector2(self.transform.position.x , self.transform.position.y);
@@ -139,33 +139,65 @@ namespace ET
             // 调整角度，使0度指向正右方
             angle = (angle + 360) % 360;
         
-            // 右上角区域 (22.5° - 67.5°)
-            if (angle > 22.5f && angle <= 67.5f)
-                return SnapDirection.UpRight;
+            // 右上角区域 (22.5° - 45°)
+            if (angle > 22.5f && angle <= 45f)
+            {
+                return isDistinction ? SnapDirection.Right : SnapDirection.UpRight;    
+            }
+            
+            // 右上角区域 (45f° - 67.5°)
+            if (angle > 45f && angle <= 67.5f)
+            {
+                return isDistinction ? SnapDirection.Up : SnapDirection.UpRight;    
+            }
         
             // 上边缘区域 (67.5° - 112.5°)
             if (angle > 67.5f && angle <= 112.5f)
                 return SnapDirection.Up;
         
-            // 左上角区域 (112.5° - 157.5°)
-            if (angle > 112.5f && angle <= 157.5f)
-                return SnapDirection.UpLeft;
+            // 左上角区域 (112.5° - 135f.5°)
+            if (angle > 112.5f && angle <= 135f)
+            {
+                return isDistinction ? SnapDirection.Up : SnapDirection.UpLeft;    
+            }
+            
+            // 左上角区域 (135f° - 157.5°)
+            if (angle > 135f && angle <= 157.5f)
+            {
+                return isDistinction ? SnapDirection.Left : SnapDirection.UpLeft;    
+            }
         
             // 左边缘区域 (157.5° - 202.5°)
             if (angle > 157.5f && angle <= 202.5f)
                 return SnapDirection.Left;
         
+            // 左下角区域 (202.5° - 225°)
+            if (angle > 202.5f && angle <= 225f)
+            {
+                return isDistinction ? SnapDirection.Left : SnapDirection.DownLeft;    
+            }
+            
             // 左下角区域 (202.5° - 247.5°)
-            if (angle > 202.5f && angle <= 247.5f)
-                return SnapDirection.DownLeft;
+            if (angle > 225f && angle <= 247.5f)
+            {
+                return isDistinction ? SnapDirection.Down : SnapDirection.DownLeft;    
+            }
         
             // 下边缘区域 (247.5° - 292.5°)
             if (angle > 247.5f && angle <= 292.5f)
                 return SnapDirection.Down;
         
-            // 右下角区域 (292.5° - 337.5°)
-            if (angle > 292.5f && angle <= 337.5f)
-                return SnapDirection.DownRight;
+            // 右下角区域 (292.5° - 315°)
+            if (angle > 292.5f && angle <= 315f)
+            {
+                return isDistinction ? SnapDirection.Down : SnapDirection.DownRight;   
+            }
+            
+            // 右下角区域 (315° - 337.5°)
+            if (angle > 315f && angle <= 337.5f)
+            {
+                return isDistinction ? SnapDirection.Right : SnapDirection.DownRight;   
+            }
         
             // 右边缘区域 (337.5° - 22.5°)
             return SnapDirection.Right;

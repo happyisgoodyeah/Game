@@ -102,6 +102,8 @@ namespace ET
                     Log.Error($"No GameObjectEntityRef in {other}");
                     return;
                 }
+                
+                Log.Error($"触发Trigger2DEnter事件 触发obj --- {other.gameObject}");
                 EventSystem.Instance.Publish(this.entity.Scene(),
                     new ColliderTriggerEnterEventMono
                             { 
@@ -158,6 +160,7 @@ namespace ET
             }
             if (this.tagList.Contains(other.tag))
             {
+                Log.Error($"触发Trigger2DExit事件 触发obj --- {other.gameObject}");
                 EventSystem.Instance.Publish(this.entity.Scene(),
                     new ColliderTriggerExitEventMono
                     {
