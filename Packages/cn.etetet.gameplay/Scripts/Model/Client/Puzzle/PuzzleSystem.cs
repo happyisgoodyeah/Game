@@ -83,10 +83,10 @@ namespace ET
                 //拼图用slot ConfigID为1000 偏移量为二维数组坐标
                 var x = list[i][0];
                 var y = list[i][1];
-                
-                var slot = spawn.PuzzleSpawnSlot(1000, new IntVector2(x , y));
+
+                var slot = spawn.PuzzleSpawnSlot(1000, new IntVector2(x, y));
                 self.slots.Add(slot);
-                
+
                 //若处于最边缘一圈 加入吸附slots中
                 if (x == 0 || y == 0)
                 {
@@ -124,7 +124,7 @@ namespace ET
             {
                 self.slotOffset[i] = new IntVector2(self.slotOffset[i].Y, -self.slotOffset[i].X);
             }*/
-            
+
             EventSystem.Instance.Publish(self.Scene(), new PuzzleRotate { puzzle = self });
         }
 
@@ -138,7 +138,7 @@ namespace ET
             self.moveMode = moveModeType;
         }
     }
-    
+
     /// <summary>
     /// 吸附方向枚举
     /// </summary>

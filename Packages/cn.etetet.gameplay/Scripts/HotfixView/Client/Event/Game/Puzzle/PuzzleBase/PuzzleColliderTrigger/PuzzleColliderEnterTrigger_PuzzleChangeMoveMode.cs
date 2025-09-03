@@ -1,3 +1,4 @@
+using ET.Client;
 using UnityEngine;
 
 namespace ET
@@ -22,19 +23,27 @@ namespace ET
                 {
                     var collider = data.collider;
                     
-                    //碰撞点
-                    Vector3 closePosition = collider.ClosestPoint(puzzleView.transform.position);
-                    closePosition = new Vector3(closePosition.x > 0 ? closePosition.x - 0.01f : closePosition.x + 0.01f,
-                        closePosition.y > 0 ? closePosition.y - 0.01f : closePosition.y + 0.01f, 0);
+                    //碰撞点 gridClosePosition grid的碰撞点
+                    Vector3 gridClosePosition = collider.ClosestPoint(puzzleView.transform.position);
+                    //拼图触发slot
+                    var puzzleSlotView = puzzleView.GetSlotViewByClosePoint(gridClosePosition);
+                    //grid触发slot
+                    var gridSlotView = gridView.GetSlotViewByClosePoint(gridClosePosition);
+                    //gridSlot grid上slot的碰撞点 计算相对位置和对应偏移矢量
+                    var gridSlotClosePosition = gridSlotView.transform.GetComponent<BoxCollider2D>().ClosestPoint(puzzleView.transform.position);
+                    var r = gridSlotView.GetComponent<SpriteRenderComponent>().SpriteSize.x;
+                    var direction = gridSlotView.GetSnapDirection(gridSlotClosePosition , r / 2);
+                    var directionOffset = gridSlotView.GetParent<Slot>().GetDirOffset(direction);
                     
-                    var index = grid.WorldToGridPosition(new FloatVector2(closePosition.x , closePosition.y));
+                    var targetPosition = new Vector3(gridSlotView.transform.position.x + r * directionOffset.x, gridSlotView.transform.position.y + r * directionOffset.y , 0);
+
+                    //拼图偏移量
+                    var puzzleSlotOffset = targetPosition - puzzleSlotView.transform.position;
+                    //todo dotwwen位移 暂时直接位移
+                    //完成吸附模式前的复位
+                    puzzleView.transform.position += puzzleSlotOffset;
+                    //切换为侧边吸附模式
                     puzzle.ChangeMoveMode(PuzzleMoveModeType.Adsorption);
-                    var slot = grid.GetSlot(index);
-                    var slotView = slot.GetComponent<SlotView>();
-                    var slotClosePosition = slotView.transform.GetComponent<BoxCollider2D>().ClosestPoint(puzzleView.transform.position);
-                    var direction = slotView.GetSnapDirection(slotClosePosition.x , slotClosePosition.y);
-                    var directionOffset = slotView.GetParent<Slot>().GetResetOffset(direction);
-                    
                 }
             }
             await ETTask.CompletedTask;

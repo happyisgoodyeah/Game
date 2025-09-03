@@ -54,8 +54,17 @@ namespace ET.Client
         /// <returns></returns>
         public static SlotView GetSlotViewByClosePoint(this GridView self , Vector3 closePoint)
         {
-            var index = closePoint;
-            return null;
+            Grid grid = self.GetParent<Grid>();
+            SlotView index = null;
+            float indexDistance = 999f;
+            foreach (var gridAdsorptionSlot in grid.adsorptionSlots)
+            {
+                SlotView slotView = gridAdsorptionSlot.Entity.GetComponent<SlotView>();
+                var distance = Vector2.Distance(closePoint, slotView.transform.position);
+                index = distance < indexDistance ? slotView : index;
+                indexDistance = Mathf.Min(distance, indexDistance);
+            }
+            return index;
         }
     }
 }

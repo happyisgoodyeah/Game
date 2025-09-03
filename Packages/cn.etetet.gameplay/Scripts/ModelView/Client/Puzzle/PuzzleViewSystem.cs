@@ -51,5 +51,25 @@ namespace ET
             puzzle.ResetBindSlots();
             puzzle.rotate = 0;
         }
+        
+        /// <summary>
+        /// 根据碰撞点返回对应的SlotView
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static SlotView GetSlotViewByClosePoint(this PuzzleView self , Vector3 closePoint)
+        {
+            Puzzle puzzle = self.GetParent<Puzzle>();
+            SlotView index = null;
+            float indexDistance = 999f;
+            foreach (var puzzleAdsorptionSlot in puzzle.adsorptionSlots)
+            {
+                SlotView slotView = puzzleAdsorptionSlot.Entity.GetComponent<SlotView>();
+                var distance = Vector2.Distance(closePoint, slotView.transform.position);
+                index = distance < indexDistance ? slotView : index;
+                indexDistance = Mathf.Min(distance, indexDistance);
+            }
+            return index;
+        }
     }
 }

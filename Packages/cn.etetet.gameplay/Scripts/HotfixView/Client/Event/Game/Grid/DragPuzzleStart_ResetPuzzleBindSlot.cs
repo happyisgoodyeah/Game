@@ -11,6 +11,12 @@ namespace ET
         protected override async ETTask Run(Scene scene, DragPuzzleStartEvent data)
         {
             Puzzle puzzle = data.puzzle;
+            PuzzleView puzzleView = puzzle.GetComponent<PuzzleView>();
+            
+            if (puzzle.moveMode == PuzzleMoveModeType.Normal)
+            {
+                puzzleView.transform.position = data.worldPosition;
+            }
             puzzle.ResetBindSlots();
             await ETTask.CompletedTask;
         }
