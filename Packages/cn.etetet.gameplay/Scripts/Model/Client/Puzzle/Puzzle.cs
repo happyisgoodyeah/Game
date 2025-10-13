@@ -28,6 +28,11 @@ namespace ET
         public PuzzleMoveModeType moveMode;
 
         /// <summary>
+        /// 当前整个拼图是否在Grid内
+        /// </summary>
+        public bool isInGrid;
+
+        /// <summary>
         /// 当前puzzle的slot
         /// </summary>
         public List<EntityRef<Slot>> slots = new List<EntityRef<Slot>>();

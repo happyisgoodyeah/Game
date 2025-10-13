@@ -22,12 +22,19 @@ namespace ET
             // 鼠标按下时检测可拖拽实体
             if (Input.GetMouseButtonDown(0))
             {
-                self.TryStartDrag();
+                if (currentDraggingEntity == null)
+                {
+                    self.TryStartDrag();    
+                }
             }
 
             //鼠标左键按下+鼠标移动触发拖拽，否则触发点击事件
             if (currentDraggingEntity != null && self.IsClickDown)
             {
+                float zDistance = (0 - Camera.main.transform.position.z) / Camera.main.transform.forward.z;
+                Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x , Input.mousePosition.y , zDistance));
+                worldPos.z = 0;
+                
                 float dis = Vector3.Distance(self.DragStartPos, Input.mousePosition);
                 if (dis > 15)
                 {
@@ -59,15 +66,19 @@ namespace ET
 
         public static void TryStartDrag(this DragComponent self)
         {
-            Vector3 hitpos = RayHitDragComponent();
-            if (hitpos != Vector3.zero)
-            {
-                self.DragStartPos = hitpos;
-                self.IsClickDown = true;
-            }
+            Vector3 hitpos = self.RayHitDragComponent();
+            // if (hitpos != Vector3.zero)
+            // {
+            //     float zDistance = (0 - Camera.main.transform.position.z) / Camera.main.transform.forward.z;
+            //     Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(hitpos.x , hitpos.y , zDistance));
+            //     worldPos.z = 0;
+            //     
+            //     self.DragStartPos = worldPos;
+            //     self.IsClickDown = true;
+            // }
         }
 
-        public static Vector3 RayHitDragComponent()
+        public static Vector3 RayHitDragComponent(this DragComponent self)
         {
             // 从主摄像机发射射线
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -89,8 +100,8 @@ namespace ET
                     if (entity.HasComponent<DraggableTag>() && entity.HasComponent<DragComponent>())
                     {
                         currentDraggingEntity = entity;
+                        self.StartDrag(entity, hit.point);
                         return Input.mousePosition;
-                        //self.StartDrag(entity, hit.point);
                     }
                 }
             }
@@ -125,7 +136,8 @@ namespace ET
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = 0;
 
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            float zDistance = (0 - Camera.main.transform.position.z) / Camera.main.transform.forward.z;
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x , mousePos.y , zDistance));
             worldPos.z = 0;
 
             // 发布拖拽更新事件
@@ -141,7 +153,8 @@ namespace ET
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = 0;
 
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            float zDistance = (0 - Camera.main.transform.position.z) / Camera.main.transform.forward.z;
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x , mousePos.y , zDistance));
             worldPos.z = 0;
 
             // 发布拖拽结束事件
