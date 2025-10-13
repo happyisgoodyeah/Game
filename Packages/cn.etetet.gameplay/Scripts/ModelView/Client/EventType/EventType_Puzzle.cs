@@ -28,4 +28,12 @@ namespace ET
         public Puzzle puzzle;
         public float angle;
     }
+
+    /// <summary>
+    /// 拼图移动结束事件
+    /// </summary>
+    public struct PuzzleMoveEndEvent
+    {
+        public Puzzle puzzle;
+    }
 }

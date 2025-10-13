@@ -1,3 +1,4 @@
+using DG.Tweening;
 using ET.Client;
 using UnityEngine;
 
@@ -10,8 +11,11 @@ namespace ET
         {
             Slot slot = data.slot;
             Grid grid = slot.GetParent<Grid>();
-            
-            grid.CheckGameOver();
+
+            if (grid.CheckGameOver())
+            {
+                Log.Error("当前关卡完成");
+            }
             await ETTask.CompletedTask;
         }
     }
