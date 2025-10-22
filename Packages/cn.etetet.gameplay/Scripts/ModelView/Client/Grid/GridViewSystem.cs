@@ -4,6 +4,7 @@ namespace ET.Client
 {
     [EntitySystemOf(typeof(GridView))]
     [FriendOf(typeof(Grid))]
+    [FriendOf(typeof(Puzzle))]
     public static partial class GridViewSystem
     {
         [EntitySystem]
@@ -54,8 +55,34 @@ namespace ET.Client
         /// <returns></returns>
         public static SlotView GetSlotViewByClosePoint(this GridView self , Vector3 closePoint)
         {
-            var index = closePoint;
-            return null;
+            Grid grid = self.GetParent<Grid>();
+            SlotView index = null;
+            float indexDistance = 999f;
+            foreach (var gridAdsorptionSlot in grid.adsorptionSlots)
+            {
+                SlotView slotView = gridAdsorptionSlot.Entity.GetComponent<SlotView>();
+                var distance = Vector2.Distance(closePoint, slotView.transform.position);
+                index = distance < indexDistance ? slotView : index;
+                indexDistance = Mathf.Min(distance, indexDistance);
+            }
+            return index;
+        }
+
+        /// <summary>
+        /// 返回一个拼图是否在grid内 puzzle内所有slot都在gridview的collider内
+        /// </summary>
+        /// <returns></returns>
+        public static bool GetPuzzleInGrid(this GridView self , Puzzle puzzle)
+        {
+            var collider = self.slotTransform.GetComponent<CompositeCollider2D>();
+            foreach (var slot in puzzle.slots)
+            {
+                if(!collider.bounds.Contains(slot.Entity.GetComponent<SlotView>().transform.position))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

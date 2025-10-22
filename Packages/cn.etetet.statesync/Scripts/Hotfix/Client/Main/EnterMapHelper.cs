@@ -13,6 +13,9 @@ namespace ET.Client
                 EventSystem.Instance.PublishAsync(root , new GameStart()).NoContext();
                 // 等待场景切换完成
                 await root.GetComponent<ObjectWait>().Wait<Wait_SceneChangeFinish>();
+                //todo 加载游戏UI界面
+                //await YIUIMgrComponent.Inst.OpenPanelAsync<Main1ViewComponent>();
+                
                 EventSystem.Instance.Publish(root, new EnterMapFinish());
             }
             catch (Exception e)

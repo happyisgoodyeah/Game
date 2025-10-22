@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using ET.Client;
 using UnityEngine;
 
@@ -16,6 +17,10 @@ namespace ET
             Grid grid = puzzle.GetParent<Grid>();
             GridView gridView = grid.GetComponent<GridView>();
 
+            puzzleView.tweener?.Kill();
+            puzzleView.tweener = null;
+            puzzle.ChangeMoveMode(PuzzleMoveModeType.Normal);
+            
             //拖拽结束的位置
             var worldPosition = data.worldPosition;
             FloatVector2 position = new FloatVector2(worldPosition.x, worldPosition.y);

@@ -22,7 +22,32 @@ namespace ET
         }
 
         /// <summary>
-        /// 获得slot的偏移量数组
+        /// 初始化 根据配置同步信息 生成slot数据层
+        /// </summary>
+        /// <param name="self"></param>
+        public static void Init(this Puzzle self)
+        {
+            var spawn = self.AddComponent<SlotSpawnComponent>();
+            var list = self.Config().SlotOffset;
+            for (int i = 0; i < list.Count; i++)
+            {
+                //拼图用slot ConfigID为1000 偏移量为二维数组坐标
+                var x = list[i][0];
+                var y = list[i][1];
+
+                var slot = spawn.PuzzleSpawnSlot(1000, new IntVector2(x, y));
+                self.slots.Add(slot);
+
+                //若处于最边缘一圈 加入吸附slots中
+                if (x == 0 || y == 0)
+                {
+                    self.adsorptionSlots.Add(slot);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 获得slot的偏移量数组 若originPosition为（0，0）则返回puzzle对应的slot偏移量数组 originPosition为偏移值
         /// </summary>
         /// <returns></returns>
         public static List<IntVector2> GetCoveredPositions(this Puzzle self, IntVector2 originPosition)
@@ -71,31 +96,6 @@ namespace ET
         }
 
         /// <summary>
-        /// 初始化 根据配置同步信息 生成slot数据层
-        /// </summary>
-        /// <param name="self"></param>
-        public static void Init(this Puzzle self)
-        {
-            var spawn = self.AddComponent<SlotSpawnComponent>();
-            var list = self.Config().SlotOffset;
-            for (int i = 0; i < list.Count; i++)
-            {
-                //拼图用slot ConfigID为1000 偏移量为二维数组坐标
-                var x = list[i][0];
-                var y = list[i][1];
-                
-                var slot = spawn.PuzzleSpawnSlot(1000, new IntVector2(x , y));
-                self.slots.Add(slot);
-                
-                //若处于最边缘一圈 加入吸附slots中
-                if (x == 0 || y == 0)
-                {
-                    self.adsorptionSlots.Add(slot);
-                }
-            }
-        }
-
-        /// <summary>
         /// 重置拼图绑定的所有格子
         /// </summary>
         /// <param name="self"></param>
@@ -124,7 +124,7 @@ namespace ET
             {
                 self.slotOffset[i] = new IntVector2(self.slotOffset[i].Y, -self.slotOffset[i].X);
             }*/
-            
+
             EventSystem.Instance.Publish(self.Scene(), new PuzzleRotate { puzzle = self });
         }
 
@@ -137,8 +137,30 @@ namespace ET
         {
             self.moveMode = moveModeType;
         }
+
+        /// <summary>
+        /// 获得当前拼图的x范围 y范围
+        /// </summary>
+        /// <param name="self"></param>
+        public static (IntVector2 xRange, IntVector2 yRange) GetPuzzleXYRange(this Puzzle self)
+        {
+            var positions = self.GetCoveredPositions(new IntVector2(0, 0));
+            var minX = 100;
+            var maxX = -100;
+            var minY = 100;
+            var maxY = -100;
+            foreach (var pos in positions)
+            {
+                minX = Math.Min(minX, pos.X);
+                maxX = Math.Max(maxX, pos.X);
+                minY = Math.Min(minY, pos.Y);
+                maxY = Math.Max(maxY, pos.Y);
+            }
+
+            return (new IntVector2(minX, maxX), new IntVector2(minY, maxY));
+        }
     }
-    
+
     /// <summary>
     /// 吸附方向枚举
     /// </summary>
