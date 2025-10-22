@@ -50,7 +50,6 @@ namespace ET
                 }
                 else if (puzzle.moveMode == PuzzleMoveModeType.Adsorption) //吸附模式
                 {
-                    return;
                     //原点slot
                     var slot = puzzle.slots[0].Entity;
                     var slotView = slot.GetComponent<SlotView>();

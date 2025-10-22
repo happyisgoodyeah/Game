@@ -28,6 +28,7 @@ namespace ET
                 if (puzzle.moveMode == PuzzleMoveModeType.Normal)
                 {
                     puzzleView.tweener?.Kill();
+                    puzzleView.tweener = null;
 
                     var collider = data.collider;
 
