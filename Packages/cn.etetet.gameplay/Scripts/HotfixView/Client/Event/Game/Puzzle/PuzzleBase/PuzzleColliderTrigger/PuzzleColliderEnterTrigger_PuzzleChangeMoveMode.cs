@@ -38,25 +38,29 @@ namespace ET
                     //grid触发slot
                     var gridSlotView = gridView.GetSlotViewByClosePoint(gridClosePosition);
                     var gridSlot = gridSlotView.GetParent<Slot>();
-
-                    //gridSlot grid上slot的碰撞点 计算相对位置和对应偏移矢量
-                    //var gridSlotClosePosition = gridSlotView.transform.GetComponent<BoxCollider2D>().ClosestPoint(puzzleView.transform.position);
+                    
+                    //gridSlot半径
                     var r = gridSlotView.GetComponent<SpriteRenderComponent>().SpriteSize.x;
-
+                    
+                    //gridSlot PuzzleView的碰撞点
                     var pointPosition = puzzleView.transform.GetComponent<PolygonCollider2D>().ClosestPoint(gridSlotView.transform.position);
 
+                    //计算方向
                     var allowDir = Utility.GetAllowDirection(gridSlot.position.X, gridSlot.position.Y, grid.gridSize.X, grid.gridSize.Y);
                     var direction = Utility.GetSnapDirection(gridSlotView.transform.position, pointPosition, !grid.sideSlots.Contains(gridSlot), new List<SnapDirection>(){allowDir});
                     var directionOffset = gridSlotView.GetParent<Slot>().GetDirOffset(direction);
 
+                    //目标位置
                     var targetPosition = new Vector3(gridSlotView.transform.position.x + r * directionOffset.x, gridSlotView.transform.position.y + r * directionOffset.y, 0);
 
                     //拼图偏移量
                     var puzzleSlotOffset = targetPosition - puzzleSlotView.transform.position;
+                    
                     //todo dotwwen位移 暂时直接位移
                     //完成吸附模式前的复位
                     puzzleView.transform.position += puzzleSlotOffset;
                     puzzleView.endPos = puzzleView.transform.position;
+                    
                     //切换为吸附模式
                     puzzle.ChangeMoveMode(PuzzleMoveModeType.Adsorption);
                 }
