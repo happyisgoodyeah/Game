@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using ET.Client;
 using ET.Server;
@@ -10,7 +11,9 @@ namespace ET
     [FriendOf(typeof(GridView))]
     [FriendOf(typeof(SlotView))]
     [FriendOf(typeof(PuzzleView))]
-    public class PuzzleColliderEnterTrigger_PuzzleChangeMoveMode : AEvent<Scene , ColliderTriggerEnterEventMono>
+    [FriendOfAttribute(typeof(ET.Grid))]
+    [FriendOfAttribute(typeof(ET.Slot))]
+    public class PuzzleColliderEnterTrigger_PuzzleChangeMoveMode : AEvent<Scene, ColliderTriggerEnterEventMono>
     {
         protected override async ETTask Run(Scene scene, ColliderTriggerEnterEventMono data)
         {
@@ -20,39 +23,50 @@ namespace ET
             {
                 Puzzle puzzle = puzzleView.GetParent<Puzzle>();
                 Grid grid = gridView.GetParent<Grid>();
-                
+
                 //改为吸附模式 先对齐对应的slot
                 if (puzzle.moveMode == PuzzleMoveModeType.Normal)
                 {
                     puzzleView.tweener?.Kill();
-                    
+                    puzzleView.tweener = null;
+
                     var collider = data.collider;
-                    
+
                     //碰撞点 gridClosePosition grid的碰撞点
                     Vector3 gridClosePosition = collider.ClosestPoint(puzzleView.transform.position);
                     //拼图触发slot
                     var puzzleSlotView = puzzleView.GetSlotViewByClosePoint(gridClosePosition);
                     //grid触发slot
                     var gridSlotView = gridView.GetSlotViewByClosePoint(gridClosePosition);
-                    //gridSlot grid上slot的碰撞点 计算相对位置和对应偏移矢量
-                    var gridSlotClosePosition = gridSlotView.transform.GetComponent<BoxCollider2D>().ClosestPoint(puzzleView.transform.position);
-                    var r = gridSlotView.GetComponent<SpriteRenderComponent>().SpriteSize.x;
-                    var direction = Utility.GetSnapDirection(gridSlotView.transform.position , gridSlotClosePosition , r / 2, false);
-                    var directionOffset = gridSlotView.GetParent<Slot>().GetDirOffset(direction);
+                    var gridSlot = gridSlotView.GetParent<Slot>();
                     
-                    var targetPosition = new Vector3(gridSlotView.transform.position.x + r * directionOffset.x, gridSlotView.transform.position.y + r * directionOffset.y , 0);
+                    //gridSlot半径
+                    var r = gridSlotView.GetComponent<SpriteRenderComponent>().SpriteSize.x;
+                    
+                    //gridSlot PuzzleView的碰撞点
+                    var pointPosition = puzzleView.transform.GetComponent<PolygonCollider2D>().ClosestPoint(gridSlotView.transform.position);
+
+                    //计算方向
+                    var allowDir = Utility.GetAllowDirection(gridSlot.position.X, gridSlot.position.Y, grid.gridSize.X, grid.gridSize.Y);
+                    var direction = Utility.GetSnapDirection(gridSlotView.transform.position, pointPosition, !grid.sideSlots.Contains(gridSlot), new List<SnapDirection>(){allowDir});
+                    var directionOffset = gridSlotView.GetParent<Slot>().GetDirOffset(direction);
+
+                    //目标位置
+                    var targetPosition = new Vector3(gridSlotView.transform.position.x + r * directionOffset.x, gridSlotView.transform.position.y + r * directionOffset.y, 0);
 
                     //拼图偏移量
                     var puzzleSlotOffset = targetPosition - puzzleSlotView.transform.position;
+                    
                     //todo dotwwen位移 暂时直接位移
                     //完成吸附模式前的复位
                     puzzleView.transform.position += puzzleSlotOffset;
                     puzzleView.endPos = puzzleView.transform.position;
+                    
                     //切换为吸附模式
                     puzzle.ChangeMoveMode(PuzzleMoveModeType.Adsorption);
                 }
             }
             await ETTask.CompletedTask;
         }
-    }    
+    }
 }

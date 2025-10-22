@@ -54,6 +54,11 @@ namespace ET
                     {
                         self.adsorptionSlots.Add(slot);
                     }
+
+                    if ((i == 0 || i == self.gridSize.X - 1) && (j == 0 || j == self.gridSize.Y - 1))
+                    {
+                        self.sideSlots.Add(slot);
+                    }
                 }
             }
         }

@@ -19,8 +19,8 @@ namespace ET
             puzzle.isInGrid = gridView.GetPuzzleInGrid(puzzle);
             
             //startPos endPos重置
-            puzzleView.startPos = Vector3.zero;
-            puzzleView.endPos = Vector3.zero;
+            // puzzleView.startPos = Vector3.zero;
+            // puzzleView.endPos = Vector3.zero;
             
             await ETTask.CompletedTask;
         }
