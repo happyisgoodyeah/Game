@@ -97,6 +97,22 @@ MonoBehaviour:
         FilterRuleName: CollectPrefab
         AssetTags: 
         UserData: 
+      - CollectPath: Packages/cn.etetet.gameplay/Assets/GameRes/YIUI/GameMainPanel/Prefabs
+        CollectorGUID: 390ce52ef526d524e9b37dd7cbe29b29
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Packages/cn.etetet.gameplay/Assets/GameRes/YIUI/Archive/Prefabs
+        CollectorGUID: 0a549e5cfcff23c4e9a5f241177b8dec
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
     - GroupName: Unit
       GroupDesc: 
       AssetTags: 
@@ -107,6 +123,45 @@ MonoBehaviour:
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackSeparately
+        FilterRuleName: CollectPrefab
+        AssetTags: 
+        UserData: 
+    - GroupName: Grid
+      GroupDesc: 
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors:
+      - CollectPath: Packages/cn.etetet.gameplay/Resources/Grid
+        CollectorGUID: 5ab02a76e1d130144b28c349b5c0ae8f
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectPrefab
+        AssetTags: 
+        UserData: 
+    - GroupName: Slot
+      GroupDesc: 
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors:
+      - CollectPath: Packages/cn.etetet.gameplay/Resources/Slot
+        CollectorGUID: bc66c25cc1a8d034a839775eb50a95d1
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectPrefab
+        AssetTags: 
+        UserData: 
+    - GroupName: Puzzle
+      GroupDesc: 
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors:
+      - CollectPath: Packages/cn.etetet.gameplay/Resources/Puzzle
+        CollectorGUID: e81b3ed2b77401a42ab893caf6dae7d9
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
         FilterRuleName: CollectPrefab
         AssetTags: 
         UserData: 
@@ -164,7 +219,7 @@ MonoBehaviour:
         AssetTags: 
         UserData: 
       - CollectPath: Assets/GameRes/YIUI
-        CollectorGUID: 
+        CollectorGUID: 7df93ffc8327ee443a9ffadd3c94bd53
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory
@@ -193,44 +248,5 @@ MonoBehaviour:
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
-        AssetTags: 
-        UserData: 
-    - GroupName: Grid
-      GroupDesc: 
-      AssetTags: 
-      ActiveRuleName: EnableGroup
-      Collectors:
-      - CollectPath: Packages/cn.etetet.gameplay/Resources/Grid
-        CollectorGUID: 5ab02a76e1d130144b28c349b5c0ae8f
-        CollectorType: 0
-        AddressRuleName: AddressByFileName
-        PackRuleName: PackDirectory
-        FilterRuleName: CollectPrefab
-        AssetTags: 
-        UserData: 
-    - GroupName: Slot
-      GroupDesc: 
-      AssetTags: 
-      ActiveRuleName: EnableGroup
-      Collectors:
-      - CollectPath: Packages/cn.etetet.gameplay/Resources/Slot
-        CollectorGUID: bc66c25cc1a8d034a839775eb50a95d1
-        CollectorType: 0
-        AddressRuleName: AddressByFileName
-        PackRuleName: PackDirectory
-        FilterRuleName: CollectPrefab
-        AssetTags: 
-        UserData: 
-    - GroupName: Puzzle
-      GroupDesc: 
-      AssetTags: 
-      ActiveRuleName: EnableGroup
-      Collectors:
-      - CollectPath: Packages/cn.etetet.gameplay/Resources/Puzzle
-        CollectorGUID: e81b3ed2b77401a42ab893caf6dae7d9
-        CollectorType: 0
-        AddressRuleName: AddressByFileName
-        PackRuleName: PackDirectory
-        FilterRuleName: CollectPrefab
         AssetTags: 
         UserData: 
