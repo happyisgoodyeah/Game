@@ -11,6 +11,11 @@ namespace ET
     [FriendOf(typeof(PuzzleView))]
     public class DragUpdate_PuzzleDrag : AEvent<Scene, DragUpdateEvent>
     {
+        public static void Test(Transform transform)
+        {
+            transform.DOScale(new Vector3(2, 2, 2), 0.2f);
+        }
+        
         protected override async ETTask Run(Scene scene, DragUpdateEvent data)
         {
             //是Puzzle拖拽事件
@@ -45,6 +50,7 @@ namespace ET
                 }
                 else if (puzzle.moveMode == PuzzleMoveModeType.Adsorption) //吸附模式
                 {
+                    return;
                     //原点slot
                     var slot = puzzle.slots[0].Entity;
                     var slotView = slot.GetComponent<SlotView>();
@@ -87,7 +93,7 @@ namespace ET
                     if (!Utility.GetOnePointInPointRange(puzzleView.endPos , r / 2 , r / 2, data.CurrentPosition))
                     {
                         //获取对应方向
-                        var dir = Utility.GetSnapDirection(puzzleView.endPos, data.CurrentPosition , r / 2, true);
+                        var dir = Utility.GetSnapDirection(puzzleView.endPos, data.CurrentPosition , true);
                         Log.Error("方向" + dir);
                         if (dir == SnapDirection.UpLeft || dir == SnapDirection.DownLeft) dir = SnapDirection.Left;
                         if (dir == SnapDirection.UpRight || dir == SnapDirection.DownRight) dir = SnapDirection.Right;

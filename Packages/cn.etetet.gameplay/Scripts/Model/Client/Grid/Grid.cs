@@ -34,5 +34,10 @@ namespace ET
         /// 吸附slot
         /// </summary>
         public List<EntityRef<Slot>> adsorptionSlots = new List<EntityRef<Slot>>();
+        
+        /// <summary>
+        /// 四边slot
+        /// </summary>
+        public List<EntityRef<Slot>> sideSlots = new List<EntityRef<Slot>>();
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ET
@@ -32,47 +33,80 @@ namespace ET
         /// <returns></returns>
         public static Vector2 GetClosestPointOnSquare(Vector2 judgePosition , float r)
         {
-            // 计算到各边的距离
-            float dx = Mathf.Min(Mathf.Abs(judgePosition.x - r), Mathf.Abs(judgePosition.x + r));
-            float dy = Mathf.Min(Mathf.Abs(judgePosition.y - r), Mathf.Abs(judgePosition.y + r));
-        
-            // 确定最近点在哪个边界上
-            if (dx < dy)
+            Vector2 final = judgePosition;
+            if (judgePosition.x < -r)
             {
-                // 更靠近左右边界
-                if (Mathf.Abs(judgePosition.x - r) < Mathf.Abs(judgePosition.x + r))
-                    return new Vector2(r, Mathf.Clamp(judgePosition.y, -r, r)); // 右边界
-                else
-                    return new Vector2(-r, Mathf.Clamp(judgePosition.y, -r, r)); // 左边界
+                final.x = -r;
             }
-            else
+            if (judgePosition.x > r)
             {
-                // 更靠近上下边界
-                if (Mathf.Abs(judgePosition.y - r) < Mathf.Abs(judgePosition.y + r))
-                    return new Vector2(Mathf.Clamp(judgePosition.x, -r, r), r); // 上边界
-                else
-                    return new Vector2(Mathf.Clamp(judgePosition.x, -r, r), -r); // 下边界
+                final.x = r;
             }
+            
+            if (judgePosition.y < -r)
+            {
+                final.x = -r;
+            }
+            if (judgePosition.x > r)
+            {
+                final.x = r;
+            }
+
+            return final;
+        }
+
+        /// <summary>
+        /// 给定坐标以及对应最大X，Y值 返回所允许的方向
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="maxX"></param>
+        /// <param name="maxY"></param>
+        /// <returns></returns>
+        public static SnapDirection GetAllowDirection(int x, int y , int maxX , int maxY)
+        {
+            if (x == 0 && y == 0)
+            {
+                return SnapDirection.UpLeft;
+            }
+            if (x == 0 && y == maxY - 1)
+            {
+                return SnapDirection.UpRight;
+            }
+            if (x == maxX - 1 && y == 0)
+            {
+                return SnapDirection.DownLeft;
+            }
+            if (x == maxX - 1 && y == maxY - 1)
+            {
+                return SnapDirection.DownRight;
+            }
+
+            return SnapDirection.None;
         }
         
         /// <summary>
         /// 获取一个点相对于原点的方向
         /// </summary>
+        /// <param name="originPosition">原点方向</param>
+        /// <param name="judgePosition">判定的点方向</param>
+        /// <param name="isDistinction">是否合并四角方向为上下左右</param>
+        /// <param name="limitDirections">限制四角方向只能返回数组内的值</param>
         /// <returns></returns>
-        public static SnapDirection GetSnapDirection(Vector3 originPosition , Vector2 judgePosition, float r , bool isDistinction = false)
+        public static SnapDirection GetSnapDirection(Vector3 originPosition , Vector2 judgePosition , bool isDistinction = false , List<SnapDirection> limitDirections = null)
         {
             //将点转换到以A为中心的坐标系
             Vector2 relativePoint = judgePosition - new Vector2(originPosition.x , originPosition.y);
             
-            if (GetOnePointInPointRange(originPosition , r , r , judgePosition))
-            {
-                return SnapDirection.None;
-            }
+            // if (GetOnePointInPointRange(originPosition , r , r , judgePosition))
+            // {
+            //     return SnapDirection.None;
+            // }
             
-            var closePoint = GetClosestPointOnSquare(relativePoint , r);
+            //var closePoint = GetClosestPointOnSquare(relativePoint , r);
             
             // 计算法线角度
-            float angle = Mathf.Atan2(closePoint.y, closePoint.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(relativePoint.y, relativePoint.x) * Mathf.Rad2Deg;
         
             // 标准化角度
             if (angle < 0) angle += 360;
@@ -85,63 +119,63 @@ namespace ET
             angle = (angle + 360) % 360;
         
             // 右上角区域
-            if (1.5f * angle > cornerRange && angle <= 2 * cornerRange)
+            if (angle >= 1f * cornerRange && angle <= 2f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Right : SnapDirection.UpRight;    
+                return isDistinction ? SnapDirection.Right : limitDirections.Contains(SnapDirection.UpRight) ? SnapDirection.UpRight : SnapDirection.Right;    
             }
             
             // 右上角区域
-            if (angle > 2 * cornerRange && angle <= 2.5f * cornerRange)
+            if (angle >= 2 * cornerRange && angle <= 3f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Up : SnapDirection.UpRight;    
+                return isDistinction ? SnapDirection.Up : limitDirections.Contains(SnapDirection.UpRight) ? SnapDirection.UpRight : SnapDirection.Up;    
             }
         
             // 上边缘区域
-            if (angle > 2.5f * cornerRange && angle <= 5.5f * cornerRange)
+            if (angle >= 3f * cornerRange && angle <= 5f * cornerRange)
                 return SnapDirection.Up;
         
             // 左上角区域
-            if (angle > 5.5f * cornerRange && angle <= 6f * cornerRange)
+            if (angle >= 5f * cornerRange && angle <= 6f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Up : SnapDirection.UpLeft;    
+                return isDistinction ? SnapDirection.Up : limitDirections.Contains(SnapDirection.UpLeft) ? SnapDirection.UpLeft : SnapDirection.Up;    
             }
             
             // 左上角区域
-            if (angle > 6f * cornerRange && angle <= 6.5f * cornerRange)
+            if (angle >= 6f * cornerRange && angle <= 7f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Left : SnapDirection.UpLeft;    
+                return isDistinction ? SnapDirection.Left : limitDirections.Contains(SnapDirection.UpLeft) ? SnapDirection.UpLeft : SnapDirection.Left;    
             }
         
             // 左边缘区域
-            if (angle > 6.5f * cornerRange && angle <= 9.5f * cornerRange)
+            if (angle >= 7f * cornerRange && angle <= 9f * cornerRange)
                 return SnapDirection.Left;
         
             // 左下角区域
-            if (angle > 9.5f * cornerRange && angle <= 10f * cornerRange)
+            if (angle >= 9f * cornerRange && angle <= 10f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Left : SnapDirection.DownLeft;    
+                return isDistinction ? SnapDirection.Left : limitDirections.Contains(SnapDirection.DownLeft) ? SnapDirection.DownLeft : SnapDirection.Left;    
             }
             
             // 左下角区域
-            if (angle > 10f * cornerRange && angle <= 10.5f * cornerRange)
+            if (angle >= 10f * cornerRange && angle <= 11f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Down : SnapDirection.DownLeft;    
+                return isDistinction ? SnapDirection.Down : limitDirections.Contains(SnapDirection.DownLeft) ? SnapDirection.DownLeft : SnapDirection.Down;    
             }
         
             // 下边缘区域
-            if (angle > 10.5f * cornerRange && angle <= 11f * cornerRange)
+            if (angle >= 11f * cornerRange && angle <= 13f * cornerRange)
                 return SnapDirection.Down;
         
             // 右下角区域
-            if (angle > 11f * cornerRange && angle <= 11.5f * cornerRange)
+            if (angle >= 13f * cornerRange && angle <= 14f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Down : SnapDirection.DownRight;   
+                return isDistinction ? SnapDirection.Down : limitDirections.Contains(SnapDirection.DownRight) ? SnapDirection.DownRight : SnapDirection.Down;   
             }
             
             // 右下角区域
-            if (angle > 11.5f * cornerRange && angle <= 12f * cornerRange)
+            if (angle >= 14f * cornerRange && angle <= 15f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Right : SnapDirection.DownRight;   
+                return isDistinction ? SnapDirection.Right : limitDirections.Contains(SnapDirection.DownRight) ? SnapDirection.DownRight : SnapDirection.Right;   
             }
             
             // 右边缘区域
