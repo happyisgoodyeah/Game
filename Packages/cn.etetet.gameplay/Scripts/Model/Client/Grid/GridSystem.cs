@@ -23,7 +23,7 @@ namespace ET
         {
             self.configId = configId;
             
-            self.InitComponent(self.Config().X, self.Config().Y, 2);
+            self.InitComponent(self.Config().X, self.Config().Y, 3);
         }
 
         public static void InitComponent(this ET.Grid self, int x, int y, int cellSize)
