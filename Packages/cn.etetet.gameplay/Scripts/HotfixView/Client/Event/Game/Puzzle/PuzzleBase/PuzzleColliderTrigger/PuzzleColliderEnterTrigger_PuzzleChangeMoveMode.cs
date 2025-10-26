@@ -57,7 +57,10 @@ namespace ET
                     //目标位置
                     var targetPosition = new Vector3(gridSlotView.transform.position.x + r * directionOffset.x, gridSlotView.transform.position.y + r * directionOffset.y, 0);
 
-                    puzzleView.Move(targetPosition , 0.05f , true);
+                    //拼图偏移量
+                    var puzzleSlotOffset = targetPosition - puzzleSlotView.transform.position;
+                    
+                    puzzleView.Move(puzzleView.transform.position + puzzleSlotOffset , 0.05f , true);
 
                     await scene.GetComponent<ObjectWait>().Wait<PuzzleMoveEndEvent>();
                     
@@ -65,7 +68,6 @@ namespace ET
                     puzzle.ChangeMoveMode(PuzzleMoveModeType.Adsorption);
                     
                     // //拼图偏移量
-                    // var puzzleSlotOffset = targetPosition - puzzleSlotView.transform.position;
                     // //完成吸附模式前的复位
                     // puzzleView.transform.position += puzzleSlotOffset;
                     // puzzleView.endPos = puzzleView.transform.position;

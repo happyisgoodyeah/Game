@@ -33,6 +33,11 @@ namespace ET
         public bool isInGrid;
 
         /// <summary>
+        /// 原点slot
+        /// </summary>
+        public Slot originSlot => slots[0];
+        
+        /// <summary>
         /// 当前puzzle的slot
         /// </summary>
         public List<EntityRef<Slot>> slots = new List<EntityRef<Slot>>();

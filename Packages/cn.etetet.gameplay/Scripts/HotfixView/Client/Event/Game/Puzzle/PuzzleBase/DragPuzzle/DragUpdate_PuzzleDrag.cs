@@ -50,11 +50,14 @@ namespace ET
                         var gridSizeX = gridSize.X * grid.cellSize / 2f;
                         var gridSizeY = gridSize.Y * grid.cellSize / 2f;
 
+                        var disX = (range.xRange.Y - range.xRange.X) + 1;
+                        var disY = (range.yRange.Y - range.yRange.X) + 1;
+                        
                         //此时的rangeX.X代表minX rangeX.Y代表maxY
-                        var leftRange = -gridSizeX - (range.xRange.Y / 2f + 0.5f) * grid.cellSize;
-                        var rightRange = gridSizeX + (range.xRange.X /2f + 0.5f) * grid.cellSize;
-                        var topRange = gridSizeY + (range.yRange.X / 2f + 0.5f) * grid.cellSize;
-                        var downRange = -gridSizeY - (range.yRange.Y / 2f + 0.5f) * grid.cellSize;
+                        var leftRange = -gridSizeX - (disX / 2f) * grid.cellSize;
+                        var rightRange = gridSizeX + (disX / 2f) * grid.cellSize;
+                        var topRange = gridSizeY + (disY / 2f) * grid.cellSize;
+                        var downRange = -gridSizeY - (disY / 2f) * grid.cellSize;
 
                         var xCan = data.CurrentPosition.x >= leftRange && data.CurrentPosition.x <= rightRange;
                         var yCan = data.CurrentPosition.y >= downRange && data.CurrentPosition.y <= topRange;
