@@ -38,7 +38,7 @@ namespace ET
                     foreach (IntVector2 slotPosition in positionList)
                     {
                         Slot slot = grid.GetSlot(slotPosition);
-                        slot.puzzleRef = puzzle;
+                        slot.SetPuzzle(puzzle);
                         puzzle.bindSlots.Add(slot);
                     }
 
