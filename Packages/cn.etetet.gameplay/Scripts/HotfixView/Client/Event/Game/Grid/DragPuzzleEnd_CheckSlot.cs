@@ -19,7 +19,7 @@ namespace ET
 
             puzzleView.tweener?.Kill();
             puzzleView.tweener = null;
-            puzzle.ChangeMoveMode(PuzzleMoveModeType.Normal);
+            // puzzle.ChangeMoveMode(PuzzleMoveModeType.Normal);
             
             //拖拽结束的位置
             var worldPosition = data.worldPosition;
