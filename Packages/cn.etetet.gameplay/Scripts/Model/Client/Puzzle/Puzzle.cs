@@ -58,6 +58,8 @@ namespace ET
         //普通
         Normal,
         //吸附
-        Adsorption
+        Adsorption,
+        //复位
+        ReadyAdsorption,
     }
 }

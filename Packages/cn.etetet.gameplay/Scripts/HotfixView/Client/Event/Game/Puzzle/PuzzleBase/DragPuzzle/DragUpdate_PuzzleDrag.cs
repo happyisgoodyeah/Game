@@ -30,31 +30,18 @@ namespace ET
                         puzzleView.startPos = puzzleView.endPos;
                         puzzleView.endPos = data.CurrentPosition;
 
-                        if (puzzleView.tweener == null)
-                        {
-                            puzzleView.tweener = DOTween.To(() => puzzleView.transform.position,
-                                        pos => { puzzleView.transform.position = pos; },
-                                        puzzleView.endPos,
-                                        0.1f)
-                                    .SetEase(Ease.Linear)
-                                    .OnUpdate(() =>
-                                    {
-                                        puzzleView.tweener.ChangeEndValue(puzzleView.endPos, 0.1f, true).Play();
-                                        if (Vector2.Distance(puzzleView.transform.position, puzzleView.endPos) <= 0.01f)
-                                        {
-                                            EventSystem.Instance.Publish(scene, new PuzzleMoveEndEvent() { puzzle = puzzle });
-                                        }
-                                    });
-                        }
+                        puzzleView.Move(data.CurrentPosition);
                     }
                 }
-                else if (puzzle.moveMode == PuzzleMoveModeType.Adsorption) //吸附模式
+                else if (puzzle.moveMode == PuzzleMoveModeType.Adsorption || puzzle.moveMode == PuzzleMoveModeType.ReadyAdsorption) //吸附模式
                 {
                     //原点slot
                     var slot = puzzle.slots[0].Entity;
                     var slotView = slot.GetComponent<SlotView>();
                     var grid = puzzle.GetParent<Grid>();
-
+                    var gridView = grid.GetComponent<GridView>();
+                    
+                    puzzle.isInGrid = gridView.GetPuzzleInGrid(puzzle);
                     //吸附模式优先判断拼图是否在grid内 若拼图不在grid内 则鼠标位置不能超过 当前拼图对应的操作范围 否则取消吸附模式 进入普通移动模式
                     if (!puzzle.isInGrid)
                     {
@@ -112,24 +99,8 @@ namespace ET
                             puzzleView.startPos = puzzleView.endPos;
                             //更新endPos
                             puzzleView.endPos = targetPos;
-
-                            if (puzzleView.tweener == null)
-                            {
-                                puzzleView.tweener = DOTween.To(() => puzzleView.transform.position,
-                                            pos => { puzzleView.transform.position = pos; },
-                                            puzzleView.endPos,
-                                            0.1f)
-                                        .SetEase(Ease.Linear)
-                                        .OnUpdate(() =>
-                                        {
-                                            puzzleView.tweener.ChangeEndValue(puzzleView.endPos, 0.1f, true).Play();
-                                            if (Vector2.Distance(puzzleView.transform.position, puzzleView.endPos) <= 0.01f)
-                                            {
-                                                Debug.LogError("移动完成一次");
-                                                EventSystem.Instance.Publish(scene, new PuzzleMoveEndEvent() { puzzle = puzzle });
-                                            }
-                                        });
-                            }
+                            
+                            puzzleView.Move(targetPos , 0.05f , true);
                         }
                     }
                 }

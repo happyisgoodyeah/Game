@@ -32,8 +32,9 @@ namespace ET
     /// <summary>
     /// 拼图移动结束事件
     /// </summary>
-    public struct PuzzleMoveEndEvent
+    public struct PuzzleMoveEndEvent : IWaitType
     {
         public Puzzle puzzle;
+        public int Error { get; set; }
     }
 }
