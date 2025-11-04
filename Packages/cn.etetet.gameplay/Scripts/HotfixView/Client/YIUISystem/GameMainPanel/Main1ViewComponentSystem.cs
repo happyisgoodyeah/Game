@@ -38,13 +38,13 @@ namespace ET.Client
         private static void OnEventContinueGameInvoke(this Main1ViewComponent self)
         {
             //YIUICloseCommonComponentSystem.ET_Client_YIUICloseCommonComponent_DestroySystem<Main1ViewComponentSystem>();
-            ContinueGame(self);
+            ContinueGame(self).NoContext();
         }
 
         [YIUIInvoke(Main1ViewComponent.OnEventArchiveEnterInvoke)]
         private static void OnEventArchiveEnterInvoke(this Main1ViewComponent self)
         {
-            OpenArchivePanel();
+            OpenArchivePanel().NoContext();
         }
 
         #endregion YIUIEvent结束>

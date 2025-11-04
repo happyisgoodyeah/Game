@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8478117854736214982}
   - component: {fileID: 8877836095321298258}
   - component: {fileID: 2867275934391202494}
+  - component: {fileID: 6589679655290480306}
   m_Layer: 5
   m_Name: MainArchiveView
   m_TagString: Untagged
@@ -147,7 +148,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   ComponentTable: {fileID: 8877836095321298258}
-  DataTable: {fileID: 0}
+  DataTable: {fileID: 6589679655290480306}
   EventTable: {fileID: 2867275934391202494}
   PkgName: Archive
   ResName: MainArchiveView
@@ -383,6 +384,47 @@ MonoBehaviour:
       Entry: 8
       Data: 
   AllEventParamType: 
+--- !u!114 &6589679655290480306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074536624460103736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e653f1c5ec04766b7a16c1a9b9ff51e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: m_DataDic
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[YIUIFramework.UIData,
+        ET.YIUIFramework]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
 --- !u!1 &3039383295086929519
 GameObject:
   m_ObjectHideFlags: 0

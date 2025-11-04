@@ -35,7 +35,7 @@ namespace ET.Client
         [YIUIInvoke(MainArchiveViewComponent.OnEventBackInvoke)]
         private static void OnEventBackInvoke(this MainArchiveViewComponent self)
         {
-            ChangePanel();
+            ChangePanel().NoContext();
             //self.UIView.Close();
         }
         #endregion YIUIEvent结束
