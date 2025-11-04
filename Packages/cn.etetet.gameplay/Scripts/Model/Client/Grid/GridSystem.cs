@@ -105,7 +105,7 @@ namespace ET
             foreach (var slotRef in self.slotDic.Values)
             {
                 var slot = slotRef.Entity;
-                if (slot.puzzleRef.Entity != null)
+                if (slot.puzzleRef.Entity == null)
                 {
                     return false;
                 }

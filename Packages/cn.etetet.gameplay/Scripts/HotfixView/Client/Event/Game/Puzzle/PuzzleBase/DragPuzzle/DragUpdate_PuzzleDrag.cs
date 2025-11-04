@@ -83,7 +83,7 @@ namespace ET
                     {
                         //获取对应方向
                         var dir = Utility.GetSnapDirection(puzzleView.endPos, data.CurrentPosition , true);
-                        Log.Error("方向" + dir);
+                        //Log.Error("方向" + dir);
                         if (dir == SnapDirection.UpLeft || dir == SnapDirection.DownLeft) dir = SnapDirection.Left;
                         if (dir == SnapDirection.UpRight || dir == SnapDirection.DownRight) dir = SnapDirection.Right;
                         var dirOffset = slot.GetDirOffset(dir);
@@ -91,9 +91,9 @@ namespace ET
                         //目标pos
                         var targetPos = new Vector3(puzzleView.endPos.x + dirOffset.x * r, puzzleView.endPos.y + dirOffset.y * r, 0);
 
-                        Log.Error("当前endpos" + puzzleView.endPos);
-                        Log.Error("当前targetPos" + targetPos);
-                        Log.Error("--------------------");
+                        // Log.Error("当前endpos" + puzzleView.endPos);
+                        // Log.Error("当前targetPos" + targetPos);
+                        // Log.Error("--------------------");
 
                         //目标pos不等于当前移动目标 需要更新
                         if (targetPos != puzzleView.endPos)

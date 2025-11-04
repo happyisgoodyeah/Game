@@ -42,9 +42,7 @@ namespace ET
         /// </summary>
         public static void SetPuzzle(this ET.Slot self, Puzzle puzzle)
         {
-            //当前已经绑定有Puzzle
-            puzzle.ResetBindSlots();
-            puzzle.slots.Add(self);
+            puzzle.bindSlots.Add(self);
             self.puzzleRef = puzzle;
             EventSystem.Instance.Publish(self.Root(), new SlotSetPuzzle { slot = self });
         }
