@@ -25,10 +25,12 @@ namespace ET
     
     /// <summary>
     /// 单击旋转事件
+    /// RotType = 0 为拖拽的时候旋转；RotType = 1 为放置后旋转
     /// </summary>
     public struct ClickRotateEvent
     {
         public Entity Entity;
+        public int RotType;
         public float Angle;
     }
 }

@@ -41,13 +41,17 @@ namespace ET
 
         public static void Rotate(this ET.PuzzleView self, float angle)
         {
-            self.transform.Rotate(Vector3.up, angle);
+            if (self.tweener != null)
+            {
+                return;
+            }
+
+            self.transform.DOLocalRotate(new Vector3(0, 0, angle), 0.1f);
         }
 
         public static void BackToOriginPosition(this ET.PuzzleView self)
         {
-            //todo dotween
-            //使用dotween线性移动 先直接复原位置
+            //todo 使用dotween线性移动 先直接复原位置
             //转回需要重置旋转角度
             self.transform.position = self.originPosition;
             self.transform.rotation = Quaternion.Euler(Vector3.zero);
@@ -84,21 +88,21 @@ namespace ET
         /// <param name="self"></param>
         /// <param name="targetPosition">目标坐标</param>
         /// <param name="isMust">是否强制 非强制不为空时直接退出 强制则重置tweener</param>
-        public static void Move(this PuzzleView self , Vector3 targetPosition , float time = 0.1f , bool isMust = false)
+        public static void Move(this PuzzleView self, Vector3 targetPosition, float time = 0.1f, bool isMust = false)
         {
             if (self.tweener != null && !isMust)
             {
                 return;
             }
-            
-            if(isMust)
+
+            if (isMust)
             {
                 self.tweener.Kill();
                 self.tweener = null;
             }
-            
+
             self.endPos = targetPosition;
-            
+
             self.tweener = DOTween.To(() => self.transform.position,
                         pos => { self.transform.position = pos; },
                         self.endPos,
