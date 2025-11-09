@@ -5,7 +5,7 @@ namespace ET
     public static partial class SlotSystem
     {
         [EntitySystem]
-        private static void Awake(this ET.Slot self, int configId, ET.IntVector2 position)
+        private static void Awake(this ET.Slot self, int configId, IntVector2 position)
         {
             self.configId = configId;
             self.position = position;

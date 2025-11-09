@@ -7,7 +7,6 @@
         "ET.Recast",
         "ET.SourceGeneratorAttribute",
         "ET.YooAssets",
-        "GamePlay",
         "Unity.Mathematics"
     ],
     "includePlatforms": [],
@@ -21,8 +20,5 @@
         "IS_COMPILING || UNITY_EDITOR"
     ],
     "versionDefines": [],
-    "noEngineReferences": false,
-    "optionalUnityReferences": [],
-    "additionalReferences": [],
-    "compilerOptions": ""
+    "noEngineReferences": false
 }
