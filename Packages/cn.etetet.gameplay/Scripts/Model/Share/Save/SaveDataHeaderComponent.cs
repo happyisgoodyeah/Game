@@ -6,7 +6,7 @@ namespace ET
 {
     [MemoryPackable]
     [ComponentOf(typeof(GameSaveData))]
-    public partial class SaveDataHeaderComponent : Entity , IAwake , ISerialize , IDeserialize , ISaveDataComponent
+    public partial class SaveDataHeaderComponent : Entity , IAwake , ISerializeToEntity , ISerialize , IDeserialize , ISaveDataComponent
     {
         /// <summary>
         /// 数据版本

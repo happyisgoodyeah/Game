@@ -6,7 +6,7 @@ namespace ET
 {
     [ComponentOf(typeof(GameSaveData))]
     [MemoryPackable]
-    public partial class PlayerDataComponent : Entity , IAwake, ISaveDataComponent
+    public partial class PlayerDataComponent : Entity , IAwake, ISerializeToEntity , ISaveDataComponent
     {
         [MemoryPackOrder(0)]
         [BsonElement]

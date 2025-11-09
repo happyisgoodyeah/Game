@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace ET
 {
@@ -57,7 +58,9 @@ namespace ET
                     
                 case SerializationFormat.MongoDB:
                     //使用MongoDB进行可读序列化（调试用）
-                    serializedData = MongoHelper.Serialize(saveData);
+                    //serializedData = MongoHelper.Serialize(saveData);
+                    string jsonString = MongoHelper.ToJson(saveData);
+                    serializedData = Encoding.UTF8.GetBytes(jsonString);
                     Log.Info($"使用MongoDB序列化存档，数据大小: {serializedData.Length} 字节");
                     break;
                     
@@ -92,7 +95,9 @@ namespace ET
                     
                 case SerializationFormat.MongoDB:
                     // 使用MongoDB反序列化
-                    saveData = (GameSaveData)MongoHelper.Deserialize(typeof(GameSaveData), data);
+                    //saveData = (GameSaveData)MongoHelper.Deserialize(typeof(GameSaveData), data);
+                    string jsonString = Encoding.UTF8.GetString(data);
+                    saveData = (GameSaveData)MongoHelper.FromJson(typeof(GameSaveData), jsonString);
                     Log.Info($"使用MongoDB反序列化存档");
                     break;
                     
@@ -114,16 +119,24 @@ namespace ET
         /// </summary>
         private static string FindSaveFile(this SaveManagerComponent self, string fileNameWithoutExtension)
         {
-            string[] possibleExtensions = { ".sav", ".json", ".dat" };
+            string extension = self.GetSaveFileExtension();
             
-            foreach (string extension in possibleExtensions)
+            string filePath = Path.Combine(self.SaveDirectory, fileNameWithoutExtension + extension);
+            if (File.Exists(filePath))
             {
-                string filePath = Path.Combine(self.SaveDirectory, fileNameWithoutExtension + extension);
-                if (File.Exists(filePath))
-                {
-                    return filePath;
-                }
+                return filePath;
             }
+            
+            // string[] possibleExtensions = { ".sav", ".json", ".dat" };
+            //
+            // foreach (string extension in possibleExtensions)
+            // {
+            //     string filePath = Path.Combine(self.SaveDirectory, fileNameWithoutExtension + extension);
+            //     if (File.Exists(filePath))
+            //     {
+            //         return filePath;
+            //     }
+            // }
             
             return null;
         }
@@ -153,8 +166,11 @@ namespace ET
             if (data.Length == 0)
                 throw new ArgumentException("数据为空");
 
+            return GetCurrentFormat();
+            
             // MemoryPack数据通常以特定的魔术数字开头
             // MongoDB JSON数据通常以 { 开头 (UTF8编码)
+/*
             if (data.Length >= 2 && data[0] == 0x7B && data[1] == 0x22) // {" 开头
             {
                 return SerializationFormat.MongoDB;
@@ -162,6 +178,7 @@ namespace ET
             
             // 默认为MemoryPack格式
             return SerializationFormat.MemoryPack;
+*/
         }
 
         /// <summary>
@@ -183,9 +200,10 @@ namespace ET
         /// </summary>
         public static string ComputeChecksum(this SaveManagerComponent self, byte[] data)
         {
-            using var sha256 = SHA256.Create();
-            var hash = sha256.ComputeHash(data);
-            return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+            return string.Empty;
+            // using var sha256 = SHA256.Create();
+            // var hash = sha256.ComputeHash(data);
+            // return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
         }
     }
 }

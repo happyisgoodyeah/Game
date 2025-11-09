@@ -2,7 +2,6 @@ using System;
 using ET;
 using UnityEditor;
 using UnityEngine;
-using WingjoyUtility.Editor;
 
 namespace Wingjoy.Git
 {

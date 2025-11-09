@@ -24,10 +24,6 @@ namespace ET
         [EntitySystem]
         private static void Awake(this ET.SaveManagerComponent self)
         {
-            // self.iPath = self.Root().GetComponent<PathHelper>();
-            //
-            // self.SaveDirectory = Path.Combine(self.iPath.GetSavePath(), "Saves");
-            // Directory.CreateDirectory(self.SaveDirectory);
             self.Init().NoContext();
         }
 
@@ -49,6 +45,14 @@ namespace ET
             
             Log.Info($"存档管理器初始化完成，目录: {self.SaveDirectory}");
             Log.Info($"当前序列化格式: {GetCurrentFormat()}");
+
+            if (await self.LoadAsync("test") == null)
+            {
+                self.CurrentSaveData = await self.CreateNewSave("test");
+            }
+            
+            self.CurrentSaveData.GetPlayerData().UnlockedLevels.Add("1");
+            await self.SaveAsync(self.CurrentSaveData);
         }
         
         /// <summary>
@@ -113,7 +117,7 @@ namespace ET
                 header.Checksum = self.ComputeChecksum(serializeSaveData);
 
                 //写入路径
-                string fileName = $"save_{header.PlayerId}_{header.SaveSlot}";
+                string fileName = $"save_{header.PlayerId}_{header.SaveSlot}{self.GetSaveFileExtension()}";
                 string filePath = customPath ?? Path.Combine(self.SaveDirectory, fileName);
 
                 //异步写入文件

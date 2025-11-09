@@ -3,10 +3,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ET;
-using Debug = UnityEngine.Debug;
 
-namespace WingjoyUtility.Editor
+namespace ET
 {
     public static partial class EditorUtilities
     {
