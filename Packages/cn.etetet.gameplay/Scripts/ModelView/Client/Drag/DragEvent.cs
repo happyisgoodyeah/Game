@@ -30,7 +30,6 @@ namespace ET
     public struct ClickRotateEvent
     {
         public Entity Entity;
-        public int RotType;
         public float Angle;
     }
 }

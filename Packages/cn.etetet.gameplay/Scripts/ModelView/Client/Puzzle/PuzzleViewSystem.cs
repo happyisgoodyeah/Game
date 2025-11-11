@@ -39,16 +39,6 @@ namespace ET
             triggerColliderComponent.SetTagList(new List<string>() { "Grid" });
         }
 
-        public static void Rotate(this ET.PuzzleView self, float angle)
-        {
-            if (self.tweener != null)
-            {
-                return;
-            }
-
-            self.transform.DOLocalRotate(new Vector3(0, 0, angle), 0.1f);
-        }
-
         public static void BackToOriginPosition(this ET.PuzzleView self)
         {
             //todo 使用dotween线性移动 先直接复原位置

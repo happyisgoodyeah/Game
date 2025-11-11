@@ -114,10 +114,10 @@ namespace ET
         /// 旋转拼图 数据层
         /// </summary>
         /// <param name="self"></param>
-        public static void RotatePuzzle(this Puzzle self)
+        public static void RotatePuzzle(this Puzzle self, int rotAngle)
         {
             //rotate view & rotate offsetVector
-            self.rotate = (self.rotate + 90) % 360;
+            self.rotate = (self.rotate + rotAngle) % 360;
 
             //顺时针旋转90度
             /*for (int i = 0; i < self.slotOffset.Count; i++)
@@ -125,6 +125,26 @@ namespace ET
                 self.slotOffset[i] = new IntVector2(self.slotOffset[i].Y, -self.slotOffset[i].X);
             }*/
 
+            EventSystem.Instance.Publish(self.Scene(), new PuzzleRotate { puzzle = self });
+        }
+
+        /// <summary>
+        /// 数据层旋转，不执行view层旋转，用于判断旋转之后的Puzzle放置是否合法
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="rotAngle"></param>
+        public static void RotatePuzzleData(this Puzzle self, int rotAngle)
+        {
+            self.rotate = (self.rotate + rotAngle) % 360;
+        }
+
+        /// <summary>
+        /// View层旋转，请确认旋转后合法之后再执行此逻辑
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="rotAngle"></param>
+        public static void RotatePuzzleView(this Puzzle self)
+        {
             EventSystem.Instance.Publish(self.Scene(), new PuzzleRotate { puzzle = self });
         }
 

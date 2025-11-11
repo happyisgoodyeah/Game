@@ -35,11 +35,10 @@ namespace ET
                 {
                     //选中状态后处于鼠标单击事件会触发旋转2逻辑
                     //并且重置所有当前状态
+                    self.StartRotate(currentSelectedEntity);
                     currentSelectedEntity = null;
                     self.IsClickDown = false;
                     self.IsDragging = false;
-
-                    self.StartRotate(1);
                 }
             }
             else if (self.IsDragging)
@@ -48,7 +47,7 @@ namespace ET
                 //处于单击选中状态时，鼠标右键（android为Input.GetTouch）处理旋转逻辑
                 if (Input.GetMouseButtonDown(1))
                 {
-                    self.StartRotate(0);
+                    self.StartRotate(currentSelectedEntity);
                 }
 
                 //鼠标释放，且命中物体不是正在拖拽就是点击事件
@@ -123,12 +122,12 @@ namespace ET
             return Vector3.zero;
         }
 
-        public static void StartRotate(this DragComponent self, int RotType)
+        public static void StartRotate(this DragComponent self, Entity currEntity)
         {
             Log.Info($"Rotate 90 .");
             // 发布鼠标点击事件 -- 目前默认点一下旋转90度
-            EventSystem.Instance.Publish(currentSelectedEntity.Root(),
-                new ClickRotateEvent() { Entity = currentSelectedEntity, RotType = RotType, Angle = 90 });
+            EventSystem.Instance.Publish(currEntity.Root(),
+                new ClickRotateEvent() { Entity = currEntity, Angle = 90 });
         }
 
         public static void StartDrag(this DragComponent self, Entity entity, Vector3 hitPoint)
@@ -136,7 +135,6 @@ namespace ET
             //进入拖拽状态取消isClickDown状态
             //绑定当前拖拽实体
             currentSelectedEntity = entity;
-
             self.IsClickDown = false;
             self.IsDragging = true;
             self.StartWorldPos = hitPoint;
