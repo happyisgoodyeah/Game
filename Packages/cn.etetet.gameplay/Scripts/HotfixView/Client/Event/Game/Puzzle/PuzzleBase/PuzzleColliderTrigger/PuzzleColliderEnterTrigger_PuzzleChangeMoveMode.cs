@@ -27,8 +27,11 @@ namespace ET
                 //改为吸附模式 先对齐对应的slot
                 if (puzzle.moveMode == PuzzleMoveModeType.Normal)
                 {
-                    puzzleView.tweener?.Kill();
-                    puzzleView.tweener = null;
+                    //切换为吸附模式
+                    puzzle.ChangeMoveMode(PuzzleMoveModeType.ReadyAdsorption);
+                    
+                    // puzzleView.tweener?.Kill();
+                    // puzzleView.tweener = null;
 
                     var collider = data.collider;
 
@@ -57,13 +60,17 @@ namespace ET
                     //拼图偏移量
                     var puzzleSlotOffset = targetPosition - puzzleSlotView.transform.position;
                     
-                    //todo dotwwen位移 暂时直接位移
-                    //完成吸附模式前的复位
-                    puzzleView.transform.position += puzzleSlotOffset;
-                    puzzleView.endPos = puzzleView.transform.position;
+                    puzzleView.Move(puzzleView.transform.position + puzzleSlotOffset , 0.05f , true);
+
+                    await scene.GetComponent<ObjectWait>().Wait<PuzzleMoveEndEvent>();
                     
                     //切换为吸附模式
                     puzzle.ChangeMoveMode(PuzzleMoveModeType.Adsorption);
+                    
+                    // //拼图偏移量
+                    // //完成吸附模式前的复位
+                    // puzzleView.transform.position += puzzleSlotOffset;
+                    // puzzleView.endPos = puzzleView.transform.position;
                 }
             }
             await ETTask.CompletedTask;

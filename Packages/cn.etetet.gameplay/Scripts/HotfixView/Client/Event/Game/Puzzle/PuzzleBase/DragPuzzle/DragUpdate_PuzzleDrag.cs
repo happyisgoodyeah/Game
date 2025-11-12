@@ -30,31 +30,18 @@ namespace ET
                         puzzleView.startPos = puzzleView.endPos;
                         puzzleView.endPos = data.CurrentPosition;
 
-                        if (puzzleView.tweener == null)
-                        {
-                            puzzleView.tweener = DOTween.To(() => puzzleView.transform.position,
-                                        pos => { puzzleView.transform.position = pos; },
-                                        puzzleView.endPos,
-                                        0.1f)
-                                    .SetEase(Ease.Linear)
-                                    .OnUpdate(() =>
-                                    {
-                                        puzzleView.tweener.ChangeEndValue(puzzleView.endPos, 0.1f, true).Play();
-                                        if (Vector2.Distance(puzzleView.transform.position, puzzleView.endPos) <= 0.01f)
-                                        {
-                                            EventSystem.Instance.Publish(scene, new PuzzleMoveEndEvent() { puzzle = puzzle });
-                                        }
-                                    });
-                        }
+                        puzzleView.Move(data.CurrentPosition);
                     }
                 }
-                else if (puzzle.moveMode == PuzzleMoveModeType.Adsorption) //吸附模式
+                else if (puzzle.moveMode == PuzzleMoveModeType.Adsorption || puzzle.moveMode == PuzzleMoveModeType.ReadyAdsorption) //吸附模式
                 {
                     //原点slot
                     var slot = puzzle.slots[0].Entity;
                     var slotView = slot.GetComponent<SlotView>();
                     var grid = puzzle.GetParent<Grid>();
-
+                    var gridView = grid.GetComponent<GridView>();
+                    
+                    puzzle.isInGrid = gridView.GetPuzzleInGrid(puzzle);
                     //吸附模式优先判断拼图是否在grid内 若拼图不在grid内 则鼠标位置不能超过 当前拼图对应的操作范围 否则取消吸附模式 进入普通移动模式
                     if (!puzzle.isInGrid)
                     {
@@ -63,11 +50,14 @@ namespace ET
                         var gridSizeX = gridSize.X * grid.cellSize / 2f;
                         var gridSizeY = gridSize.Y * grid.cellSize / 2f;
 
+                        var disX = (range.xRange.Y - range.xRange.X) + 1;
+                        var disY = (range.yRange.Y - range.yRange.X) + 1;
+                        
                         //此时的rangeX.X代表minX rangeX.Y代表maxY
-                        var leftRange = -gridSizeX - (range.xRange.Y / 2f + 0.5f) * grid.cellSize;
-                        var rightRange = gridSizeX + (range.xRange.X /2f + 0.5f) * grid.cellSize;
-                        var topRange = gridSizeY + (range.yRange.X / 2f + 0.5f) * grid.cellSize;
-                        var downRange = -gridSizeY - (range.yRange.Y / 2f + 0.5f) * grid.cellSize;
+                        var leftRange = -gridSizeX - (disX / 2f) * grid.cellSize;
+                        var rightRange = gridSizeX + (disX / 2f) * grid.cellSize;
+                        var topRange = gridSizeY + (disY / 2f) * grid.cellSize;
+                        var downRange = -gridSizeY - (disY / 2f) * grid.cellSize;
 
                         var xCan = data.CurrentPosition.x >= leftRange && data.CurrentPosition.x <= rightRange;
                         var yCan = data.CurrentPosition.y >= downRange && data.CurrentPosition.y <= topRange;
@@ -93,7 +83,7 @@ namespace ET
                     {
                         //获取对应方向
                         var dir = Utility.GetSnapDirection(puzzleView.endPos, data.CurrentPosition , true);
-                        Log.Error("方向" + dir);
+                        //Log.Error("方向" + dir);
                         if (dir == SnapDirection.UpLeft || dir == SnapDirection.DownLeft) dir = SnapDirection.Left;
                         if (dir == SnapDirection.UpRight || dir == SnapDirection.DownRight) dir = SnapDirection.Right;
                         var dirOffset = slot.GetDirOffset(dir);
@@ -101,9 +91,9 @@ namespace ET
                         //目标pos
                         var targetPos = new Vector3(puzzleView.endPos.x + dirOffset.x * r, puzzleView.endPos.y + dirOffset.y * r, 0);
 
-                        Log.Error("当前endpos" + puzzleView.endPos);
-                        Log.Error("当前targetPos" + targetPos);
-                        Log.Error("--------------------");
+                        // Log.Error("当前endpos" + puzzleView.endPos);
+                        // Log.Error("当前targetPos" + targetPos);
+                        // Log.Error("--------------------");
 
                         //目标pos不等于当前移动目标 需要更新
                         if (targetPos != puzzleView.endPos)
@@ -112,24 +102,8 @@ namespace ET
                             puzzleView.startPos = puzzleView.endPos;
                             //更新endPos
                             puzzleView.endPos = targetPos;
-
-                            if (puzzleView.tweener == null)
-                            {
-                                puzzleView.tweener = DOTween.To(() => puzzleView.transform.position,
-                                            pos => { puzzleView.transform.position = pos; },
-                                            puzzleView.endPos,
-                                            0.1f)
-                                        .SetEase(Ease.Linear)
-                                        .OnUpdate(() =>
-                                        {
-                                            puzzleView.tweener.ChangeEndValue(puzzleView.endPos, 0.1f, true).Play();
-                                            if (Vector2.Distance(puzzleView.transform.position, puzzleView.endPos) <= 0.01f)
-                                            {
-                                                Debug.LogError("移动完成一次");
-                                                EventSystem.Instance.Publish(scene, new PuzzleMoveEndEvent() { puzzle = puzzle });
-                                            }
-                                        });
-                            }
+                            
+                            puzzleView.Move(targetPos , 0.05f , true);
                         }
                     }
                 }

@@ -1,10 +1,11 @@
 namespace ET
 {
     [EntitySystemOf(typeof(Slot))]
+    [FriendOfAttribute(typeof(ET.Puzzle))]
     public static partial class SlotSystem
     {
         [EntitySystem]
-        private static void Awake(this ET.Slot self, int configId, ET.IntVector2 position)
+        private static void Awake(this ET.Slot self, int configId, IntVector2 position)
         {
             self.configId = configId;
             self.position = position;
@@ -20,7 +21,7 @@ namespace ET
         /// </summary>
         /// <param name="direction"></param>
         /// <returns></returns>
-        public static (int x, int y) GetDirOffset(this ET.Slot self , SnapDirection direction)
+        public static (int x, int y) GetDirOffset(this ET.Slot self, SnapDirection direction)
         {
             switch (direction)
             {
@@ -34,6 +35,16 @@ namespace ET
                 case SnapDirection.DownLeft: return (-1, -1);
                 default: return (0, 0);
             }
+        }
+
+        /// <summary>
+        /// 设置当前Puzzle
+        /// </summary>
+        public static void SetPuzzle(this ET.Slot self, Puzzle puzzle)
+        {
+            puzzle.bindSlots.Add(self);
+            self.puzzleRef = puzzle;
+            EventSystem.Instance.Publish(self.Root(), new SlotSetPuzzle { slot = self });
         }
     }
 }

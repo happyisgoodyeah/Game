@@ -7,22 +7,22 @@ namespace ET
     /// </summary>
     public static class ETTaskHelperExtend
     {
-        public static async ETTask WaitUntil(this Entity self, Func<bool> func)
-        {
-            while (true)
-            {
-                await self.Root().GetComponent<TimerComponent>().WaitFrameAsync();
-                if (func == null || func.Invoke()) return;
-            }
-        }
-
-        public static async ETTask WaitUntil(this TimerComponent self, Func<bool> func)
-        {
-            while (true)
-            {
-                await self.WaitFrameAsync();
-                if (func == null || func.Invoke()) return;
-            }
-        }
+        // public static async ETTask WaitUntil(this Entity self, Func<bool> func)
+        // {
+        //     while (true)
+        //     {
+        //         await self.Root().GetComponent<TimerComponent>().WaitFrameAsync();
+        //         if (func == null || func.Invoke()) return;
+        //     }
+        // }
+        //
+        // public static async ETTask WaitUntil(this TimerComponent self, Func<bool> func)
+        // {
+        //     while (true)
+        //     {
+        //         await self.WaitFrameAsync();
+        //         if (func == null || func.Invoke()) return;
+        //     }
+        // }
     }
 }

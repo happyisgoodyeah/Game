@@ -22,6 +22,7 @@ namespace ET
             // puzzleView.startPos = Vector3.zero;
             // puzzleView.endPos = Vector3.zero;
             
+            scene.GetComponent<ObjectWait>().Notify(new PuzzleMoveEndEvent());
             await ETTask.CompletedTask;
         }
     }    

@@ -34,6 +34,16 @@ namespace ET
             return o;
         }
 
+        public static object Deserialize(Type type, byte[] bytes , ref object o)
+        {
+            MemoryPackSerializer.Deserialize(type, bytes , ref o);
+            if (o is ISupportInitialize supportInitialize)
+            {
+                supportInitialize.EndInit();
+            }
+            return o;
+        }
+        
         public static object Deserialize(Type type, byte[] bytes, int index, int count, ref object o)
         {
             MemoryPackSerializer.Deserialize(type, bytes.AsSpan(index, count), ref o);

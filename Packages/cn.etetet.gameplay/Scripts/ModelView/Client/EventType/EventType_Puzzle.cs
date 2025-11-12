@@ -3,7 +3,7 @@ using UnityEngine;
 namespace ET
 {
     /// <summary>
-    /// 拖拽拼图结束事件
+    /// 拖拽拼图开始事件
     /// </summary>
     public struct DragPuzzleStartEvent
     {
@@ -32,8 +32,9 @@ namespace ET
     /// <summary>
     /// 拼图移动结束事件
     /// </summary>
-    public struct PuzzleMoveEndEvent
+    public struct PuzzleMoveEndEvent : IWaitType
     {
         public Puzzle puzzle;
+        public int Error { get; set; }
     }
 }

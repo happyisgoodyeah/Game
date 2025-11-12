@@ -60,22 +60,5 @@ namespace ET
             }
             return false;
         }
-
-        /// <summary>
-        /// 设置当前Puzzle
-        /// </summary>
-        public static void SetPuzzle(this ET.SlotView self , Puzzle puzzle)
-        {
-            //当前已经绑定有Puzzle
-            var nowPuzzle = self.GetParent<Slot>().puzzleRef.Entity;
-            if (nowPuzzle != null)
-            {
-                nowPuzzle.GetComponent<PuzzleView>().BackToOriginPosition();
-            }
-            puzzle.ResetBindSlots();
-            puzzle.slots.Add(self.GetParent<Slot>());
-            self.GetParent<Slot>().puzzleRef = puzzle;
-            EventSystem.Instance.Publish(self.Root() , new SlotSetPuzzle{slot = self.GetParent<Slot>()});
-        }
     }
 }

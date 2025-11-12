@@ -38,7 +38,7 @@ namespace ET.Client
         private static void OnEventOpenSettingInvoke(this GameMainPanelPanelComponent self)
         {
             self.setSettingBtnState(false);
-            EnterSettionPanel(self);
+            EnterSettionPanel(self).NoContext();
         }
 
         #endregion YIUIEvent结束

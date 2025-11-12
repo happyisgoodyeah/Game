@@ -16,7 +16,8 @@ namespace ET.Client
         [EntitySystem]
         private static void YIUIInitialize(this ArchivePanelComponent self)
         {
-             InitShow(self);
+             InitShow(self).NoContext();
+             //self.AddComponent<ArchiveCompont>();
         }
 
         [EntitySystem]
