@@ -11,12 +11,14 @@ namespace ET.Client
     /// Desc
     /// </summary>
     [FriendOf(typeof(ArchivePanelComponent))]
+    [FriendOf(typeof(ArchiveCompont))]
     public static partial class ArchivePanelComponentSystem
     {
         [EntitySystem]
         private static void YIUIInitialize(this ArchivePanelComponent self)
         {
              InitShow(self).NoContext();
+             //self.AddComponent<ArchiveCompont>();
         }
 
         [EntitySystem]
