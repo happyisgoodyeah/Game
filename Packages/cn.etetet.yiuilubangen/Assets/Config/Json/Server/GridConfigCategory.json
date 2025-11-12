@@ -4,10 +4,9 @@
     "Name": "第一关",
     "X": 3,
     "Y": 3,
-    "PuzzleCount": 5,
+    "PuzzleCount": 4,
     "PrefabPath": "Grid/Grid1001",
     "PuzzleList": [
-      1001,
       1001,
       1001,
       1002,

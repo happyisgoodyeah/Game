@@ -47,7 +47,8 @@ namespace ET
             {
                 for (int i = 0; i < self.gridSize.X; i++)
                 {
-                    var slot = self.GetComponent<SlotSpawnComponent>().GridSpawnSlot(1001, new IntVector2(i, j));
+                    //todo 修改生成逻辑
+                    var slot = self.GetComponent<SlotSpawnComponent>().GridSpawnSlot( (i == self.gridSize.X - 1 && j == self.gridSize.Y - 1) ? 1002 : 1001, new IntVector2(i, j));
                     self.slotDic.TryAdd(new IntVector2(i, j), slot);
                     //最外围一圈判定可吸附
                     if (i == 0 || j == 0 || i == self.gridSize.X - 1 || j == self.gridSize.Y - 1)
@@ -207,12 +208,23 @@ namespace ET
             {
                 // 检查是否超出网格边界
                 if (pos.X < 0 || pos.X >= self.gridSize.X || pos.Y < 0 || pos.Y >= self.gridSize.Y)
+                {
                     return false;
+                }
 
                 Slot slot = self.GetSlot(pos);
-                //slot上是puzzle自己同样能够旋转
+                
+                //检测绑定的puzzle不为当前判定的puzzle
                 if (slot == null || (slot.puzzleRef.Entity != null && slot.puzzleRef.Entity != puzzle))
+                {
+                    return false;    
+                }
+                
+                //检测slot是否可以绑定
+                if (!slot.GetComponent<SlotStateComponent>().GetCanPlace())
+                {
                     return false;
+                }
             }
 
             return true;

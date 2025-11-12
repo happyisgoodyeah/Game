@@ -9,6 +9,7 @@ namespace ET
         {
             self.configId = configId;
             self.position = position;
+            self.AddComponent<SlotStateComponent,bool>(self.Config().AllowPlace);
         }
 
         public static SlotConfig Config(this Slot self)
