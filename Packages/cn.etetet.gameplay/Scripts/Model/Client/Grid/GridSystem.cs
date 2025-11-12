@@ -210,8 +210,7 @@ namespace ET
                     return false;
 
                 Slot slot = self.GetSlot(pos);
-                /*if (slot == null || slot.puzzleRef.Entity != null)
-                    return false;*/
+                //slot上是puzzle自己同样能够旋转
                 if (slot == null || (slot.puzzleRef.Entity != null && slot.puzzleRef.Entity != puzzle))
                     return false;
             }

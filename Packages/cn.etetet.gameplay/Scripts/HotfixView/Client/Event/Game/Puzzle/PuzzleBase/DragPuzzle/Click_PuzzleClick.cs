@@ -68,6 +68,8 @@ namespace ET
                         //先将数据层转回去
                         puzzle.RotatePuzzleData(-90);
                         Log.Info("rotate illegality");
+
+                        puzzle.ShakePuzzleView();
                     }
                 }
             }

@@ -20,7 +20,10 @@ namespace ET
             puzzleView.tweener?.Kill();
             puzzleView.tweener = null;
             // puzzle.ChangeMoveMode(PuzzleMoveModeType.Normal);
-            
+
+            //将图层层级降回去
+            puzzleView.ChangePuzzleLayOut(1);
+
             //拖拽结束的位置
             var worldPosition = data.worldPosition;
             FloatVector2 position = new FloatVector2(worldPosition.x, worldPosition.y);

@@ -3,7 +3,7 @@ using UnityEngine;
 namespace ET
 {
     /// <summary>
-    /// 拖拽拼图结束事件
+    /// 拖拽拼图开始事件
     /// </summary>
     public struct DragPuzzleStartEvent
     {

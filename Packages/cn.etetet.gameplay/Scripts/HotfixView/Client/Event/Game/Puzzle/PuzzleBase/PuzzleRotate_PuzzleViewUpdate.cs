@@ -11,7 +11,7 @@ namespace ET
         {
             PuzzleView puzzleView = a.puzzle.GetComponent<PuzzleView>();
             //puzzleView.transform.eulerAngles = new Vector3(0f , 0f , a.puzzle.rotate);
-            puzzleView.transform.DOLocalRotate(new Vector3(0f, 0f, a.puzzle.rotate), 0.05f);
+            puzzleView.transform.DOLocalRotate(new Vector3(0f, 0f, a.puzzle.rotate), 0.06f);
             await ETTask.CompletedTask;
         }
     }    

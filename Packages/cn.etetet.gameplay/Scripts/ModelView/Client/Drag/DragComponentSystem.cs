@@ -25,7 +25,6 @@ namespace ET
                 Vector3 currMousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
 
                 float dis = Vector3.Distance(self.DragStartPos, currMousePos);
-                //Debug.Log(dis);
                 if (dis > 0.5f)
                 {
                     //触发会自动解开ClickDown选中状态，不会再次进入该逻辑当中

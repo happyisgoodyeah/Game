@@ -149,6 +149,16 @@ namespace ET
         }
 
         /// <summary>
+        /// View层摇晃不旋转，请确认旋转非合法之后再执行此逻辑
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="rotAngle"></param>
+        public static void ShakePuzzleView(this Puzzle self)
+        {
+            EventSystem.Instance.Publish(self.Scene(), new PuzzleShake { puzzle = self });
+        }
+
+        /// <summary>
         /// 更改移动模式
         /// </summary>
         /// <param name="self"></param>

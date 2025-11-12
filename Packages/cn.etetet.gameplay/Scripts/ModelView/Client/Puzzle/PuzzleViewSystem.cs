@@ -51,6 +51,11 @@ namespace ET
             puzzle.rotate = 0;
         }
 
+        public static void ChangePuzzleLayOut(this ET.PuzzleView self, int lay)
+        {
+            self.transform.GetComponent<SpriteRenderer>().sortingOrder = lay;
+        }
+
         /// <summary>
         /// 根据碰撞点返回对应的SlotView
         /// </summary>
