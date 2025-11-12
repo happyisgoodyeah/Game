@@ -11,7 +11,6 @@ namespace ET.Client
     /// Desc
     /// </summary>
     [FriendOf(typeof(ArchivePanelComponent))]
-    [FriendOf(typeof(ArchiveCompont))]
     public static partial class ArchivePanelComponentSystem
     {
         [EntitySystem]
