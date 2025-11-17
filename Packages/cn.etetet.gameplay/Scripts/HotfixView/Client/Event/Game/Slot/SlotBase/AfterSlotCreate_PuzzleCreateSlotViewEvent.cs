@@ -11,12 +11,12 @@ namespace ET
         {
             Slot slot = data.slot;
             
-            //生成预制体
-            var bundleObj = await ResourcesLoaderHelper.LoadAssetPrefabAsync<GameObject>(scene, slot.Config().PrefabPath);
-
             if (slot.GetParent<Puzzle>() != null)
             {
-                var Obj = slot.GetParent<Puzzle>().GetComponent<PuzzleView>().transform.GetChild(data.count);
+                //生成预制体
+                var bundleObj = await ResourcesLoaderHelper.LoadAssetPrefabAsync<GameObject>(scene, slot.Config().PrefabPath);
+                await ETTaskHelperExtend.WaitUntil(slot , () => slot.GetParent<Puzzle>().GetComponent<PuzzleView>() != null);
+                var Obj = UnityEngine.Object.Instantiate(bundleObj , slot.GetParent<Puzzle>().GetComponent<PuzzleView>().transform);
             
                 //生成View
                 var slotView = slot.AddComponent<SlotView,Transform>(Obj.transform);

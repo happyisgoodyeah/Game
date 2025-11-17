@@ -12,7 +12,7 @@ namespace ET
         }
 
         /// <summary>
-        /// 生成Slot
+        /// Grid生成Slot
         /// </summary>
         /// <param name="self"></param>
         /// <param name="configId"></param>
@@ -21,12 +21,12 @@ namespace ET
         {
             var grid = self.GetParent<Grid>();
             var slot = grid.AddChild<Slot, int , IntVector2>(configId , spawnPosition);
-            EventSystem.Instance.Publish(self.Scene(), new AfterCreateSlot(){slot = slot , count = grid.GetSlotCount()});
+            EventSystem.Instance.Publish(self.Scene(), new AfterCreateSlot(){slot = slot});
             return slot;
         }
         
         /// <summary>
-        /// 生成Puzzle
+        /// Puzzle生成Slot
         /// </summary>
         /// <param name="self"></param>
         /// <param name="configId"></param>
@@ -36,7 +36,7 @@ namespace ET
             var puzzle = self.GetParent<Puzzle>();
             var slot = puzzle.AddChild<Slot, int , IntVector2>(configId , offset);
             puzzle.slotOffset.Add(offset);
-            EventSystem.Instance.Publish(self.Scene(), new AfterCreateSlot(){slot = slot , count = puzzle.slots.Count});
+            EventSystem.Instance.Publish(self.Scene(), new AfterCreateSlot(){slot = slot});
             return slot;
         }
     }

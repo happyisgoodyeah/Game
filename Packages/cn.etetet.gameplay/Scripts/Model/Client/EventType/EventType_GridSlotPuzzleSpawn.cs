@@ -15,7 +15,6 @@ namespace ET
     public struct AfterCreatePuzzle
     {
         public Puzzle puzzle;
-        public int index;
     }
     
     /// <summary>
@@ -24,6 +23,5 @@ namespace ET
     public struct AfterCreateSlot
     {
         public Slot slot;
-        public int count;
     }
 }

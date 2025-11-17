@@ -11,7 +11,7 @@ namespace ET
             var grid = scene.AddChild<Grid, int>(1001);
             await EventSystem.Instance.PublishAsync(scene, new AfterCreateGrid(){grid = grid});
             
-            grid.SpawnSlot();
+            await grid.SpawnSlot();
             grid.SpawnPuzzle();
             
             await ETTask.CompletedTask;

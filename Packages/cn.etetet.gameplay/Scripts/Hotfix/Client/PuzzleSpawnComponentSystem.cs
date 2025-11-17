@@ -18,12 +18,12 @@ namespace ET
         /// <param name="puzzleId">puzzleConfig的id</param>
         /// <param name="index">生成的puzzle的下标 用于对应获取gameobject</param>
         /// <returns></returns>
-        public static Puzzle SpawnPuzzle(this PuzzleSpawnComponent self, int puzzleId , int index)
+        public static Puzzle SpawnPuzzle(this PuzzleSpawnComponent self, int puzzleId , FloatVector2 viewPosition)
         {
             var grid = self.GetParent<Grid>();
-            var puzzle = self.GetParent<Grid>().AddChild<Puzzle, int , int>(puzzleId , self.GetParent<Grid>().GetPuzzleCount());
+            var puzzle = self.GetParent<Grid>().AddChild<Puzzle , int , FloatVector2>(puzzleId , viewPosition);
             grid.PuzzleDic.TryAdd(grid.InstanceId, puzzle);
-            EventSystem.Instance.Publish(self.Scene(), new AfterCreatePuzzle(){puzzle = puzzle , index = index});
+            EventSystem.Instance.Publish(self.Scene(), new AfterCreatePuzzle(){puzzle = puzzle});
             return puzzle;
         }
     }

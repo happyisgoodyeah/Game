@@ -23,7 +23,8 @@ namespace ET
             Y = _buf.ReadInt();
             PuzzleCount = _buf.ReadInt();
             PrefabPath = _buf.ReadString();
-            {int n0 = System.Math.Min(_buf.ReadSize(), _buf.Size);PuzzleList = new System.Collections.Generic.List<int>(n0);for(var i0 = 0 ; i0 < n0 ; i0++) { int _e0;  _e0 = _buf.ReadInt(); PuzzleList.Add(_e0);}}
+            {int n0 = System.Math.Min(_buf.ReadSize(), _buf.Size);PuzzleList = new System.Collections.Generic.List<puzzle>(n0);for(var i0 = 0 ; i0 < n0 ; i0++) { puzzle _e0;  _e0 = puzzle.Deserializepuzzle(_buf); PuzzleList.Add(_e0);}}
+            {int n0 = System.Math.Min(_buf.ReadSize(), _buf.Size);SlotList = new System.Collections.Generic.List<int>(n0);for(var i0 = 0 ; i0 < n0 ; i0++) { int _e0;  _e0 = _buf.ReadInt(); SlotList.Add(_e0);}}
 
             EndInit();
         }
@@ -58,15 +59,20 @@ namespace ET
         /// </summary>
         public readonly string PrefabPath;
         /// <summary>
-        /// 拼图IdList
+        /// id
         /// </summary>
-        public readonly System.Collections.Generic.List<int> PuzzleList;
+        public readonly System.Collections.Generic.List<puzzle> PuzzleList;
+        /// <summary>
+        /// id
+        /// </summary>
+        public readonly System.Collections.Generic.List<int> SlotList;
     
         public const int __ID__ = -2067346872;
         public override int GetTypeId() => __ID__;
 
         public  void ResolveRef()
         {
+            foreach (var _e in PuzzleList) { _e?.ResolveRef(); }
             EndRef();
         }
 
@@ -80,6 +86,7 @@ namespace ET
             + "PuzzleCount:" + PuzzleCount + ","
             + "PrefabPath:" + PrefabPath + ","
             + "PuzzleList:" + Luban.StringUtil.CollectionToString(PuzzleList) + ","
+            + "SlotList:" + Luban.StringUtil.CollectionToString(SlotList) + ","
             + "}";
         }
 

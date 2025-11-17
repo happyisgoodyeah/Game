@@ -3,7 +3,7 @@ using ET;
 using UnityEditor;
 using UnityEngine;
 
-namespace Wingjoy.Git
+namespace ET
 {
     [EnableClass]
     public class Git
