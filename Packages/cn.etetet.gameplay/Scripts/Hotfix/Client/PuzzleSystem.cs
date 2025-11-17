@@ -9,10 +9,10 @@ namespace ET
     public static partial class PuzzleSystem
     {
         [EntitySystem]
-        private static void Awake(this ET.Puzzle self, int configId, int positionId)
+        private static void Awake(this ET.Puzzle self, int configId , FloatVector2 viewPosition)
         {
             self.configId = configId;
-            self.positionIndex = positionId;
+            self.viewPosition = viewPosition;
             self.Init();
         }
 
@@ -189,21 +189,5 @@ namespace ET
 
             return (new IntVector2(minX, maxX), new IntVector2(minY, maxY));
         }
-    }
-
-    /// <summary>
-    /// 吸附方向枚举
-    /// </summary>
-    public enum SnapDirection
-    {
-        None,
-        Up,
-        Down,
-        Left,
-        Right,
-        UpRight,
-        UpLeft,
-        DownRight,
-        DownLeft,
     }
 }

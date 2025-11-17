@@ -41,13 +41,17 @@ namespace ET
         /// 生成slot
         /// </summary>
         /// <param name="self"></param>
-        public static void SpawnSlot(this Grid self)
+        public static async ETTask SpawnSlot(this Grid self)
         {
+            var config = self.Config();
             for (int j = 0; j < self.gridSize.Y; j++)
             {
                 for (int i = 0; i < self.gridSize.X; i++)
                 {
-                    var slot = self.GetComponent<SlotSpawnComponent>().GridSpawnSlot(1001, new IntVector2(i, j));
+                    var index = i + j * self.gridSize.Y;
+                    var slotConfig = config.SlotList[index];
+                    var slot = self.GetComponent<SlotSpawnComponent>().GridSpawnSlot(config.SlotList[index] , new IntVector2(i, j));
+                    await self.Root().GetComponent<TimerComponent>().WaitFrameAsync();
                     self.slotDic.TryAdd(new IntVector2(i, j), slot);
                     //最外围一圈判定可吸附
                     if (i == 0 || j == 0 || i == self.gridSize.X - 1 || j == self.gridSize.Y - 1)
@@ -69,9 +73,11 @@ namespace ET
         /// <param name="self"></param>
         public static void SpawnPuzzle(this Grid self)
         {
-            for (int i = 0; i < self.Config().PuzzleCount; i++)
+            var config = self.Config();
+            for (int i = 0; i < config.PuzzleCount; i++)
             {
-                var puzzle = self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(self.Config().PuzzleList[i], i);
+                var puzzleConfig = config.PuzzleList[i];
+                var puzzle = self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(puzzleConfig.Id , new FloatVector2(puzzleConfig.Trans.X , puzzleConfig.Trans.Y));
                 self.PuzzleDic.TryAdd(puzzle.InstanceId, puzzle);
             }
         }
@@ -207,12 +213,23 @@ namespace ET
             {
                 // 检查是否超出网格边界
                 if (pos.X < 0 || pos.X >= self.gridSize.X || pos.Y < 0 || pos.Y >= self.gridSize.Y)
+                {
                     return false;
+                }
 
                 Slot slot = self.GetSlot(pos);
-                //slot上是puzzle自己同样能够旋转
+                
+                //检测绑定的puzzle不为当前判定的puzzle
                 if (slot == null || (slot.puzzleRef.Entity != null && slot.puzzleRef.Entity != puzzle))
+                {
+                    return false;    
+                }
+                
+                //检测slot是否可以绑定
+                if (!slot.GetComponent<SlotStateComponent>().GetCanPlace())
+                {
                     return false;
+                }
             }
 
             return true;

@@ -22,6 +22,7 @@ namespace ET
             X = _buf.ReadInt();
             Y = _buf.ReadInt();
             PrefabPath = _buf.ReadString();
+            AllowPlace = _buf.ReadBool();
 
             EndInit();
         }
@@ -51,6 +52,10 @@ namespace ET
         /// 预制体路径
         /// </summary>
         public readonly string PrefabPath;
+        /// <summary>
+        /// 是否允许放置
+        /// </summary>
+        public readonly bool AllowPlace;
     
         public const int __ID__ = 1011367680;
         public override int GetTypeId() => __ID__;
@@ -68,6 +73,7 @@ namespace ET
             + "X:" + X + ","
             + "Y:" + Y + ","
             + "PrefabPath:" + PrefabPath + ","
+            + "AllowPlace:" + AllowPlace + ","
             + "}";
         }
 

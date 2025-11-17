@@ -5,17 +5,12 @@ using System.Collections.Generic;
 namespace ET
 {
     [ChildOf(typeof(Grid))]
-    public partial class Puzzle : Entity, IAwake<int, int>
+    public partial class Puzzle : Entity, IAwake<int , FloatVector2>
     {
         /// <summary>
         /// 配置ConfigId
         /// </summary>
         public int configId;
-
-        /// <summary>
-        /// 下标位置 先这样随便写了
-        /// </summary>
-        public int positionIndex;
 
         /// <summary>
         /// 当前拼图旋转
@@ -36,6 +31,11 @@ namespace ET
         /// 原点slot
         /// </summary>
         public Slot originSlot => slots[0];
+        
+        /// <summary>
+        /// 场景初始坐标
+        /// </summary>
+        public FloatVector2 viewPosition;
         
         /// <summary>
         /// 当前puzzle的slot
@@ -66,5 +66,22 @@ namespace ET
         Adsorption,
         //复位
         ReadyAdsorption,
+    }
+    
+    
+    /// <summary>
+    /// 吸附方向枚举
+    /// </summary>
+    public enum SnapDirection
+    {
+        None,
+        Up,
+        Down,
+        Left,
+        Right,
+        UpRight,
+        UpLeft,
+        DownRight,
+        DownLeft,
     }
 }
