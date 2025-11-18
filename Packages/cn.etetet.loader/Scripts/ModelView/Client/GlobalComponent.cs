@@ -9,6 +9,7 @@ namespace ET
         public Transform Unit { get; set; }
         public Transform UI;
         public Transform Grid { get; set; }
+        public Transform Audio { get; set; }
 
         public GlobalConfig GlobalConfig { get; set; }
     }
