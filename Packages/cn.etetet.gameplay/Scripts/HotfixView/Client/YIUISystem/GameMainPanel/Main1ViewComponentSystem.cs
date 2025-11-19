@@ -47,6 +47,13 @@ namespace ET.Client
             OpenArchivePanel().NoContext();
         }
 
+        
+        [YIUIInvoke(Main1ViewComponent.OnEventExitGameInvoke)]
+        private static void OnEventExitGameInvoke(this Main1ViewComponent self)
+        {
+            Log.Info("Exit");
+            Application.Quit();
+        }
         #endregion YIUIEvent结束>
 
         private static async ETTask<bool> ContinueGame(this Main1ViewComponent main1View)

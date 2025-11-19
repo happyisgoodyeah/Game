@@ -40,6 +40,8 @@ namespace ET.Client
             self.u_EventArchiveEnterHandle = self.u_EventArchiveEnter.Add(self,Main1ViewComponent.OnEventArchiveEnterInvoke);
             self.u_EventContinueGame = self.UIBase.EventTable.FindEvent<UIEventP0>("u_EventContinueGame");
             self.u_EventContinueGameHandle = self.u_EventContinueGame.Add(self,Main1ViewComponent.OnEventContinueGameInvoke);
+            self.u_EventExitGame = self.UIBase.EventTable.FindEvent<UIEventP0>("u_EventExitGame");
+            self.u_EventExitGameHandle = self.u_EventExitGame.Add(self,Main1ViewComponent.OnEventExitGameInvoke);
 
         }
     }
