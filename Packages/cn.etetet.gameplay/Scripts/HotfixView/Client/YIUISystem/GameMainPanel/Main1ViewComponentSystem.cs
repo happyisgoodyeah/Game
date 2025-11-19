@@ -51,8 +51,11 @@ namespace ET.Client
         [YIUIInvoke(Main1ViewComponent.OnEventExitGameInvoke)]
         private static void OnEventExitGameInvoke(this Main1ViewComponent self)
         {
-            Log.Info("Exit");
-            Application.Quit();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
         }
         #endregion YIUIEvent结束>
 
