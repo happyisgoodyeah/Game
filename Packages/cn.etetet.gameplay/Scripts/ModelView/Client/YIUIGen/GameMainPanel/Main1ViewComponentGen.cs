@@ -30,6 +30,9 @@ namespace ET.Client
         public UIEventP0 u_EventContinueGame;
         public UIEventHandleP0 u_EventContinueGameHandle;
         public const string OnEventContinueGameInvoke = "Main1ViewComponent.OnEventContinueGameInvoke";
+        public UIEventP0 u_EventExitGame;
+        public UIEventHandleP0 u_EventExitGameHandle;
+        public const string OnEventExitGameInvoke = "Main1ViewComponent.OnEventExitGameInvoke";
 
     }
 }
