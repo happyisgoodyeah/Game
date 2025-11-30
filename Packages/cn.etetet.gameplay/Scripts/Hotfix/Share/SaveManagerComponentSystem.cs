@@ -51,8 +51,8 @@ namespace ET
                 self.CurrentSaveData = await self.CreateNewSave("test");
             }
             
-            self.CurrentSaveData.GetPlayerData().UnlockedLevels.Add("1");
-            await self.SaveAsync(self.CurrentSaveData);
+            // self.CurrentSaveData.GetPlayerData().UnlockedLevels.Add("1");
+            // await self.SaveAsync(self.CurrentSaveData);
         }
         
         /// <summary>

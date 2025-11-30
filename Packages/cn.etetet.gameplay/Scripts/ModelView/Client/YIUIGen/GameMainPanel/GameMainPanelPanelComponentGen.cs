@@ -11,7 +11,8 @@ namespace ET.Client
     /// </summary>
     public enum EGameMainPanelPanelViewEnum
     {
-        Main1View = 1,
+        SelectLevelView = 1,
+        Main1View = 2,
     }
     /// <summary>
     /// 由YIUI工具自动创建 请勿修改

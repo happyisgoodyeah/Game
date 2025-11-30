@@ -38,9 +38,9 @@ namespace ET
 
         public static async ETTask PlayAudio(this AudioComponent self, FMOD type)
         {
-            var path = self.Config((int)type).Path;
-            self.audioSource.clip = await self.resourcesLoader.Entity.LoadAssetAsync<AudioClip>(path);
-            self.audioSource.Play();
+            // var path = self.Config((int)type).Path;
+            // self.audioSource.clip = await self.resourcesLoader.Entity.LoadAssetAsync<AudioClip>(path);
+            // self.audioSource.Play();
         }
     }
 }

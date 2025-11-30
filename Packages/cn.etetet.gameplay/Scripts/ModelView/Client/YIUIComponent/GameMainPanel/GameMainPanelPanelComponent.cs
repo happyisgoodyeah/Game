@@ -10,7 +10,7 @@ namespace ET.Client
     /// Date    2025.10.18
     /// Desc
     /// </summary>
-    public partial class GameMainPanelPanelComponent : Entity
+    public partial class GameMainPanelPanelComponent : Entity , IYIUIOpen<EGameMainPanelPanelViewEnum>
     {
 
     }

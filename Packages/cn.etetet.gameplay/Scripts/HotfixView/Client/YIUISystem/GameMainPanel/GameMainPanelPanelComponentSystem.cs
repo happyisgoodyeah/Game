@@ -15,8 +15,17 @@ namespace ET.Client
     public static partial class GameMainPanelPanelComponentSystem
     {
         [EntitySystem]
+        private static async ETTask<bool> YIUIOpen(this ET.Client.GameMainPanelPanelComponent self, ET.Client.EGameMainPanelPanelViewEnum viewEnum)
+        {
+            await self.UIPanel.OpenViewAsync(viewEnum.ToString());
+            return true;
+        }
+        
+        [EntitySystem]
         private static void YIUIInitialize(this GameMainPanelPanelComponent self)
         {
+            // 初始默认打开Main1View
+            self.UIPanel.OpenViewAsync<Main1ViewComponent>().NoContext();
         }
 
         [EntitySystem]
@@ -27,7 +36,6 @@ namespace ET.Client
         [EntitySystem]
         private static async ETTask<bool> YIUIOpen(this GameMainPanelPanelComponent self)
         {
-            self.u_ComSettingBtnButton.gameObject.SetActive(true);
             await ETTask.CompletedTask;
             return true;
         }
@@ -37,7 +45,7 @@ namespace ET.Client
         [YIUIInvoke(GameMainPanelPanelComponent.OnEventOpenSettingInvoke)]
         private static void OnEventOpenSettingInvoke(this GameMainPanelPanelComponent self)
         {
-            self.setSettingBtnState(false);
+            //self.setSettingBtnState(false);
             EnterSettionPanel(self).NoContext();
         }
 
@@ -47,7 +55,7 @@ namespace ET.Client
 
         private static async ETTask<bool> EnterSettionPanel(this GameMainPanelPanelComponent self)
         {
-            await self.UIPanel.OpenViewAsync<Main1ViewComponent>();
+            //await self.UIPanel.OpenViewAsync<Main1ViewComponent>();
             return true;
         }
 

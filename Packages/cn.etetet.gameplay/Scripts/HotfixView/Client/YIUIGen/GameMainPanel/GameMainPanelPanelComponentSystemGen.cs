@@ -30,7 +30,7 @@ namespace ET.Client
             self.u_UIBase = self.GetParent<YIUIChild>();
             self.u_UIWindow = self.UIBase.GetComponent<YIUIWindowComponent>();
             self.u_UIPanel = self.UIBase.GetComponent<YIUIPanelComponent>();
-            self.UIWindow.WindowOption = EWindowOption.None;
+            self.UIWindow.WindowOption = EWindowOption.CanUseBaseOpen|EWindowOption.HaveIOpenAllowOpen;
             self.UIPanel.Layer = EPanelLayer.Panel;
             self.UIPanel.PanelOption = EPanelOption.TimeCache;
             self.UIPanel.StackOption = EPanelStackOption.VisibleTween;

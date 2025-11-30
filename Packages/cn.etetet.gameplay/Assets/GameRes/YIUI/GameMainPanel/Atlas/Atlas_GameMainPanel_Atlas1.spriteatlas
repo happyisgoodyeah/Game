@@ -1,0 +1,139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Atlas_GameMainPanel_Atlas1
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 0
+      compressionQuality: 0
+      maxTextureSize: 0
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 4
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 1
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 4
+      m_BuildTarget: Standalone
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 29
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 1
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 4
+      m_BuildTarget: Android
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 50
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 1
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 4
+      m_BuildTarget: iOS
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 48
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 1
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 446004c3c82820a46aeaadffa1b550f2, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys:
+    - 7026d9d037f76f24d9a6417c1613c995: 21300000
+    - c5398f2130e5aed4280a6db0c9b1c996: 21300000
+    - 31068b83c18d30846bb3d70e07187caa: 21300000
+    - e93707a431f610d40aae3abfecb2d254: 21300000
+    - 999d82a5e01ff974083e64502adb81a8: 21300000
+    - 184d960638bfc0841bacbc3c1e1d740a: 21300000
+    - 31fa92e7002a1e54faa7eb023d2ff5e5: 21300000
+    - 8911a808da5f1c149b2cd7d8f5892cd4: 21300000
+    - 2a93703825216954fb36cea15e101757: 21300000
+    - 69670c38b53d3bf4d8f2c045606df1b7: 21300000
+    - eabb526bcaaf9e144a5781e1e298e8b1: 21300000
+    - 79c961bc9246f0f4c809ce285ba1be64: 21300000
+    - 1fbc1a2ed0f9a0147b704174cbff4f32: 21300000
+    - 9848c0bfbbb1b9c44a07941af0b1f61d: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 7026d9d037f76f24d9a6417c1613c995, type: 3}
+  - {fileID: 21300000, guid: c5398f2130e5aed4280a6db0c9b1c996, type: 3}
+  - {fileID: 21300000, guid: 31068b83c18d30846bb3d70e07187caa, type: 3}
+  - {fileID: 21300000, guid: e93707a431f610d40aae3abfecb2d254, type: 3}
+  - {fileID: 21300000, guid: 999d82a5e01ff974083e64502adb81a8, type: 3}
+  - {fileID: 21300000, guid: 184d960638bfc0841bacbc3c1e1d740a, type: 3}
+  - {fileID: 21300000, guid: 31fa92e7002a1e54faa7eb023d2ff5e5, type: 3}
+  - {fileID: 21300000, guid: 8911a808da5f1c149b2cd7d8f5892cd4, type: 3}
+  - {fileID: 21300000, guid: 2a93703825216954fb36cea15e101757, type: 3}
+  - {fileID: 21300000, guid: 69670c38b53d3bf4d8f2c045606df1b7, type: 3}
+  - {fileID: 21300000, guid: eabb526bcaaf9e144a5781e1e298e8b1, type: 3}
+  - {fileID: 21300000, guid: 79c961bc9246f0f4c809ce285ba1be64, type: 3}
+  - {fileID: 21300000, guid: 1fbc1a2ed0f9a0147b704174cbff4f32, type: 3}
+  - {fileID: 21300000, guid: 9848c0bfbbb1b9c44a07941af0b1f61d, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - UI
+  - xh_01
+  - btn01
+  - btn02
+  - fanhui_img
+  - comp_img
+  - box_01
+  - fanye_01
+  - xh_02
+  - box_3
+  - fanye_02
+  - UI
+  - SelectLevel
+  - box_02
+  m_RenderDataMap: {}
+  m_Tag: Atlas_GameMainPanel_Atlas1
+  m_IsVariant: 0

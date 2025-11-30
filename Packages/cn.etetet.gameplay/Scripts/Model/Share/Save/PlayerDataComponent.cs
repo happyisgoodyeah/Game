@@ -28,7 +28,14 @@ namespace ET
         /// </summary>
         [MemoryPackOrder(2)]
         [BsonElement]
-        public SerializableList<string> UnlockedLevels { get; set; } = new();
+        public SerializableList<long> UnlockedLevels { get; set; } = new();
+        
+        /// <summary>
+        /// 通关的成关卡id
+        /// </summary>
+        [MemoryPackOrder(2)]
+        [BsonElement]
+        public SerializableList<long> PassLevels { get; set; } = new();
 
         #region ISaveDataComponent接口实现
 

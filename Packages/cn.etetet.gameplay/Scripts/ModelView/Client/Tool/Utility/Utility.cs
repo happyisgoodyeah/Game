@@ -24,29 +24,31 @@ namespace ET
 
             return false;
         }
-        
+
         /// <summary>
         /// 获取一个点到其r*r矩形最近点的坐标
         /// </summary>
         /// <param name="pos"></param>
         /// <param name="r"></param>
         /// <returns></returns>
-        public static Vector2 GetClosestPointOnSquare(Vector2 judgePosition , float r)
+        public static Vector2 GetClosestPointOnSquare(Vector2 judgePosition, float r)
         {
             Vector2 final = judgePosition;
             if (judgePosition.x < -r)
             {
                 final.x = -r;
             }
+
             if (judgePosition.x > r)
             {
                 final.x = r;
             }
-            
+
             if (judgePosition.y < -r)
             {
                 final.x = -r;
             }
+
             if (judgePosition.x > r)
             {
                 final.x = r;
@@ -63,20 +65,23 @@ namespace ET
         /// <param name="maxX"></param>
         /// <param name="maxY"></param>
         /// <returns></returns>
-        public static SnapDirection GetAllowDirection(int x, int y , int maxX , int maxY)
+        public static SnapDirection GetAllowDirection(int x, int y, int maxX, int maxY)
         {
             if (x == 0 && y == 0)
             {
                 return SnapDirection.UpLeft;
             }
+
             if (x == 0 && y == maxY - 1)
             {
                 return SnapDirection.UpRight;
             }
+
             if (x == maxX - 1 && y == 0)
             {
                 return SnapDirection.DownLeft;
             }
+
             if (x == maxX - 1 && y == maxY - 1)
             {
                 return SnapDirection.DownRight;
@@ -84,7 +89,7 @@ namespace ET
 
             return SnapDirection.None;
         }
-        
+
         /// <summary>
         /// 获取一个点相对于原点的方向
         /// </summary>
@@ -93,93 +98,136 @@ namespace ET
         /// <param name="isDistinction">是否合并四角方向为上下左右</param>
         /// <param name="limitDirections">限制四角方向只能返回数组内的值</param>
         /// <returns></returns>
-        public static SnapDirection GetSnapDirection(Vector3 originPosition , Vector2 judgePosition , bool isDistinction = false , List<SnapDirection> limitDirections = null)
+        public static SnapDirection GetSnapDirection(Vector3 originPosition, Vector2 judgePosition, bool isDistinction = false,
+        List<SnapDirection> limitDirections = null)
         {
             //将点转换到以A为中心的坐标系
-            Vector2 relativePoint = judgePosition - new Vector2(originPosition.x , originPosition.y);
-            
+            Vector2 relativePoint = judgePosition - new Vector2(originPosition.x, originPosition.y);
+
             // if (GetOnePointInPointRange(originPosition , r , r , judgePosition))
             // {
             //     return SnapDirection.None;
             // }
-            
+
             //var closePoint = GetClosestPointOnSquare(relativePoint , r);
-            
+
             // 计算法线角度
             float angle = Mathf.Atan2(relativePoint.y, relativePoint.x) * Mathf.Rad2Deg;
-        
+
             // 标准化角度
             if (angle < 0) angle += 360;
-        
+
             // 角度分区定义（以正右方为0度，逆时针旋转）
             const float cornerRange = 22.5f; // 角区域占22.5度
-            const float edgeRange = 45f;     // 边区域占45度
-        
+            const float edgeRange = 45f; // 边区域占45度
+
             // 调整角度，使0度指向正右方
             angle = (angle + 360) % 360;
-        
+
             // 右上角区域
             if (angle >= 1f * cornerRange && angle <= 2f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Right : limitDirections.Contains(SnapDirection.UpRight) ? SnapDirection.UpRight : SnapDirection.Right;    
+                return isDistinction ? SnapDirection.Right :
+                        limitDirections.Contains(SnapDirection.UpRight) ? SnapDirection.UpRight : SnapDirection.Right;
             }
-            
+
             // 右上角区域
             if (angle >= 2 * cornerRange && angle <= 3f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Up : limitDirections.Contains(SnapDirection.UpRight) ? SnapDirection.UpRight : SnapDirection.Up;    
+                return isDistinction ? SnapDirection.Up : limitDirections.Contains(SnapDirection.UpRight) ? SnapDirection.UpRight : SnapDirection.Up;
             }
-        
+
             // 上边缘区域
             if (angle >= 3f * cornerRange && angle <= 5f * cornerRange)
                 return SnapDirection.Up;
-        
+
             // 左上角区域
             if (angle >= 5f * cornerRange && angle <= 6f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Up : limitDirections.Contains(SnapDirection.UpLeft) ? SnapDirection.UpLeft : SnapDirection.Up;    
+                return isDistinction ? SnapDirection.Up : limitDirections.Contains(SnapDirection.UpLeft) ? SnapDirection.UpLeft : SnapDirection.Up;
             }
-            
+
             // 左上角区域
             if (angle >= 6f * cornerRange && angle <= 7f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Left : limitDirections.Contains(SnapDirection.UpLeft) ? SnapDirection.UpLeft : SnapDirection.Left;    
+                return isDistinction ? SnapDirection.Left :
+                        limitDirections.Contains(SnapDirection.UpLeft) ? SnapDirection.UpLeft : SnapDirection.Left;
             }
-        
+
             // 左边缘区域
             if (angle >= 7f * cornerRange && angle <= 9f * cornerRange)
                 return SnapDirection.Left;
-        
+
             // 左下角区域
             if (angle >= 9f * cornerRange && angle <= 10f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Left : limitDirections.Contains(SnapDirection.DownLeft) ? SnapDirection.DownLeft : SnapDirection.Left;    
+                return isDistinction ? SnapDirection.Left :
+                        limitDirections.Contains(SnapDirection.DownLeft) ? SnapDirection.DownLeft : SnapDirection.Left;
             }
-            
+
             // 左下角区域
             if (angle >= 10f * cornerRange && angle <= 11f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Down : limitDirections.Contains(SnapDirection.DownLeft) ? SnapDirection.DownLeft : SnapDirection.Down;    
+                return isDistinction ? SnapDirection.Down :
+                        limitDirections.Contains(SnapDirection.DownLeft) ? SnapDirection.DownLeft : SnapDirection.Down;
             }
-        
+
             // 下边缘区域
             if (angle >= 11f * cornerRange && angle <= 13f * cornerRange)
                 return SnapDirection.Down;
-        
+
             // 右下角区域
             if (angle >= 13f * cornerRange && angle <= 14f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Down : limitDirections.Contains(SnapDirection.DownRight) ? SnapDirection.DownRight : SnapDirection.Down;   
+                return isDistinction ? SnapDirection.Down :
+                        limitDirections.Contains(SnapDirection.DownRight) ? SnapDirection.DownRight : SnapDirection.Down;
             }
-            
+
             // 右下角区域
             if (angle >= 14f * cornerRange && angle <= 15f * cornerRange)
             {
-                return isDistinction ? SnapDirection.Right : limitDirections.Contains(SnapDirection.DownRight) ? SnapDirection.DownRight : SnapDirection.Right;   
+                return isDistinction ? SnapDirection.Right :
+                        limitDirections.Contains(SnapDirection.DownRight) ? SnapDirection.DownRight : SnapDirection.Right;
             }
-            
+
             // 右边缘区域
             return SnapDirection.Right;
+        }
+
+        /// <summary>
+        /// 0-100 数字转中文
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public static string ConvertToChinese(int number)
+        {
+            string[] digits = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" };
+            string[] units = { "", "十", "百", "千" };
+
+            if (number == 0) return "零";
+            if (number == 100) return "一百";
+
+            string result = "";
+            int temp = number;
+            int unitIndex = 0;
+
+            // 处理十位
+            if (temp >= 10)
+            {
+                int tens = temp / 10;
+                if (tens > 1) // 十几不需要"一"
+                    result += digits[tens];
+                result += "十";
+                temp %= 10;
+            }
+
+            // 处理个位
+            if (temp > 0)
+            {
+                result += digits[temp];
+            }
+
+            return result;
         }
     }
 }

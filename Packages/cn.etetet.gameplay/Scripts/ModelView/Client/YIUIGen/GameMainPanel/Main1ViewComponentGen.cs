@@ -24,6 +24,9 @@ namespace ET.Client
         public YIUIViewComponent UIView => u_UIView;
         public UnityEngine.UI.Button u_ComArchiveEnterBtnButton;
         public UnityEngine.UI.Button u_ComContinueGameBtnButton;
+        public UnityEngine.UI.Button u_ComExitBtnButton;
+        public UnityEngine.UI.Button u_ComU_SettingsBtn;
+        public UnityEngine.UI.Button u_ComU_PlayGameBtn;
         public UIEventP0 u_EventArchiveEnter;
         public UIEventHandleP0 u_EventArchiveEnterHandle;
         public const string OnEventArchiveEnterInvoke = "Main1ViewComponent.OnEventArchiveEnterInvoke";
@@ -33,6 +36,12 @@ namespace ET.Client
         public UIEventP0 u_EventExitGame;
         public UIEventHandleP0 u_EventExitGameHandle;
         public const string OnEventExitGameInvoke = "Main1ViewComponent.OnEventExitGameInvoke";
+        public UIEventP0 u_EventSettingsEnter;
+        public UIEventHandleP0 u_EventSettingsEnterHandle;
+        public const string OnEventSettingsEnterInvoke = "Main1ViewComponent.OnEventSettingsEnterInvoke";
+        public UIEventP0 u_EventStartGame;
+        public UIEventHandleP0 u_EventStartGameHandle;
+        public const string OnEventStartGameInvoke = "Main1ViewComponent.OnEventStartGameInvoke";
 
     }
 }

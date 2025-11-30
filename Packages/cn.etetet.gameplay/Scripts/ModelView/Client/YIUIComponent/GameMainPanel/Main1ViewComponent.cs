@@ -10,8 +10,7 @@ namespace ET.Client
     /// Date    2025.10.18
     /// Desc
     /// </summary>
-    public partial class Main1ViewComponent : Entity
-    {
+    public partial class Main1ViewComponent : Entity {
 
     }
 }

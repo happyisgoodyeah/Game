@@ -36,12 +36,19 @@ namespace ET.Client
 
             self.u_ComArchiveEnterBtnButton = self.UIBase.ComponentTable.FindComponent<UnityEngine.UI.Button>("u_ComArchiveEnterBtnButton");
             self.u_ComContinueGameBtnButton = self.UIBase.ComponentTable.FindComponent<UnityEngine.UI.Button>("u_ComContinueGameBtnButton");
+            self.u_ComExitBtnButton = self.UIBase.ComponentTable.FindComponent<UnityEngine.UI.Button>("u_ComExitBtnButton");
+            self.u_ComU_SettingsBtn = self.UIBase.ComponentTable.FindComponent<UnityEngine.UI.Button>("u_ComU_SettingsBtn");
+            self.u_ComU_PlayGameBtn = self.UIBase.ComponentTable.FindComponent<UnityEngine.UI.Button>("u_ComU_PlayGameBtn");
             self.u_EventArchiveEnter = self.UIBase.EventTable.FindEvent<UIEventP0>("u_EventArchiveEnter");
             self.u_EventArchiveEnterHandle = self.u_EventArchiveEnter.Add(self,Main1ViewComponent.OnEventArchiveEnterInvoke);
             self.u_EventContinueGame = self.UIBase.EventTable.FindEvent<UIEventP0>("u_EventContinueGame");
             self.u_EventContinueGameHandle = self.u_EventContinueGame.Add(self,Main1ViewComponent.OnEventContinueGameInvoke);
             self.u_EventExitGame = self.UIBase.EventTable.FindEvent<UIEventP0>("u_EventExitGame");
             self.u_EventExitGameHandle = self.u_EventExitGame.Add(self,Main1ViewComponent.OnEventExitGameInvoke);
+            self.u_EventSettingsEnter = self.UIBase.EventTable.FindEvent<UIEventP0>("u_EventSettingsEnter");
+            self.u_EventSettingsEnterHandle = self.u_EventSettingsEnter.Add(self,Main1ViewComponent.OnEventSettingsEnterInvoke);
+            self.u_EventStartGame = self.UIBase.EventTable.FindEvent<UIEventP0>("u_EventStartGame");
+            self.u_EventStartGameHandle = self.u_EventStartGame.Add(self,Main1ViewComponent.OnEventStartGameInvoke);
 
         }
     }
