@@ -1,0 +1,10 @@
+[
+  {
+    "Id": 0,
+    "Path": "Packages/cn.etetet.gameplay/Resources/Audio/audio1.mp3"
+  },
+  {
+    "Id": 1,
+    "Path": "Packages/cn.etetet.gameplay/Resources/Audio/audio2.mp3"
+  }
+]

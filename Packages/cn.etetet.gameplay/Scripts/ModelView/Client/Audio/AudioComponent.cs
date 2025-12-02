@@ -7,7 +7,8 @@ namespace ET
     public class AudioComponent : Entity,IAwake
     {
         public EntityRef<ResourcesLoaderComponent>  resourcesLoader;
-        public AudioSource audioSource;
+        // public AudioSource audioSource;
+        public Transform audio;
         
     }
     

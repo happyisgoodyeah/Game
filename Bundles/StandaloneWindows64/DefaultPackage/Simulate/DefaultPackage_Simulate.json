@@ -8,7 +8,7 @@
     "BuildPipeline": "EditorSimulateBuildPipeline",
     "PackageName": "DefaultPackage",
     "PackageVersion": "Simulate",
-    "PackageNote": "2025/11/18 0:37:24",
+    "PackageNote": "2025/11/24 23:55:29",
     "AssetList": [
         {
             "Address": "YIUIConstAsset",
@@ -75,8 +75,24 @@
             "DependBundleIDs": []
         },
         {
+            "Address": "Audio",
+            "AssetPath": "Packages/cn.etetet.gameplay/Resources/Audio/Audio.prefab",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 6,
+            "DependBundleIDs": []
+        },
+        {
             "Address": "audio1",
             "AssetPath": "Packages/cn.etetet.gameplay/Resources/Audio/audio1.mp3",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 6,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "audio2",
+            "AssetPath": "Packages/cn.etetet.gameplay/Resources/Audio/audio2.mp3",
             "AssetGUID": "",
             "AssetTags": [],
             "BundleID": 6,
@@ -379,6 +395,14 @@
             "DependBundleIDs": []
         },
         {
+            "Address": "AudioConfigCategory",
+            "AssetPath": "Packages/cn.etetet.yiuilubangen/Assets/Config/Binary/Client/AudioConfigCategory.bytes",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 22,
+            "DependBundleIDs": []
+        },
+        {
             "Address": "GridConfigCategory",
             "AssetPath": "Packages/cn.etetet.yiuilubangen/Assets/Config/Binary/Client/GridConfigCategory.bytes",
             "AssetGUID": "",
@@ -405,6 +429,30 @@
         {
             "Address": "UnitConfigCategory",
             "AssetPath": "Packages/cn.etetet.yiuilubangen/Assets/Config/Binary/Client/UnitConfigCategory.bytes",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 22,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "YIUIClientConfigCategory",
+            "AssetPath": "Packages/cn.etetet.yiuilubangen/Assets/Config/Binary/Client/YIUIClientConfigCategory.bytes",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 22,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "YIUIClientServerConfigCategory",
+            "AssetPath": "Packages/cn.etetet.yiuilubangen/Assets/Config/Binary/Client/YIUIClientServerConfigCategory.bytes",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 22,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "YIUIItemConfigCategory",
+            "AssetPath": "Packages/cn.etetet.yiuilubangen/Assets/Config/Binary/Client/YIUIItemConfigCategory.bytes",
             "AssetGUID": "",
             "AssetTags": [],
             "BundleID": 22,
@@ -581,7 +629,7 @@
             "UnityCRC": 0,
             "FileHash": "2e0ad749115f3e0e6a5d3bfbcb24a2c0",
             "FileCRC": "00000000",
-            "FileSize": 1033780,
+            "FileSize": 1127276,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []
@@ -631,7 +679,7 @@
             "UnityCRC": 0,
             "FileHash": "7bcc7eb6bb2cd40adcaf362faed7050a",
             "FileCRC": "00000000",
-            "FileSize": 1541272,
+            "FileSize": 1544188,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []
@@ -741,7 +789,7 @@
             "UnityCRC": 0,
             "FileHash": "134f6027f8e3d243a07704ff5869ec0c",
             "FileCRC": "00000000",
-            "FileSize": 457,
+            "FileSize": 1048,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []

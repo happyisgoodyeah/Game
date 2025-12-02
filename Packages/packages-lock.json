@@ -260,6 +260,12 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "cn.etetet.yiuilubandemo": {
+      "version": "file:cn.etetet.yiuilubandemo",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "cn.etetet.yiuilubangen": {
       "version": "file:cn.etetet.yiuilubangen",
       "depth": 0,
