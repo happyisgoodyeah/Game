@@ -17,6 +17,7 @@ namespace ET.Client
         private static async ETTask DynamicEvent(this ET.Client.SelectLevelViewComponent self, ET.SelectLevelView_LevelSlotGoGrid dynamicEvent)
         {
             self.UIView.Close();
+            await YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent, EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum.GameView);
             await ETTask.CompletedTask;
         }
 

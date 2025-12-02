@@ -30,16 +30,13 @@ namespace ET.Client
             self.u_UIBase = self.GetParent<YIUIChild>();
             self.u_UIWindow = self.UIBase.GetComponent<YIUIWindowComponent>();
             self.u_UIPanel = self.UIBase.GetComponent<YIUIPanelComponent>();
-            self.UIWindow.WindowOption = EWindowOption.CanUseBaseOpen|EWindowOption.HaveIOpenAllowOpen;
+            self.UIWindow.WindowOption = EWindowOption.HaveIOpenAllowOpen;
             self.UIPanel.Layer = EPanelLayer.Panel;
             self.UIPanel.PanelOption = EPanelOption.TimeCache;
             self.UIPanel.StackOption = EPanelStackOption.VisibleTween;
             self.UIPanel.Priority = 0;
             self.UIPanel.CachePanelTime = 10;
 
-            self.u_ComSettingBtnButton = self.UIBase.ComponentTable.FindComponent<UnityEngine.UI.Button>("u_ComSettingBtnButton");
-            self.u_EventOpenSetting = self.UIBase.EventTable.FindEvent<UIEventP0>("u_EventOpenSetting");
-            self.u_EventOpenSettingHandle = self.u_EventOpenSetting.Add(self,GameMainPanelPanelComponent.OnEventOpenSettingInvoke);
 
         }
     }

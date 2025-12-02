@@ -41,29 +41,6 @@ namespace ET.Client
         }
 
         #region YIUIEvent开始
-
-        [YIUIInvoke(GameMainPanelPanelComponent.OnEventOpenSettingInvoke)]
-        private static void OnEventOpenSettingInvoke(this GameMainPanelPanelComponent self)
-        {
-            //self.setSettingBtnState(false);
-            EnterSettionPanel(self).NoContext();
-        }
-
         #endregion YIUIEvent结束
-
-        #region selfFunction
-
-        private static async ETTask<bool> EnterSettionPanel(this GameMainPanelPanelComponent self)
-        {
-            //await self.UIPanel.OpenViewAsync<Main1ViewComponent>();
-            return true;
-        }
-
-        public static void setSettingBtnState(this GameMainPanelPanelComponent self, bool isOpen)
-        {
-            self.u_ComSettingBtnButton.gameObject.SetActive(isOpen);
-        }
-
-        #endregion
     }
 }

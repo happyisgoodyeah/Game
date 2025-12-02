@@ -12,7 +12,8 @@ namespace ET.Client
     public enum EGameMainPanelPanelViewEnum
     {
         SelectLevelView = 1,
-        Main1View = 2,
+        GameView = 2,
+        Main1View = 3,
     }
     /// <summary>
     /// 由YIUI工具自动创建 请勿修改
@@ -30,10 +31,6 @@ namespace ET.Client
         public YIUIWindowComponent UIWindow => u_UIWindow;
         public EntityRef<YIUIPanelComponent> u_UIPanel;
         public YIUIPanelComponent UIPanel => u_UIPanel;
-        public UnityEngine.UI.Button u_ComSettingBtnButton;
-        public UIEventP0 u_EventOpenSetting;
-        public UIEventHandleP0 u_EventOpenSettingHandle;
-        public const string OnEventOpenSettingInvoke = "GameMainPanelPanelComponent.OnEventOpenSettingInvoke";
 
     }
 }

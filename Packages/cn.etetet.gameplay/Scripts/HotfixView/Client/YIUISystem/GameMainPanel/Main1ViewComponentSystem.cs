@@ -17,7 +17,6 @@ namespace ET.Client
         [EntitySystem]
         private static void YIUIInitialize(this Main1ViewComponent self)
         {
-            //self.UIView.GetPanel<GameMainPanelPanelComponent>().u_ComSettingBtnButton.gameObject.SetActive(false);
         }
 
         [EntitySystem]
@@ -33,14 +32,6 @@ namespace ET.Client
         }
 
         #region YIUIEvent开始
-
-        [YIUIInvoke(Main1ViewComponent.OnEventContinueGameInvoke)]
-        private static void OnEventContinueGameInvoke(this Main1ViewComponent self)
-        {
-            //YIUICloseCommonComponentSystem.ET_Client_YIUICloseCommonComponent_DestroySystem<Main1ViewComponentSystem>();
-            ContinueGame(self).NoContext();
-        }
-
         [YIUIInvoke(Main1ViewComponent.OnEventArchiveEnterInvoke)]
         private static void OnEventArchiveEnterInvoke(this Main1ViewComponent self)
         {
@@ -63,7 +54,8 @@ namespace ET.Client
         [YIUIInvoke(Main1ViewComponent.OnEventSettingsEnterInvoke)]
         private static void OnEventSettingsEnterInvoke(this Main1ViewComponent self)
         {
-
+            self.UIView.Close();
+            YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent, EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum.SelectLevelView).NoContext();
         }
 
 
@@ -75,16 +67,7 @@ namespace ET.Client
         }
 
         #endregion YIUIEvent结束>
-
-        private static async ETTask<bool> ContinueGame(this Main1ViewComponent main1View)
-        {
-            // await YIUIMgrComponent.Inst.ClosePanelAsync<LoginPanelComponent>();
-            // GameMainPanelPanelComponentSystem.setSettingBtnState(true);
-            // main1View.UIView.GetPanel<GameMainPanelPanelComponent>().u_ComSettingBtnButton.gameObject.SetActive(true);
-            // await YIUIMgrComponent.Inst.Root.OpenPanelAsync<SelectLevelViewComponent>();
-            return true;
-        }
-
+        
         private static async ETTask<bool> OpenArchivePanel()
         {
             await YIUIMgrComponent.Inst.Root.OpenPanelAsync<ArchivePanelComponent>();
