@@ -611,7 +611,7 @@ MonoBehaviour:
   PkgName: GameMainPanel
   ResName: SelectLevelView
   UICodeType: 1
-  WindowOption: 0
+  WindowOption: 1536
   PanelLayer: 3
   PanelOption: 0
   PanelStackOption: 2

@@ -242,7 +242,7 @@ MonoBehaviour:
   PkgName: GameMainPanel
   ResName: GameMainPanelPanel
   UICodeType: 0
-  WindowOption: 4
+  WindowOption: 1540
   PanelLayer: 3
   PanelOption: 4
   PanelStackOption: 1
