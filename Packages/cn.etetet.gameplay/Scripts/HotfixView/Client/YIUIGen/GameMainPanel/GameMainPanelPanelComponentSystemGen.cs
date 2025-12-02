@@ -33,7 +33,7 @@ namespace ET.Client
             self.UIWindow.WindowOption = EWindowOption.HaveIOpenAllowOpen;
             self.UIPanel.Layer = EPanelLayer.Panel;
             self.UIPanel.PanelOption = EPanelOption.TimeCache;
-            self.UIPanel.StackOption = EPanelStackOption.VisibleTween;
+            self.UIPanel.StackOption = EPanelStackOption.Visible;
             self.UIPanel.Priority = 0;
             self.UIPanel.CachePanelTime = 10;
 

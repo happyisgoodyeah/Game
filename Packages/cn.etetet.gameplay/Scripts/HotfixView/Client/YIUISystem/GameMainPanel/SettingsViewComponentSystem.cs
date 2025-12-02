@@ -35,8 +35,8 @@ namespace ET.Client
         [YIUIInvoke(SettingsViewComponent.OnEventBackBtnClickInvoke)]
         private static async ETTask OnEventBackBtnClickInvoke(this SettingsViewComponent self)
         {
-            
-            await ETTask.CompletedTask;
+            self.UIView.Close();
+            await YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent, EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum.Main1View);
         }
         #endregion YIUIEvent结束
     }

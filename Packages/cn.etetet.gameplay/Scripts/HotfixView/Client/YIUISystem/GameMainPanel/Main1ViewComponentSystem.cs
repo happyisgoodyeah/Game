@@ -32,40 +32,37 @@ namespace ET.Client
         }
 
         #region YIUIEvent开始
-        [YIUIInvoke(Main1ViewComponent.OnEventArchiveEnterInvoke)]
-        private static void OnEventArchiveEnterInvoke(this Main1ViewComponent self)
+        
+        [YIUIInvoke(Main1ViewComponent.OnEventStartGameInvoke)]
+        private static async ETTask OnEventStartGameInvoke(this Main1ViewComponent self)
         {
-            OpenArchivePanel().NoContext();
+            self.UIView.Close();
+            await YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent, EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum.SelectLevelView);
         }
-
-
+        
+        [YIUIInvoke(Main1ViewComponent.OnEventSettingsEnterInvoke)]
+        private static async ETTask OnEventSettingsEnterInvoke(this Main1ViewComponent self)
+        {
+            self.UIView.Close();
+            await YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent, EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum.SettingsView);
+        }
+        
         [YIUIInvoke(Main1ViewComponent.OnEventExitGameInvoke)]
-        private static void OnEventExitGameInvoke(this Main1ViewComponent self)
+        private static async ETTask OnEventExitGameInvoke(this Main1ViewComponent self)
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();
 #endif
+            await ETTask.CompletedTask;
         }
-
-
-
-        [YIUIInvoke(Main1ViewComponent.OnEventSettingsEnterInvoke)]
-        private static void OnEventSettingsEnterInvoke(this Main1ViewComponent self)
+        
+        [YIUIInvoke(Main1ViewComponent.OnEventArchiveEnterInvoke)]
+        private static async ETTask OnEventArchiveEnterInvoke(this Main1ViewComponent self)
         {
-            self.UIView.Close();
-            YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent, EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum.SelectLevelView).NoContext();
+            await OpenArchivePanel();
         }
-
-
-        [YIUIInvoke(Main1ViewComponent.OnEventStartGameInvoke)]
-        private static void OnEventStartGameInvoke(this Main1ViewComponent self)
-        {
-            self.UIView.Close();
-            YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent, EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum.SelectLevelView).NoContext();
-        }
-
         #endregion YIUIEvent结束>
         
         private static async ETTask<bool> OpenArchivePanel()

@@ -8,7 +8,7 @@
     "BuildPipeline": "EditorSimulateBuildPipeline",
     "PackageName": "DefaultPackage",
     "PackageVersion": "Simulate",
-    "PackageNote": "2025/11/30 22:02:51",
+    "PackageNote": "2025/12/3 0:07:15",
     "AssetList": [
         {
             "Address": "YIUIConstAsset",
@@ -67,6 +67,14 @@
             "DependBundleIDs": []
         },
         {
+            "Address": "GameView",
+            "AssetPath": "Packages/cn.etetet.gameplay/Assets/GameRes/YIUI/GameMainPanel/Prefabs/GameView.prefab",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 5,
+            "DependBundleIDs": []
+        },
+        {
             "Address": "LevelSlot",
             "AssetPath": "Packages/cn.etetet.gameplay/Assets/GameRes/YIUI/GameMainPanel/Prefabs/LevelSlot.prefab",
             "AssetGUID": "",
@@ -91,8 +99,32 @@
             "DependBundleIDs": []
         },
         {
+            "Address": "SettingsView",
+            "AssetPath": "Packages/cn.etetet.gameplay/Assets/GameRes/YIUI/GameMainPanel/Prefabs/SettingsView.prefab",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 5,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "Audio",
+            "AssetPath": "Packages/cn.etetet.gameplay/Resources/Audio/Audio.prefab",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 6,
+            "DependBundleIDs": []
+        },
+        {
             "Address": "audio1",
             "AssetPath": "Packages/cn.etetet.gameplay/Resources/Audio/audio1.mp3",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 6,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "audio2",
+            "AssetPath": "Packages/cn.etetet.gameplay/Resources/Audio/audio2.mp3",
             "AssetGUID": "",
             "AssetTags": [],
             "BundleID": 6,
@@ -395,6 +427,14 @@
             "DependBundleIDs": []
         },
         {
+            "Address": "AudioConfigCategory",
+            "AssetPath": "Packages/cn.etetet.yiuilubangen/Assets/Config/Binary/Client/AudioConfigCategory.bytes",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 22,
+            "DependBundleIDs": []
+        },
+        {
             "Address": "GridConfigCategory",
             "AssetPath": "Packages/cn.etetet.yiuilubangen/Assets/Config/Binary/Client/GridConfigCategory.bytes",
             "AssetGUID": "",
@@ -587,7 +627,7 @@
             "UnityCRC": 0,
             "FileHash": "732ba38eb3f9df48d49e965a57b3c58a",
             "FileCRC": "00000000",
-            "FileSize": 182607,
+            "FileSize": 206573,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []
@@ -597,7 +637,7 @@
             "UnityCRC": 0,
             "FileHash": "c820f7c0516b72d43bca0a1981483ddf",
             "FileCRC": "00000000",
-            "FileSize": 1033780,
+            "FileSize": 1127407,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []
@@ -647,7 +687,7 @@
             "UnityCRC": 0,
             "FileHash": "5d422a8e9aa72135bcd9d3f40d45f7b9",
             "FileCRC": "00000000",
-            "FileSize": 1564896,
+            "FileSize": 1578332,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []
@@ -757,7 +797,7 @@
             "UnityCRC": 0,
             "FileHash": "73da6ffc51985ea6254f8742cba56632",
             "FileCRC": "00000000",
-            "FileSize": 2427,
+            "FileSize": 2540,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []
