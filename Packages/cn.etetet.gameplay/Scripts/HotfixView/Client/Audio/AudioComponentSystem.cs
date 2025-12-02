@@ -4,11 +4,10 @@ using UnityEngine;
 namespace ET
 {
 
-    public enum FMOD
+    public enum AUDIO
     {
-        button1,
-        button2,
-        button3,
+        bg1,
+        bg2,
     }
     
     //表
@@ -22,8 +21,11 @@ namespace ET
         private static void Awake(this ET.AudioComponent self)
         {
             self.resourcesLoader = self.Root().GetComponent<ResourcesLoaderComponent>();
-            self.audioSource = self.Root().GetComponent<GlobalComponent>().Audio.GetComponent<AudioSource>();
-            self.PlayAudio(FMOD.button1).NoContext();
+            self.audio = self.Root().GetComponent<GlobalComponent>().Audio.transform;
+            // self.audioSource = self.Root().GetComponent<GlobalComponent>().Audio.GetComponent<AudioSource>();
+            //self.PlayAudio(AUDIO.bg1).NoContext();        示例
+            self.PlayAudioLoop(AUDIO.bg1).NoContext();        
+            self.PlayAudioOne(AUDIO.bg2).NoContext();        
         }
         
         /// <summary>
@@ -31,16 +33,36 @@ namespace ET
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static GridConfig Config(this ET.AudioComponent self , int id)
+        public static AudioConfig Config(this ET.AudioComponent self , AUDIO type)
         {
-            return GridConfigCategory.Instance.Get(id);
+            return AudioConfigCategory.Instance.Get((int)type);
         }
-
-        public static async ETTask PlayAudio(this AudioComponent self, FMOD type)
+        /// <summary>
+        /// 播放单次音频
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="type">音频枚举类型</param>
+        /// <param name="loop">是否循环</param>
+        public static async ETTask PlayAudioOne(this AudioComponent self, AUDIO type, bool loop = false)
         {
-            // var path = self.Config((int)type).Path;
-            // self.audioSource.clip = await self.resourcesLoader.Entity.LoadAssetAsync<AudioClip>(path);
-            // self.audioSource.Play();
+            var bundleObj = await ResourcesLoaderHelper.LoadAssetPrefabAsync<GameObject>(self.Root(), "Audio/Audio");
+
+            var audioSource = UnityEngine.Object.Instantiate(bundleObj, self.audio).GetComponent<AudioSource>();
+
+            var path = self.Config(type).Path;
+            audioSource.clip = await self.resourcesLoader.Entity.LoadAssetAsync<AudioClip>(path);
+            audioSource.loop = loop;
+
+            audioSource.Play();
+        }
+        /// <summary>
+        /// 播放循环音频
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="type">音频枚举类型</param>
+        public static async ETTask PlayAudioLoop(this AudioComponent self, AUDIO type)
+        {
+            await self.PlayAudioOne(type,true);        
         }
     }
 }
