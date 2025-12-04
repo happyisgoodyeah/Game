@@ -6,6 +6,7 @@ namespace ET
 {
     [EntitySystemOf(typeof(Grid))]
     [FriendOf(typeof(Slot))]
+    [FriendOfAttribute(typeof(ET.SlotStateComponent))]
     public static partial class GridSystem
     {
         /// <summary>
@@ -50,7 +51,7 @@ namespace ET
                 {
                     var index = i + j * self.gridSize.Y;
                     var slotConfig = config.SlotList[index];
-                    var slot = self.GetComponent<SlotSpawnComponent>().GridSpawnSlot(config.SlotList[index] , new IntVector2(i, j));
+                    var slot = self.GetComponent<SlotSpawnComponent>().GridSpawnSlot(config.SlotList[index], new IntVector2(i, j));
                     await self.Root().GetComponent<TimerComponent>().WaitFrameAsync();
                     self.slotDic.TryAdd(new IntVector2(i, j), slot);
                     //最外围一圈判定可吸附
@@ -77,7 +78,7 @@ namespace ET
             for (int i = 0; i < config.PuzzleCount; i++)
             {
                 var puzzleConfig = config.PuzzleList[i];
-                var puzzle = self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(puzzleConfig.Id , new FloatVector2(puzzleConfig.Trans.X , puzzleConfig.Trans.Y));
+                var puzzle = self.GetComponent<PuzzleSpawnComponent>().SpawnPuzzle(puzzleConfig.Id, new FloatVector2(puzzleConfig.Trans.X, puzzleConfig.Trans.Y));
                 self.PuzzleDic.TryAdd(puzzle.InstanceId, puzzle);
             }
         }
@@ -111,7 +112,7 @@ namespace ET
             foreach (var slotRef in self.slotDic.Values)
             {
                 var slot = slotRef.Entity;
-                if (slot.puzzleRef.Entity == null)
+                if (slot.GetComponent<SlotStateComponent>().AllowPlace && slot.puzzleRef.Entity == null)
                 {
                     return false;
                 }
@@ -218,13 +219,13 @@ namespace ET
                 }
 
                 Slot slot = self.GetSlot(pos);
-                
+
                 //检测绑定的puzzle不为当前判定的puzzle
                 if (slot == null || (slot.puzzleRef.Entity != null && slot.puzzleRef.Entity != puzzle))
                 {
-                    return false;    
+                    return false;
                 }
-                
+
                 //检测slot是否可以绑定
                 if (!slot.GetComponent<SlotStateComponent>().GetCanPlace())
                 {
