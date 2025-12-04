@@ -24,14 +24,14 @@ namespace ET
         public SerializableList<string> UnlockedAchievements { get; set; } = new();
         
         /// <summary>
-        /// 解锁的成关卡id
+        /// 解锁的关卡id
         /// </summary>
         [MemoryPackOrder(2)]
         [BsonElement]
         public SerializableList<long> UnlockedLevels { get; set; } = new();
         
         /// <summary>
-        /// 通关的成关卡id
+        /// 通关的关卡id
         /// </summary>
         [MemoryPackOrder(2)]
         [BsonElement]

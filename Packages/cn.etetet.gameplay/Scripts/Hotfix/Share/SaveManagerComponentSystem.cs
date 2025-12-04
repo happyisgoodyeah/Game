@@ -73,7 +73,7 @@ namespace ET
             var saveData = self.AddChild<GameSaveData,string,string,string>(playerId , saveSlot , self.GameVersion);
             
             Log.Info($"创建新存档: PlayerId={playerId}, Slot={saveSlot}");
-            return saveData;
+            return saveData; 
         }
 
         /// <summary>

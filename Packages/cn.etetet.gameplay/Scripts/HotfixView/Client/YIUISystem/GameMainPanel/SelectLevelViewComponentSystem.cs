@@ -17,7 +17,8 @@ namespace ET.Client
         private static async ETTask DynamicEvent(this ET.Client.SelectLevelViewComponent self, ET.SelectLevelView_LevelSlotGoGrid dynamicEvent)
         {
             self.UIView.Close();
-            await YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent, EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum.GameView);
+            await YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent, EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum
+                    .GameView);
             await ETTask.CompletedTask;
         }
 
@@ -32,7 +33,6 @@ namespace ET.Client
         [EntitySystem]
         private static void Destroy(this SelectLevelViewComponent self)
         {
-
         }
 
         [EntitySystem]
@@ -71,6 +71,8 @@ namespace ET.Client
         /// <param name="page">页码</param>
         public static void RefreshSlots(this SelectLevelViewComponent self)
         {
+            PlayerDataComponent playerData = self.Root().GetComponent<SaveManagerComponent>().GetPlayerData();
+
             var start = 12 * (self.nowPage - 1) + 1;
 
             foreach (var slot in self.levelSlotComponents)
@@ -86,6 +88,7 @@ namespace ET.Client
                 {
                     return;
                 }
+
                 var gridConfig = GridConfigCategory.Instance.Get(1000 + now);
 
                 LevelSlotComponent levelSlotComponent;
@@ -96,12 +99,15 @@ namespace ET.Client
                 }
                 else
                 {
+                    //生成Slot并且判断关卡状态
                     levelSlotComponent = YIUIFactory.Instantiate<LevelSlotComponent>(self, self.u_ComU_LevelContent);
                     self.levelSlotComponents.Add(levelSlotComponent);
                 }
 
                 levelSlotComponent.UIBase.OwnerGameObject.SetActive(true);
-                levelSlotComponent.UpdateData(gridConfig);
+                //levelSlotComponent.UpdateData(gridConfig);
+                levelSlotComponent.SetPassState(playerData.CheckLevelPass(gridConfig.Id));
+                levelSlotComponent.SetUnlockState(playerData.CheckLevelUnlock(gridConfig.Id));
             }
         }
 
@@ -113,21 +119,22 @@ namespace ET.Client
             self.nowPage--;
             self.Refresh();
         }
-        
+
         [YIUIInvoke(SelectLevelViewComponent.OnEventBackMenuBtnClickInvoke)]
         private static async ETTask OnEventBackMenuBtnClickInvoke(this SelectLevelViewComponent self)
         {
-            await YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent, EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum.Main1View);
+            await YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent, EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum
+                    .Main1View);
             await ETTask.CompletedTask;
         }
-        
+
         [YIUIInvoke(SelectLevelViewComponent.OnEventU_RightBtnClickInvoke)]
         private static void OnEventU_RightBtnClickInvoke(this SelectLevelViewComponent self)
         {
             self.nowPage++;
             self.Refresh();
         }
-        
+
         #endregion YIUIEvent结束
     }
 }
