@@ -15,7 +15,12 @@ namespace ET
             if (grid.CheckGameOver())
             {
                 Log.Error("当前关卡完成");
+                //写序列化文件并保存到本地
+                var savemanager = grid.Root().GetComponent<SaveManagerComponent>();
+                savemanager.GetPlayerDataComponent().PassLevel(grid.Config().Id);
+                await savemanager.SaveAsync();
             }
+
             await ETTask.CompletedTask;
         }
     }

@@ -10,14 +10,17 @@ namespace ET
     {
         //成功
         Success,
+
         //失败
         Failed,
+
         //验证失败
         ValidationFailed,
+
         //空间不足
         InsufficientSpace
     }
-    
+
     [EntitySystemOf(typeof(SaveManagerComponent))]
     public static partial class SaveManagerComponentSystem
     {
@@ -41,8 +44,8 @@ namespace ET
         public static async ETTask Init(this ET.SaveManagerComponent self)
         {
             //加载存储目录
-            await EventSystem.Instance.PublishAsync(self.Root() , new SaveManagerComponentLoadPath(){SaveManagerComponent = self});
-            
+            await EventSystem.Instance.PublishAsync(self.Root(), new SaveManagerComponentLoadPath() { SaveManagerComponent = self });
+
             Log.Info($"存档管理器初始化完成，目录: {self.SaveDirectory}");
             Log.Info($"当前序列化格式: {GetCurrentFormat()}");
 
@@ -50,11 +53,11 @@ namespace ET
             {
                 self.CurrentSaveData = await self.CreateNewSave("test");
             }
-            
+
             // self.CurrentSaveData.GetPlayerData().UnlockedLevels.Add("1");
             // await self.SaveAsync(self.CurrentSaveData);
         }
-        
+
         /// <summary>
         /// 创建新存档
         /// </summary>
@@ -67,13 +70,13 @@ namespace ET
             //确保路径加载
             if (self.SaveDirectory.IsNullOrEmpty())
             {
-                await self.WaitUntil(()=> !self.SaveDirectory.IsNullOrEmpty());
+                await self.WaitUntil(() => !self.SaveDirectory.IsNullOrEmpty());
             }
-            
-            var saveData = self.AddChild<GameSaveData,string,string,string>(playerId , saveSlot , self.GameVersion);
-            
+
+            var saveData = self.AddChild<GameSaveData, string, string, string>(playerId, saveSlot, self.GameVersion);
+
             Log.Info($"创建新存档: PlayerId={playerId}, Slot={saveSlot}");
-            return saveData; 
+            return saveData;
         }
 
         /// <summary>
@@ -88,9 +91,9 @@ namespace ET
             //确保路径加载
             if (self.SaveDirectory.IsNullOrEmpty())
             {
-                await self.WaitUntil(()=> !self.SaveDirectory.IsNullOrEmpty());
+                await self.WaitUntil(() => !self.SaveDirectory.IsNullOrEmpty());
             }
-            
+
             try
             {
                 if (saveData == null)
@@ -98,19 +101,19 @@ namespace ET
                     Log.Error("保存的存档数据为空");
                     return SaveResult.Failed;
                 }
-                
+
                 // 验证存档数据
                 if (!saveData.Validate())
                 {
                     Log.Error("存档数据验证失败");
                     return SaveResult.ValidationFailed;
                 }
-                
+
                 // 更新存档信息
                 saveData.UpdateSaveTime();
-                
+
                 byte[] serializeSaveData = self.SerializeSaveData(saveData);
-                
+
                 //更新存档头信息
                 var header = saveData.GetHeader();
                 header.SaveSize = serializeSaveData.Length;
@@ -124,10 +127,71 @@ namespace ET
                 await File.WriteAllBytesAsync(filePath, serializeSaveData);
 
                 //开发模式下保存另一种格式用于调试
-                await self.SaveDebugFormat(filePath , saveData);
-                
+                await self.SaveDebugFormat(filePath, saveData);
+
                 Log.Info($"存档保存成功: {filePath}, Size: {header.SaveSize} bytes, Checksum: {header.Checksum}");
-                
+
+                return SaveResult.Success;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                return SaveResult.Failed;
+            }
+        }
+
+        /// <summary>
+        /// 重写SaveAsync savedata默认为CurrentSaveData
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="customPath"></param>
+        /// <returns></returns>
+        public static async ETTask<SaveResult> SaveAsync(this SaveManagerComponent self, string customPath = null)
+        {
+            //确保路径加载
+            if (self.SaveDirectory.IsNullOrEmpty())
+            {
+                await self.WaitUntil(() => !self.SaveDirectory.IsNullOrEmpty());
+            }
+
+            try
+            {
+                var saveData = self.CurrentSaveData;
+                if (saveData == null)
+                {
+                    Log.Error("保存的存档数据为空");
+                    return SaveResult.Failed;
+                }
+
+                // 验证存档数据
+                if (!saveData.Validate())
+                {
+                    Log.Error("存档数据验证失败");
+                    return SaveResult.ValidationFailed;
+                }
+
+                // 更新存档信息
+                saveData.UpdateSaveTime();
+
+                byte[] serializeSaveData = self.SerializeSaveData(saveData);
+
+                //更新存档头信息
+                var header = saveData.GetHeader();
+                header.SaveSize = serializeSaveData.Length;
+                header.Checksum = self.ComputeChecksum(serializeSaveData);
+
+                //写入路径
+                string fileName = $"save_{header.PlayerId}_{header.SaveSlot}{self.GetSaveFileExtension()}";
+                string filePath = customPath ?? Path.Combine(self.SaveDirectory, fileName);
+
+                //异步写入文件
+                await File.WriteAllBytesAsync(filePath, serializeSaveData);
+
+                //开发模式下保存另一种格式用于调试
+                await self.SaveDebugFormat(filePath, saveData);
+
+                Log.Info($"存档保存成功: {filePath}, Size: {header.SaveSize} bytes, Checksum: {header.Checksum}");
+
                 return SaveResult.Success;
             }
             catch (Exception e)
@@ -146,7 +210,7 @@ namespace ET
             {
                 string fileName = $"save_{playerId}_{saveSlot}";
                 string filePath = self.FindSaveFile(fileName);
-                
+
                 if (string.IsNullOrEmpty(filePath))
                 {
                     Log.Warning($"未找到存档文件: {fileName}");
@@ -154,21 +218,21 @@ namespace ET
                 }
 
                 Log.Info($"开始加载存档: {filePath}");
-                
+
                 // 自动检测格式并加载
                 GameSaveData saveData = self.AutoDetectAndDeserialize(filePath);
-                
+
                 if (saveData == null)
                 {
                     Log.Error("存档数据反序列化失败");
                     return null;
                 }
-                
+
                 // 验证数据完整性
                 byte[] fileData = await File.ReadAllBytesAsync(filePath);
                 var computedChecksum = self.ComputeChecksum(fileData);
                 var header = saveData.GetHeader();
-                
+
                 if (header.Checksum != computedChecksum)
                 {
                     Log.Error("存档数据校验失败，可能已损坏");
@@ -182,11 +246,11 @@ namespace ET
                     saveData.Dispose();
                     return null;
                 }
-                
+
                 // 设置父级关系
                 saveData.SetParent(self);
                 self.CurrentSaveData = saveData;
-                
+
                 Log.Info($"存档加载成功: {filePath}, Player: {header.PlayerId}, Version: {header.SaveVersion}");
                 return saveData;
             }
@@ -200,14 +264,14 @@ namespace ET
         /// <summary>
         /// 保存调试格式（开发模式下）
         /// </summary>
-        private static async ETTask SaveDebugFormat(this SaveManagerComponent self, string originalPath , GameSaveData saveData)
+        private static async ETTask SaveDebugFormat(this SaveManagerComponent self, string originalPath, GameSaveData saveData)
         {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             try
             {
                 var currentFormat = GetCurrentFormat();
-                var debugFormat = currentFormat == SerializationFormat.MemoryPack 
-                        ? SerializationFormat.MongoDB 
+                var debugFormat = currentFormat == SerializationFormat.MemoryPack
+                        ? SerializationFormat.MongoDB
                         : SerializationFormat.MemoryPack;
 
                 byte[] debugData;
@@ -228,7 +292,7 @@ namespace ET
                 string debugExtension = debugFormat == SerializationFormat.MemoryPack ? ".sav" : ".json";
                 string debugPath = Path.ChangeExtension(originalPath, debugExtension);
                 await File.WriteAllBytesAsync(debugPath, debugData);
-                
+
                 Log.Info($"调试格式存档已保存: {debugPath}");
             }
             catch (Exception e)

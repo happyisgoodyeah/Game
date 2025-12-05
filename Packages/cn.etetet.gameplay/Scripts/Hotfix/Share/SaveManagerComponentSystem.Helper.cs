@@ -16,7 +16,7 @@ namespace ET
         /// <summary>
         /// 获取玩家数据
         /// </summary>
-        public static PlayerDataComponent GetPlayerData(this SaveManagerComponent self)
+        public static PlayerDataComponent GetPlayerDataComponent(this SaveManagerComponent self)
         {
             return self.CurrentSaveData.GetComponent<PlayerDataComponent>();
         }

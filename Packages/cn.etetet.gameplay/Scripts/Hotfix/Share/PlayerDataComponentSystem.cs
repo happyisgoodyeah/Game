@@ -33,14 +33,22 @@ namespace ET
             return self.UnlockedLevels.Contains(id);
         }
 
+        /// <summary>
+        /// 添加解锁的关卡到列表
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="id"></param>
         public static void UnlockLevel(this ET.PlayerDataComponent self, long id)
         {
+            //todo 将列表改为set或者字典的数据结构，不能重复添加，或者进行重复性判断
             self.UnlockedLevels.Add(id);
         }
 
         public static void PassLevel(this ET.PlayerDataComponent self, long id)
         {
             self.PassLevels.Add(id);
+            //一般来说过关关卡会解锁下一关卡
+            UnlockLevel(self, id + 1);
         }
     }
 }

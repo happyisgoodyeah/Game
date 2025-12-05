@@ -71,7 +71,7 @@ namespace ET.Client
         /// <param name="page">页码</param>
         public static void RefreshSlots(this SelectLevelViewComponent self)
         {
-            PlayerDataComponent playerData = self.Root().GetComponent<SaveManagerComponent>().GetPlayerData();
+            PlayerDataComponent playerData = self.Root().GetComponent<SaveManagerComponent>().GetPlayerDataComponent();
 
             var start = 12 * (self.nowPage - 1) + 1;
 
@@ -106,8 +106,7 @@ namespace ET.Client
 
                 levelSlotComponent.UIBase.OwnerGameObject.SetActive(true);
                 //levelSlotComponent.UpdateData(gridConfig);
-                levelSlotComponent.SetPassState(playerData.CheckLevelPass(gridConfig.Id));
-                levelSlotComponent.SetUnlockState(playerData.CheckLevelUnlock(gridConfig.Id));
+                levelSlotComponent.SetSlotState(playerData.CheckLevelUnlock(gridConfig.Id), playerData.CheckLevelPass(gridConfig.Id), gridConfig.Id);
             }
         }
 
