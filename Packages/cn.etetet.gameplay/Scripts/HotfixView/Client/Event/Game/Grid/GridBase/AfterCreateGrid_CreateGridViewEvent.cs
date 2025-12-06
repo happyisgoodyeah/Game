@@ -13,6 +13,11 @@ namespace ET
             //生成预制体
             var bundleObj = await ResourcesLoaderHelper.LoadAssetPrefabAsync<GameObject>(scene,grid.Config().PrefabPath);
             GlobalComponent globalComponent = scene.Root().GetComponent<GlobalComponent>();
+            //将之前已经通关过的关卡删除
+            for (int i = 0; i < globalComponent.Grid.childCount; i++)
+            {
+                GameObject.Destroy(globalComponent.Grid.GetChild(i).gameObject);
+            }
             var Obj = UnityEngine.Object.Instantiate(bundleObj, globalComponent.Grid);
             
             //生成View

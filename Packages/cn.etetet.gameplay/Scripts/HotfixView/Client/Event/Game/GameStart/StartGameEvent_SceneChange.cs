@@ -10,6 +10,7 @@ namespace ET
             //切换场景
             await SceneChangeHelper.SceneChangeTo(root, "Test", root.InstanceId);
             await YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent>();
+            
         }
     }
 }

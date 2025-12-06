@@ -61,6 +61,14 @@ namespace ET.Client
             self.u_ComU_IsPassRect.gameObject.SetActive(pass);
         }
 
+        
+        /// <summary>
+        /// 通关当前Grid，解锁UI下一关卡，并且删除当前关卡
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="isUnlock"></param>
+        /// <param name="isPass"></param>
+        /// <param name="id"></param>
         public static void SetSlotState(this LevelSlotComponent self, bool isUnlock, bool isPass, int id)
         {
             self.u_ComU_MaskRect.gameObject.SetActive(!isUnlock);

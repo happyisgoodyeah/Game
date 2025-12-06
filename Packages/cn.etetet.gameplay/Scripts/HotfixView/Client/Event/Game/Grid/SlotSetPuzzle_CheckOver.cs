@@ -1,6 +1,7 @@
 using DG.Tweening;
 using ET.Client;
 using UnityEngine;
+using YIUIFramework;
 
 namespace ET
 {
@@ -19,6 +20,9 @@ namespace ET
                 var savemanager = grid.Root().GetComponent<SaveManagerComponent>();
                 savemanager.GetPlayerDataComponent().PassLevel(grid.Config().Id);
                 await savemanager.SaveAsync();
+                //跳转关卡选择界面，清空当前Grid
+                await YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent, EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum.SelectLevelView);
+                grid.Dispose();
             }
 
             await ETTask.CompletedTask;
