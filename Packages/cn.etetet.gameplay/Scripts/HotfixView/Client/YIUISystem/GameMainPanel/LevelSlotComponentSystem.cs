@@ -28,7 +28,7 @@ namespace ET.Client
         [YIUIInvoke(LevelSlotComponent.OnEventClickLevelInvoke)]
         private static async ETTask OnEventClickLevelInvoke(this LevelSlotComponent self)
         {
-            var grid = self.Root().AddChild<Grid, int>(1001);
+            var grid = self.Root().AddChild<Grid, int>(self.gridConfigId);
             await EventSystem.Instance.PublishAsync(self.Root(), new AfterCreateGrid() { grid = grid });
             await grid.SpawnSlot();
             grid.SpawnPuzzle();
@@ -70,6 +70,7 @@ namespace ET.Client
             self.u_ComU_IsPassRect.gameObject.SetActive(isPass);
 
             self.u_ComU_LevelCountText.SetText((id - 1000).ToString());
+            self.gridConfigId = id;
         }
     }
 }

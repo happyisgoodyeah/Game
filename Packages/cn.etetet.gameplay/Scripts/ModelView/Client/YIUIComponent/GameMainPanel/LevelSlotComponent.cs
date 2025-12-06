@@ -12,6 +12,9 @@ namespace ET.Client
     /// </summary>
     public partial class LevelSlotComponent : Entity
     {
-
+        /// <summary>
+        /// 当前关卡的ConfigId
+        /// </summary>
+        public int gridConfigId;
     }
 }
