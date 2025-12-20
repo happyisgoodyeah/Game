@@ -23,7 +23,7 @@ namespace ET
         }
 
         /// <summary>
-        /// 是否通关关卡
+        /// 是否解锁关卡
         /// </summary>
         /// <param name="self"></param>
         /// <param name="id"></param>
@@ -40,8 +40,10 @@ namespace ET
         /// <param name="id"></param>
         public static void UnlockLevel(this ET.PlayerDataComponent self, long id)
         {
-            //todo 将列表改为set或者字典的数据结构，不能重复添加，或者进行重复性判断
-            self.UnlockedLevels.Add(id);
+            if (!self.UnlockedLevels.Contains(id))
+            {
+                self.UnlockedLevels.Add(id);    
+            }
         }
 
         public static void PassLevel(this ET.PlayerDataComponent self, long id)

@@ -37,33 +37,9 @@ namespace ET.Client
         }
 
         #endregion YIUIEvent结束
-
-        /// <summary>
-        /// 刷新ui相关
-        /// 设置状态应该放在上层生成LevelSlot的时候判断
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="gridConfig"></param>
-        public static void UpdateData(this LevelSlotComponent self, GridConfig gridConfig)
-        {
-            var playerData = self.Root().GetComponent<SaveManagerComponent>().GetPlayerDataComponent();
-
-            //关卡
-            self.u_ComU_LevelCountText.SetText((gridConfig.Id - 1000).ToString());
-
-            //是否解锁
-            var unlock = playerData.CheckLevelUnlock(gridConfig.Id);
-            self.u_ComU_MaskRect.gameObject.SetActive(!unlock);
-            self.u_ComU_LevelSlotBtn.enabled = unlock;
-            self.u_ComU_LevelSlotBtn.interactable = unlock;
-            //通过
-            var pass = playerData.CheckLevelPass(gridConfig.Id);
-            self.u_ComU_IsPassRect.gameObject.SetActive(pass);
-        }
-
         
         /// <summary>
-        /// 通关当前Grid，解锁UI下一关卡，并且删除当前关卡
+        /// 设置slot相关信息
         /// </summary>
         /// <param name="self"></param>
         /// <param name="isUnlock"></param>
@@ -71,12 +47,15 @@ namespace ET.Client
         /// <param name="id"></param>
         public static void SetSlotState(this LevelSlotComponent self, bool isUnlock, bool isPass, int id)
         {
+            //是否解锁
             self.u_ComU_MaskRect.gameObject.SetActive(!isUnlock);
             self.u_ComU_LevelSlotBtn.enabled = isUnlock;
             self.u_ComU_LevelSlotBtn.interactable = isUnlock;
 
+            //是否通过
             self.u_ComU_IsPassRect.gameObject.SetActive(isPass);
 
+            //关卡
             self.u_ComU_LevelCountText.SetText((id - 1000).ToString());
             self.gridConfigId = id;
         }

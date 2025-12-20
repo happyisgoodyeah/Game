@@ -20,6 +20,8 @@ namespace ET
             
                 //生成View
                 var slotView = slot.AddComponent<SlotView,Transform>(Obj.transform);
+                var gameObjectComponent = slot.AddComponent<GameObjectComponent>();
+                gameObjectComponent.GameObject = Obj;
 
                 Obj.GetComponent<GameObjectEntityRef>().Entity = slotView;
             }

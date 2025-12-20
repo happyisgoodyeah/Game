@@ -22,7 +22,8 @@ namespace ET
 
             //生成View
             var puzzleView = puzzle.AddComponent<PuzzleView, Transform>(Obj.transform);
-
+            var gameObjectComponent = puzzle.AddComponent<GameObjectComponent>();
+            gameObjectComponent.GameObject = Obj;
             //关联
             Obj.GetComponent<GameObjectEntityRef>().Entity = puzzleView;
 
