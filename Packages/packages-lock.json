@@ -42,6 +42,12 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "cn.etetet.gamebase": {
+      "version": "file:cn.etetet.gamebase",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "cn.etetet.gameplay": {
       "version": "file:cn.etetet.gameplay",
       "depth": 0,
@@ -319,13 +325,6 @@
         "com.unity.modules.unitywebrequest": "1.0.0",
         "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
       }
-    },
-    "com.cysharp.unitask": {
-      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "73a63b7f672b88f7e9992f6917eb458a8cbb6fa9"
     },
     "com.etetet.init": {
       "version": "file:com.etetet.init",

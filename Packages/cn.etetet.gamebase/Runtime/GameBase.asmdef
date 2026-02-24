@@ -1,8 +1,7 @@
-{
-    "name": "GamePlay",
+﻿{
+    "name": "GameBase",
     "rootNamespace": "",
     "references": [
-        "GUID:06ceefedd62094f4b96bd0e13555436f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
