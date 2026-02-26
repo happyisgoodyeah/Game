@@ -12,10 +12,6 @@ namespace ET
         {
         }
 
-        // 当前拖拽中的实体
-        [StaticField]
-        private static Entity currentSelectedEntity;
-
         [EntitySystem]
         private static void Update(this DragComponent self)
         {
@@ -28,14 +24,14 @@ namespace ET
                 if (dis > 0.5f)
                 {
                     //触发会自动解开ClickDown选中状态，不会再次进入该逻辑当中
-                    self.StartDrag(currentSelectedEntity, self.DragStartPos);
+                    self.StartDrag(self.CurrentSelectedEntity.Entity, self.DragStartPos);
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
                     //选中状态后处于鼠标单击事件会触发旋转2逻辑
                     //并且重置所有当前状态
-                    self.StartRotate(currentSelectedEntity);
-                    currentSelectedEntity = null;
+                    self.StartRotate(self.CurrentSelectedEntity.Entity);
+                    self.CurrentSelectedEntity = default;
                     self.IsClickDown = false;
                     self.IsDragging = false;
                 }
@@ -46,7 +42,7 @@ namespace ET
                 //处于单击选中状态时，鼠标右键（android为Input.GetTouch）处理旋转逻辑
                 if (Input.GetMouseButtonDown(1))
                 {
-                    self.StartRotate(currentSelectedEntity);
+                    self.StartRotate(self.CurrentSelectedEntity.Entity);
                 }
 
                 //鼠标释放，且命中物体不是正在拖拽就是点击事件
@@ -61,7 +57,7 @@ namespace ET
                 if (Input.GetMouseButtonDown(0))
                 {
                     // 鼠标按下时检测可拖拽实体
-                    if (currentSelectedEntity == null)
+                    if (self.CurrentSelectedEntity == default)
                     {
                         self.TryStartDrag();
                     }
@@ -69,7 +65,7 @@ namespace ET
             }
 
             // 拖拽中更新位置
-            if (currentSelectedEntity != null && self.IsDragging)
+            if (self.CurrentSelectedEntity != default && self.IsDragging)
             {
                 self.UpdateDragPosition();
             }
@@ -110,7 +106,7 @@ namespace ET
                     // 检查实体是否有可拖拽组件
                     if (entity.HasComponent<DraggableTag>() && entity.HasComponent<DragComponent>())
                     {
-                        currentSelectedEntity = entity;
+                        self.CurrentSelectedEntity = entity;
                         //self.StartDrag(entity, hit.point);
 
                         return Input.mousePosition;
@@ -133,13 +129,13 @@ namespace ET
         {
             //进入拖拽状态取消isClickDown状态
             //绑定当前拖拽实体
-            currentSelectedEntity = entity;
+            self.CurrentSelectedEntity = entity;
             self.IsClickDown = false;
             self.IsDragging = true;
             self.StartWorldPos = hitPoint;
 
             // 发布拖拽开始事件
-            EventSystem.Instance.Publish(currentSelectedEntity.Root(), new DragStartEvent { Entity = entity, StartPosition = hitPoint });
+            EventSystem.Instance.Publish(self.CurrentSelectedEntity.Entity.Root(), new DragStartEvent { Entity = entity, StartPosition = hitPoint });
         }
 
         public static void UpdateDragPosition(this DragComponent self)
@@ -153,8 +149,8 @@ namespace ET
             worldPos.z = 0;
 
             // 发布拖拽更新事件
-            EventSystem.Instance.Publish(currentSelectedEntity.Root(),
-                new DragUpdateEvent { Entity = currentSelectedEntity, CurrentPosition = worldPos });
+            EventSystem.Instance.Publish(self.CurrentSelectedEntity.Entity.Root(),
+                new DragUpdateEvent { Entity = self.CurrentSelectedEntity.Entity, CurrentPosition = worldPos });
         }
 
         public static void EndDrag(this DragComponent self)
@@ -170,9 +166,9 @@ namespace ET
             worldPos.z = 0;
 
             // 发布拖拽结束事件
-            EventSystem.Instance.Publish(currentSelectedEntity.Root(), new DragEndEvent { Entity = currentSelectedEntity, EndPosition = worldPos });
+            EventSystem.Instance.Publish(self.CurrentSelectedEntity.Entity.Root(), new DragEndEvent { Entity = self.CurrentSelectedEntity.Entity, EndPosition = worldPos });
 
-            currentSelectedEntity = null;
+            self.CurrentSelectedEntity = default;
         }
     }
 }

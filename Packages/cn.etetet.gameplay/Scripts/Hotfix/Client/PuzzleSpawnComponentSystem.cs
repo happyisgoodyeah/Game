@@ -22,7 +22,7 @@ namespace ET
         {
             var grid = self.GetParent<Grid>();
             var puzzle = self.GetParent<Grid>().AddChild<Puzzle , int , FloatVector2>(puzzleId , viewPosition);
-            grid.PuzzleDic.TryAdd(grid.InstanceId, puzzle);
+            grid.PuzzleDic.TryAdd(puzzle.InstanceId, puzzle);
             EventSystem.Instance.Publish(self.Scene(), new AfterCreatePuzzle(){puzzle = puzzle});
             return puzzle;
         }

@@ -10,5 +10,8 @@ namespace ET
         public bool IsClickDown;
         public Vector3 StartWorldPos;
         public Vector3 DragStartPos;
+
+        //当前选中的entity
+        public EntityRef<Entity> CurrentSelectedEntity;
     }
 }
