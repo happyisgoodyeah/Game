@@ -7,6 +7,7 @@ namespace ET
     [EntitySystemOf(typeof(Grid))]
     [FriendOf(typeof(Slot))]
     [FriendOfAttribute(typeof(ET.SlotStateComponent))]
+    [FriendOf(typeof(Puzzle))]
     public static partial class GridSystem
     {
         /// <summary>
@@ -234,6 +235,102 @@ namespace ET
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// 尝试放置拼图到指定世界坐标位置
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="puzzle"></param>
+        /// <param name="worldPosition"></param>
+        /// <param name="gridPosition">输出的网格坐标</param>
+        /// <returns>是否可以放置</returns>
+        public static bool TryPlacePuzzle(this Grid self, Puzzle puzzle, FloatVector2 worldPosition, out IntVector2 gridPosition)
+        {
+            gridPosition = self.WorldToGridPosition(worldPosition);
+            
+            // 检查是否在Grid范围内
+            if (!self.ContainsPosition(worldPosition))
+            {
+                return false;
+            }
+            
+            // 检查是否可以放置
+            return self.CanPlacePuzzle(puzzle, gridPosition);
+        }
+
+        /// <summary>
+        /// 将拼图绑定到指定网格位置的槽位
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="puzzle"></param>
+        /// <param name="gridPosition"></param>
+        public static void BindPuzzleToSlots(this Grid self, Puzzle puzzle, IntVector2 gridPosition)
+        {
+            // 先解除之前的绑定
+            puzzle.ResetBindSlots();
+            
+            // 绑定到新的槽位
+            List<IntVector2> positionList = self.GetCoveredPositions(puzzle, gridPosition);
+            foreach (IntVector2 slotPosition in positionList)
+            {
+                Slot slot = self.GetSlot(slotPosition);
+                slot.SetPuzzle(puzzle);
+                puzzle.bindSlots.Add(slot);
+            }
+        }
+
+        /// <summary>
+        /// 尝试放置并绑定拼图（组合操作）
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="puzzle"></param>
+        /// <param name="worldPosition"></param>
+        /// <param name="gridPosition">输出的网格坐标</param>
+        /// <returns>是否成功放置</returns>
+        public static bool TryPlaceAndBindPuzzle(this Grid self, Puzzle puzzle, FloatVector2 worldPosition, out IntVector2 gridPosition)
+        {
+            if (!self.TryPlacePuzzle(puzzle, worldPosition, out gridPosition))
+            {
+                return false;
+            }
+            
+            self.BindPuzzleToSlots(puzzle, gridPosition);
+            return true;
+        }
+
+        /// <summary>
+        /// 尝试旋转已放置的拼图（检查合法性）
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="puzzle"></param>
+        /// <param name="angle"></param>
+        /// <param name="worldPosition">当前世界坐标位置</param>
+        /// <param name="gridPosition">输出的网格坐标</param>
+        /// <returns>旋转是否合法</returns>
+        public static bool TryRotatePlacedPuzzle(this Grid self, Puzzle puzzle, int angle, FloatVector2 worldPosition, out IntVector2 gridPosition)
+        {
+            gridPosition = default;
+            
+            // 先执行数据层旋转
+            puzzle.RotatePuzzleData(angle);
+            
+            // 计算网格坐标
+            gridPosition = self.WorldToGridPosition(worldPosition);
+            
+            // 检查旋转后是否可以放置
+            if (self.CanPlacePuzzle(puzzle, gridPosition))
+            {
+                // 合法：重新绑定槽位
+                self.BindPuzzleToSlots(puzzle, gridPosition);
+                return true;
+            }
+            else
+            {
+                // 不合法：旋转回去
+                puzzle.RotatePuzzleData(-angle);
+                return false;
+            }
         }
     }
 }

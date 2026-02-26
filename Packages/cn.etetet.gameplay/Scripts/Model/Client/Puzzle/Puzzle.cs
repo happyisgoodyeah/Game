@@ -60,11 +60,20 @@ namespace ET
     
     public enum PuzzleMoveModeType
     {
-        //普通
+        /// <summary>
+        /// 普通移动模式：Grid外自由拖拽
+        /// </summary>
         Normal,
-        //吸附
+        
+        /// <summary>
+        /// 吸附移动模式：Grid内按格子吸附移动
+        /// </summary>
         Adsorption,
-        //复位
+        
+        /// <summary>
+        /// 准备吸附模式：刚进入Grid，执行对齐动画的过渡状态
+        /// 动画完成后自动切换为Adsorption
+        /// </summary>
         ReadyAdsorption,
     }
     
