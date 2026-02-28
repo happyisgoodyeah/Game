@@ -11,85 +11,109 @@ namespace ET
         #region 右键菜单
 
         [MenuItem("Assets/Git/Commit", false, 0)]
-        public static async ETTask Commit()
+        public static void Commit()
+        {
+            CommitInternal().NoContext();
+        }
+
+        private static async ETTask CommitInternal()
         {
             await EditorUtilities.Terminal.ProcessCommandAsync("TortoiseGitProc.exe", "/command:commit /path:" + GetSelection() + " /closeonend:0");
         }
 
         [MenuItem("Assets/Git/Push", false, 1)]
-        public static async ETTask Push()
+        public static void Push()
+        {
+            PushInternal().NoContext();
+        }
+
+        private static async ETTask PushInternal()
         {
             await EditorUtilities.Terminal.ProcessCommandAsync("TortoiseGitProc.exe", "/command:push /path:" + GetSelection() + " /closeonend:0");
         }
 
         [MenuItem("Assets/Git/Pull", false, 1)]
-        public static async ETTask Pull()
+        public static void Pull()
+        {
+            PullInternal().NoContext();
+        }
+
+        private static async ETTask PullInternal()
         {
             await EditorUtilities.Terminal.ProcessCommandAsync("TortoiseGitProc.exe", "/command:pull /path:" + GetSelection() + " /closeonend:0");
             AssetDatabase.Refresh();
         }
 
         [MenuItem("Assets/Git/Revert", false, 2)]
-        public static async ETTask Revert()
+        public static void Revert()
+        {
+            RevertInternal().NoContext();
+        }
+
+        private static async ETTask RevertInternal()
         {
             await EditorUtilities.Terminal.ProcessCommandAsync("TortoiseGitProc.exe", "/command:revert /path:" + GetSelection() + " /closeonend:0");
         }
 
         [MenuItem("Assets/Git/Log", false, 51)]
-        public static async ETTask Log()
+        public static void Log()
+        {
+            LogInternal().NoContext();
+        }
+
+        private static async ETTask LogInternal()
         {
             await EditorUtilities.Terminal.ProcessCommandAsync("TortoiseGitProc.exe", "/command:log /path:" + GetSelection() + " /closeonend:0");
         }
 
         [MenuItem("Assets/Git/Blame", false, 52)]
-        public static async ETTask Blame()
+        public static void Blame()
+        {
+            BlameInternal().NoContext();
+        }
+
+        private static async ETTask BlameInternal()
         {
             await EditorUtilities.Terminal.ProcessCommandAsync("TortoiseGitProc.exe", "/command:blame /path:" + GetSelection() + " /closeonend:0");
         }
 
         [MenuItem("Assets/Git/Merge", false, 53)]
-        public static async ETTask Merge()
+        public static void Merge()
+        {
+            MergeInternal().NoContext();
+        }
+
+        private static async ETTask MergeInternal()
         {
             await EditorUtilities.Terminal.ProcessCommandAsync("TortoiseGitProc.exe", "/command:merge /path:" + GetSelection() + " /closeonend:0");
         }
-
 
         #endregion
 
         #region 工具栏菜单项
 
         [MenuItem("Framework/Git/CommitAll _F4", false, 0)]
-        public static async ETTask CommitAll()
+        public static void CommitAll()
+        {
+            CommitAllInternal().NoContext();
+        }
+
+        private static async ETTask CommitAllInternal()
         {
             await EditorUtilities.Terminal.ProcessCommandAsync("TortoiseGitProc.exe", "/command:commit /path:" + "Assets*Packages*ProjectSettings" + " /closeonend:0");
         }
 
-        // [MenuItem("Framework/Git/Fetch _F5", false, 1)]
-        // public static async ETTask Fetch()
-        // {
-        //     await EditorUtilities.Terminal.ProcessCommandAsync("TortoiseGitProc.exe", "/command:fetch" + " /closeonend:0");
-        //     AssetDatabase.Refresh();
-        // }
-
         [MenuItem("Framework/Git/PushAll _F5", false, 1)]
-        public static async ETTask PushAll()
+        public static void PushAll()
+        {
+            PushAllInternal().NoContext();
+        }
+
+        private static async ETTask PushAllInternal()
         {
             await EditorUtilities.Terminal.ProcessCommandAsync("TortoiseGitProc.exe", "/command:push /path:" + Application.dataPath + " /closeonend:0");
             AssetDatabase.Refresh();
         }
-
-        // [MenuItem("Framework/Git/PullAll _F7", false, 1)]
-        // public static async ETTask PullAll()
-        // {
-        //     await EditorUtilities.Terminal.ProcessCommandAsync("TortoiseGitProc.exe", "/command:pull /path:" + Application.dataPath + " /closeonend:0");
-        //     AssetDatabase.Refresh();
-        // }
-        //
-        // [MenuItem("Framework/Git/Switch _F8", false, 1)]
-        // public static async ETTask Switch()
-        // {
-        //     await EditorUtilities.Terminal.ProcessCommandAsync("TortoiseGitProc.exe", "/command:switch /path:" + Application.dataPath + " /closeonend:0");
-        // }
 
         #endregion
 

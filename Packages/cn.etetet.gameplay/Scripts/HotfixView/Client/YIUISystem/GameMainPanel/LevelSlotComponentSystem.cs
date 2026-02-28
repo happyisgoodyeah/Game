@@ -29,6 +29,7 @@ namespace ET.Client
         private static async ETTask OnEventClickLevelInvoke(this LevelSlotComponent self)
         {
             var grid = self.Root().AddChild<Grid, int>(self.gridConfigId);
+            
             await EventSystem.Instance.PublishAsync(self.Root(), new AfterCreateGrid() { grid = grid });
             await grid.SpawnSlot();
             grid.SpawnPuzzle();

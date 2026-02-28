@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ET
 {
@@ -82,8 +84,10 @@ namespace ET
         /// </summary>
         /// <param name="self"></param>
         /// <param name="targetPosition">目标坐标</param>
+        /// <param name="time">动画时长</param>
         /// <param name="isMust">是否强制 非强制不为空时直接退出 强制则重置tweener</param>
-        public static void Move(this PuzzleView self, Vector3 targetPosition, float time = 0.1f, bool isMust = false)
+        /// <param name="onComplete">动画完成回调</param>
+        public static void Move(this PuzzleView self, Vector3 targetPosition, float time = 0.1f, bool isMust = false, Action onComplete = null)
         {
             if (self.tweener != null && !isMust)
             {
@@ -108,7 +112,7 @@ namespace ET
                         self.tweener.ChangeEndValue(self.endPos, time, true).Play();
                         if (Vector2.Distance(self.transform.position, self.endPos) <= 0.01f)
                         {
-                            EventSystem.Instance.Publish(self.Scene(), new PuzzleMoveEndEvent() { puzzle = self.GetParent<Puzzle>() });
+                            onComplete?.Invoke();
                         }
                     });
         }

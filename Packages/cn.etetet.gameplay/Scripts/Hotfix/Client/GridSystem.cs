@@ -11,10 +11,10 @@ namespace ET
     public static partial class GridSystem
     {
         /// <summary>
-        /// 获取配置
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
+         /// 获取配置
+         /// </summary>
+         /// <param name="self"></param>
+         /// <returns></returns>
         public static GridConfig Config(this Grid self)
         {
             return GridConfigCategory.Instance.Get(self.configId);
@@ -248,13 +248,13 @@ namespace ET
         public static bool TryPlacePuzzle(this Grid self, Puzzle puzzle, FloatVector2 worldPosition, out IntVector2 gridPosition)
         {
             gridPosition = self.WorldToGridPosition(worldPosition);
-            
+
             // 检查是否在Grid范围内
             if (!self.ContainsPosition(worldPosition))
             {
                 return false;
             }
-            
+
             // 检查是否可以放置
             return self.CanPlacePuzzle(puzzle, gridPosition);
         }
@@ -269,7 +269,7 @@ namespace ET
         {
             // 先解除之前的绑定
             puzzle.ResetBindSlots();
-            
+
             // 绑定到新的槽位
             List<IntVector2> positionList = self.GetCoveredPositions(puzzle, gridPosition);
             foreach (IntVector2 slotPosition in positionList)
@@ -294,7 +294,7 @@ namespace ET
             {
                 return false;
             }
-            
+
             self.BindPuzzleToSlots(puzzle, gridPosition);
             return true;
         }
@@ -311,13 +311,13 @@ namespace ET
         public static bool TryRotatePlacedPuzzle(this Grid self, Puzzle puzzle, int angle, FloatVector2 worldPosition, out IntVector2 gridPosition)
         {
             gridPosition = default;
-            
+
             // 先执行数据层旋转
             puzzle.RotatePuzzleData(angle);
-            
+
             // 计算网格坐标
             gridPosition = self.WorldToGridPosition(worldPosition);
-            
+
             // 检查旋转后是否可以放置
             if (self.CanPlacePuzzle(puzzle, gridPosition))
             {

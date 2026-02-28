@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using YIUIFramework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ET.Client
 {
@@ -35,6 +36,8 @@ namespace ET.Client
         private static async ETTask OnEventBackBtnClickInvoke(this GameViewComponent self)
         {
             self.UIView.Close();
+            var grid = self.Root().Children.FirstOrDefault(x => x.Value is Grid).Value;
+            grid.Dispose();
             await YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent , EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum.SelectLevelView);
         }
         #endregion YIUIEvent结束

@@ -30,9 +30,6 @@ namespace ET
                     //切换为吸附模式
                     puzzle.ChangeMoveMode(PuzzleMoveModeType.ReadyAdsorption);
                     
-                    // puzzleView.tweener?.Kill();
-                    // puzzleView.tweener = null;
-
                     var collider = data.collider;
 
                     //碰撞点 gridClosePosition grid的碰撞点
@@ -60,19 +57,14 @@ namespace ET
                     //拼图偏移量
                     var puzzleSlotOffset = targetPosition - puzzleSlotView.transform.position;
                     
-                    puzzleView.Move(puzzleView.transform.position + puzzleSlotOffset , 0.05f , true);
-
-                    await scene.GetComponent<ObjectWait>().Wait<PuzzleMoveEndEvent>();
-                    
-                    //切换为吸附模式
-                    puzzle.ChangeMoveMode(PuzzleMoveModeType.Adsorption);
-                    
-                    // //拼图偏移量
-                    // //完成吸附模式前的复位
-                    // puzzleView.transform.position += puzzleSlotOffset;
-                    // puzzleView.endPos = puzzleView.transform.position;
+                    // 使用回调替代 Wait，动画完成后切换吸附模式
+                    puzzleView.Move(puzzleView.transform.position + puzzleSlotOffset, 0.05f, true, () =>
+                    {
+                        puzzle.ChangeMoveMode(PuzzleMoveModeType.Adsorption);
+                    });
                 }
             }
+
             await ETTask.CompletedTask;
         }
     }

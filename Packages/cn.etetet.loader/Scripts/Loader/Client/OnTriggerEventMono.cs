@@ -161,6 +161,10 @@ namespace ET
             if (this.tagList.Contains(other.tag))
             {
                 //Log.Error($"触发Trigger2DExit事件 触发obj --- {other.gameObject}");
+                if (this.entity == null)
+                {
+                    return;
+                }
                 EventSystem.Instance.Publish(this.entity.Scene(),
                     new ColliderTriggerExitEventMono
                     {
