@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ET
 {
     [ComponentOf(typeof(Puzzle))]
-    public class PuzzleView : Entity, IAwake<Transform>
+    public class PuzzleView : Entity, IAwake<Transform>, IDestroy
     {
         public Transform transform { get; set; }
         

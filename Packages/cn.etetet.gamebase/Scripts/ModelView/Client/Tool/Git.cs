@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using ET;
 using UnityEditor;
@@ -139,3 +140,4 @@ namespace ET
         #endregion
     }
 }
+#endif

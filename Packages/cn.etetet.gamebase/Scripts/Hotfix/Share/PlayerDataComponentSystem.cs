@@ -8,7 +8,29 @@ namespace ET
         [EntitySystem]
         private static void Awake(this ET.PlayerDataComponent self)
         {
-            self.UnlockedLevels = new SerializableList<long>() { GridConfigCategory.Instance.DataList[0].Id };
+            self.EnsureFirstLevelUnlocked();
+        }
+
+        [EntitySystem]
+        private static void Deserialize(this PlayerDataComponent self)
+        {
+            // 读档不执行 Awake，需要补回旧存档缺失的首关入口。
+            self.EnsureFirstLevelUnlocked();
+        }
+
+        public static void EnsureFirstLevelUnlocked(this PlayerDataComponent self)
+        {
+            self.UnlockedLevels ??= new SerializableList<long>();
+            if (GridConfigCategory.Instance.DataList.Count == 0)
+            {
+                return;
+            }
+
+            int firstLevelId = GridConfigCategory.Instance.DataList[0].Id;
+            if (!self.UnlockedLevels.Contains(firstLevelId))
+            {
+                self.UnlockedLevels.Add(firstLevelId);
+            }
         }
 
         /// <summary>

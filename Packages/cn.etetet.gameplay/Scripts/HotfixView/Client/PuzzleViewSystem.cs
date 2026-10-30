@@ -14,6 +14,17 @@ namespace ET
         }
 
         [EntitySystem]
+        private static void Destroy(this PuzzleView self)
+        {
+            self.tweener?.Kill();
+            self.tweener = null;
+            if (self.transform != null)
+            {
+                self.transform.DOKill();
+            }
+        }
+
+        [EntitySystem]
         private static void Awake(this ET.PuzzleView self, Transform transform)
         {
             self.transform = transform;

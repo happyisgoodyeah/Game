@@ -9,9 +9,17 @@ namespace ET
         protected override async ETTask Run(Scene scene, AfterCreateGrid data)
         {
             Grid grid = data.grid;
+            EntityRef<Grid> gridRef = grid;
+            EntityRef<Scene> sceneRef = scene;
             
             //生成预制体
             var bundleObj = await ResourcesLoaderHelper.LoadAssetPrefabAsync<GameObject>(scene,grid.Config().PrefabPath);
+            grid = gridRef;
+            scene = sceneRef;
+            if (grid == null || scene == null)
+            {
+                return;
+            }
             GlobalComponent globalComponent = scene.Root().GetComponent<GlobalComponent>();
             //将之前已经通关过的关卡删除
             // for (int i = 0; i < globalComponent.Grid.childCount; i++)

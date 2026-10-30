@@ -11,9 +11,15 @@ namespace ET
         protected override async ETTask Run(Scene scene, AfterCreatePuzzle data)
         {
             Puzzle puzzle = data.puzzle;
+            EntityRef<Puzzle> puzzleRef = puzzle;
 
             //生成预制体
             var bundleObj = await ResourcesLoaderHelper.LoadAssetPrefabAsync<GameObject>(scene, puzzle.Config().PrefabPath);
+            puzzle = puzzleRef;
+            if (puzzle == null)
+            {
+                return;
+            }
             var transform = puzzle.GetParent<Grid>().GetComponent<GridView>().puzzleTransform.Find("Puzzle");
             var Obj = UnityEngine.Object.Instantiate(bundleObj, transform);
             

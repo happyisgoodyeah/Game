@@ -34,8 +34,9 @@ namespace ET.Client
         [YIUIInvoke(GameViewComponent.OnEventBackBtnClickInvoke)]
         private static async ETTask OnEventBackBtnClickInvoke(this GameViewComponent self)
         {
+            LevelSessionComponent session = LevelSessionComponentSystem.GetOrCreate(self.Root());
             self.UIView.Close();
-            await YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent , EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum.SelectLevelView);
+            await session.ExitLevelAsync();
         }
         #endregion YIUIEvent结束
     }

@@ -11,9 +11,21 @@ namespace ET
         {
             Slot slot = data.slot;
             Grid grid = slot.GetParent<Grid>();
+            if (grid == null)
+            {
+                return;
+            }
+            EntityRef<Slot> slotRef = slot;
+            EntityRef<Grid> gridRef = grid;
             
             //生成预制体
             var bundleObj = await ResourcesLoaderHelper.LoadAssetPrefabAsync<GameObject>(scene, slot.Config().PrefabPath);
+            slot = slotRef;
+            grid = gridRef;
+            if (slot == null || grid == null)
+            {
+                return;
+            }
             
             if (grid != null)
             {

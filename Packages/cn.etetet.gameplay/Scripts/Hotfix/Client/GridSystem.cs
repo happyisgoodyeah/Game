@@ -46,14 +46,14 @@ namespace ET
         public static async ETTask SpawnSlot(this Grid self)
         {
             var config = self.Config();
+            EntityRef<Grid> selfRef = self;
             for (int j = 0; j < self.gridSize.Y; j++)
             {
                 for (int i = 0; i < self.gridSize.X; i++)
                 {
-                    var index = i + j * self.gridSize.Y;
+                    var index = i + j * self.gridSize.X;
                     var slotConfig = config.SlotList[index];
                     var slot = self.GetComponent<SlotSpawnComponent>().GridSpawnSlot(config.SlotList[index], new IntVector2(i, j));
-                    await self.Root().GetComponent<TimerComponent>().WaitFrameAsync();
                     self.slotDic.TryAdd(new IntVector2(i, j), slot);
                     //最外围一圈判定可吸附
                     if (i == 0 || j == 0 || i == self.gridSize.X - 1 || j == self.gridSize.Y - 1)
@@ -64,6 +64,12 @@ namespace ET
                     if ((i == 0 || i == self.gridSize.X - 1) && (j == 0 || j == self.gridSize.Y - 1))
                     {
                         self.sideSlots.Add(slot);
+                    }
+                    await self.Root().GetComponent<TimerComponent>().WaitFrameAsync();
+                    self = selfRef;
+                    if (self == null)
+                    {
+                        return;
                     }
                 }
             }
@@ -110,6 +116,10 @@ namespace ET
         /// <returns></returns>
         public static bool CheckGameOver(this Grid self)
         {
+            if (self.slotDic.Count != self.gridSize.X * self.gridSize.Y)
+            {
+                return false;
+            }
             foreach (var slotRef in self.slotDic.Values)
             {
                 var slot = slotRef.Entity;
@@ -276,7 +286,6 @@ namespace ET
             {
                 Slot slot = self.GetSlot(slotPosition);
                 slot.SetPuzzle(puzzle);
-                puzzle.bindSlots.Add(slot);
             }
         }
 

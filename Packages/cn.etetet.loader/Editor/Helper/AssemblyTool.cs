@@ -1,6 +1,9 @@
+using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEditor.Build.Player;
 using UnityEngine;
 
@@ -56,6 +59,11 @@ namespace ET
             // 强制刷新一下，防止关闭auto refresh，编译出老代码
             AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
 
+            if (!CheckPlayerBuildSupport())
+            {
+                return;
+            }
+
             GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
             CodeModeChangeHelper.ChangeToCodeMode(globalConfig.CodeMode.ToString());
 
@@ -71,12 +79,52 @@ namespace ET
         }
 
         /// <summary>
+        /// 缺少 Windows IL2CPP 模块时，Unity 的低级脚本编译接口可能退回编辑器引擎引用。
+        /// 先检查安装环境，避免由错误引用引起大量第三方源码编译错误。
+        /// </summary>
+        static bool CheckPlayerBuildSupport()
+        {
+            BuildTarget target = EditorUserBuildSettings.activeBuildTarget;
+            BuildTargetGroup group = BuildPipeline.GetBuildTargetGroup(target);
+            if (!BuildPipeline.IsBuildTargetSupported(group, target))
+            {
+                Debug.LogError($"F6 编译已停止：当前 Unity 未安装 {target} 的构建支持。已有热更 DLL 保留。");
+                return false;
+            }
+
+            if (target != BuildTarget.StandaloneWindows && target != BuildTarget.StandaloneWindows64)
+            {
+                return true;
+            }
+
+            NamedBuildTarget namedTarget = EditorUserBuildSettings.standaloneBuildSubtarget == StandaloneBuildSubtarget.Server
+                ? NamedBuildTarget.Server : NamedBuildTarget.Standalone;
+            if (PlayerSettings.GetScriptingBackend(namedTarget) != ScriptingImplementation.IL2CPP)
+            {
+                return true;
+            }
+
+            BuildOptions options = EditorUserBuildSettings.development ? BuildOptions.Development : BuildOptions.None;
+            string playbackDirectory = BuildPipeline.GetPlaybackEngineDirectory(target, options);
+            string variationsDirectory = Path.Combine(playbackDirectory, "Variations");
+            if (Directory.Exists(variationsDirectory) && Directory.EnumerateDirectories(variationsDirectory, "*il2cpp*").Any())
+            {
+                return true;
+            }
+
+            Debug.LogError($"F6 编译已停止：{target} 使用 IL2CPP，但 Unity {Application.unityVersion} 未安装 Windows Build Support (IL2CPP)。\n" +
+                "请在 Unity Hub 中为此版本添加该模块，重启 Unity 后重新编译。仅本地 Mono 调试可改用 Mono；HybridCLR 发布仍需 IL2CPP。\n" +
+                $"检查目录：{variationsDirectory}\n已有热更 DLL 保留，本次未执行 Player 脚本编译。");
+            return false;
+        }
+
+        /// <summary>
         /// 编译成dll
         /// </summary>
         static bool CompileDlls()
         {
             // 运行时编译需要先设置为UnitySynchronizationContext, 编译完再还原为CurrentContext
-            SynchronizationContext lastSynchronizationContext = Application.isPlaying ? SynchronizationContext.Current : null;
+            SynchronizationContext lastSynchronizationContext = SynchronizationContext.Current;
             SynchronizationContext.SetSynchronizationContext(unitySynchronizationContext);
 
             bool isCompileOk = false;
@@ -90,19 +138,27 @@ namespace ET
                 {
                     group = group,
                     target = target,
+                    subtarget = group == BuildTargetGroup.Standalone ? (int)EditorUserBuildSettings.standaloneBuildSubtarget : 0,
                     extraScriptingDefines = new[] { "IS_COMPILING" },
                     options = EditorUserBuildSettings.development ? ScriptCompilationOptions.DevelopmentBuild : ScriptCompilationOptions.None
                 };
                 ScriptCompilationResult result = PlayerBuildInterface.CompilePlayerScripts(scriptCompilationSettings, Define.BuildOutputDir);
-                isCompileOk = result.assemblies.Count > 0;
-                EditorUtility.ClearProgressBar();
+                string[] compiledAssemblies = result.assemblies.Select(Path.GetFileNameWithoutExtension).ToArray();
+                isCompileOk = DllNames.All(name => compiledAssemblies.Contains(name) &&
+                    File.Exists($"{Define.BuildOutputDir}/{name}.dll") && File.Exists($"{Define.BuildOutputDir}/{name}.pdb"));
+                if (!isCompileOk)
+                {
+                    Debug.LogError("F6 编译失败：未生成完整的四层 DLL/PDB，已有热更 DLL 保留。请先解决 Console 中的编译错误。");
+                }
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
             }
             finally
             {
-                if (lastSynchronizationContext != null)
-                {
-                    SynchronizationContext.SetSynchronizationContext(lastSynchronizationContext);
-                }
+                EditorUtility.ClearProgressBar();
+                SynchronizationContext.SetSynchronizationContext(lastSynchronizationContext);
             }
 
             return isCompileOk;
@@ -113,7 +169,7 @@ namespace ET
         /// </summary>
         static void CopyHotUpdateDlls()
         {
-            FileHelper.CleanDirectory(Define.CodeDir);
+            Directory.CreateDirectory(Define.CodeDir);
             foreach (string dllName in DllNames)
             {
                 string sourceDll = $"{Define.BuildOutputDir}/{dllName}.dll";

@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using YIUIFramework;
 using System.Collections.Generic;
-using UnityEditor;
 
 namespace ET.Client
 {

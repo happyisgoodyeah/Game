@@ -13,6 +13,7 @@ namespace ET
             PuzzleView puzzleView = a.puzzle.GetComponent<PuzzleView>();
             //puzzleView.transform.eulerAngles = new Vector3(0f , 0f , a.puzzle.rotate);
             Sequence sequence = DOTween.Sequence();
+            sequence.SetLink(puzzleView.transform.gameObject);
             sequence.Append(puzzleView.transform.DOLocalRotate(new Vector3(0f, 0f, a.puzzle.rotate + 15), 0.04f))
                     .Append(puzzleView.transform.DOLocalRotate(new Vector3(0f, 0f, a.puzzle.rotate), 0.03f));
             await ETTask.CompletedTask;

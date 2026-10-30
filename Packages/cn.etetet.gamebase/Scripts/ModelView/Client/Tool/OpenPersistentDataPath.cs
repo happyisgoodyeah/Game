@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 using System.Diagnostics;
@@ -19,3 +20,4 @@ public class OpenPersistentDataPath : MonoBehaviour
         UnityEngine.Debug.Log($"已打开持久化数据路径: {persistentDataPath}");
     }
 }
+#endif

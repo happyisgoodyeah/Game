@@ -122,6 +122,8 @@ namespace ET.Client
         [YIUIInvoke(SelectLevelViewComponent.OnEventBackMenuBtnClickInvoke)]
         private static async ETTask OnEventBackMenuBtnClickInvoke(this SelectLevelViewComponent self)
         {
+            // 返回主菜单时，同时取消尚未结束的关卡加载。
+            LevelSessionComponentSystem.GetOrCreate(self.Root()).ClearLevel();
             await YIUIMgrComponent.Inst.Root.OpenPanelAsync<GameMainPanelPanelComponent, EGameMainPanelPanelViewEnum>(EGameMainPanelPanelViewEnum
                     .Main1View);
             await ETTask.CompletedTask;

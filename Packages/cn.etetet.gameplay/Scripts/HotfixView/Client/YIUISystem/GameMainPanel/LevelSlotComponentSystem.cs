@@ -28,10 +28,17 @@ namespace ET.Client
         [YIUIInvoke(LevelSlotComponent.OnEventClickLevelInvoke)]
         private static async ETTask OnEventClickLevelInvoke(this LevelSlotComponent self)
         {
-            var grid = self.Root().AddChild<Grid, int>(self.gridConfigId);
-            await EventSystem.Instance.PublishAsync(self.Root(), new AfterCreateGrid() { grid = grid });
-            await grid.SpawnSlot();
-            grid.SpawnPuzzle();
+            EntityRef<LevelSlotComponent> selfRef = self;
+            LevelSessionComponent session = LevelSessionComponentSystem.GetOrCreate(self.Root());
+            if (!await session.EnterLevelAsync(self.gridConfigId))
+            {
+                return;
+            }
+            self = selfRef;
+            if (self == null)
+            {
+                return;
+            }
 
             await self.DynamicEvent(self.Root(), new SelectLevelView_LevelSlotGoGrid());
         }

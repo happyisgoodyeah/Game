@@ -13,10 +13,33 @@ namespace ET
             
             if (slot.GetParent<Puzzle>() != null)
             {
+                EntityRef<Slot> slotRef = slot;
+                EntityRef<Puzzle> puzzleRef = slot.GetParent<Puzzle>();
+                EntityRef<TimerComponent> timerRef = scene.Root().GetComponent<TimerComponent>();
                 //生成预制体
                 var bundleObj = await ResourcesLoaderHelper.LoadAssetPrefabAsync<GameObject>(scene, slot.Config().PrefabPath);
-                await ETTaskHelperExtend.WaitUntil(slot , () => slot.GetParent<Puzzle>().GetComponent<PuzzleView>() != null);
-                var Obj = UnityEngine.Object.Instantiate(bundleObj , slot.GetParent<Puzzle>().GetComponent<PuzzleView>().transform);
+                Puzzle puzzle = puzzleRef;
+                slot = slotRef;
+                if (slot == null || puzzle == null)
+                {
+                    return;
+                }
+                while (puzzle.GetComponent<PuzzleView>() == null)
+                {
+                    TimerComponent timer = timerRef;
+                    if (timer == null)
+                    {
+                        return;
+                    }
+                    await timer.WaitFrameAsync();
+                    slot = slotRef;
+                    puzzle = puzzleRef;
+                    if (slot == null || puzzle == null)
+                    {
+                        return;
+                    }
+                }
+                var Obj = UnityEngine.Object.Instantiate(bundleObj , puzzle.GetComponent<PuzzleView>().transform);
             
                 //生成View
                 var slotView = slot.AddComponent<SlotView,Transform>(Obj.transform);
