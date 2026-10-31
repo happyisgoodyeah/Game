@@ -8,7 +8,7 @@
     "BuildPipeline": "EditorSimulateBuildPipeline",
     "PackageName": "DefaultPackage",
     "PackageVersion": "Simulate",
-    "PackageNote": "2026/10/30 18:12:38",
+    "PackageNote": "2026/10/31 17:19:53",
     "AssetList": [
         {
             "Address": "YIUIConstAsset",
@@ -149,6 +149,22 @@
         {
             "Address": "Puzzle1002",
             "AssetPath": "Packages/cn.etetet.gameplay/Resources/Puzzle/Puzzle1002.prefab",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 8,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "Puzzle1003",
+            "AssetPath": "Packages/cn.etetet.gameplay/Resources/Puzzle/Puzzle1003.prefab",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 8,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "Puzzle1004",
+            "AssetPath": "Packages/cn.etetet.gameplay/Resources/Puzzle/Puzzle1004.prefab",
             "AssetGUID": "",
             "AssetTags": [],
             "BundleID": 8,
@@ -657,7 +673,7 @@
             "UnityCRC": 0,
             "FileHash": "fc470aa5a091a762f477771f3b871e6d",
             "FileCRC": "00000000",
-            "FileSize": 36639,
+            "FileSize": 53466,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []
@@ -687,7 +703,7 @@
             "UnityCRC": 0,
             "FileHash": "dce43a055552e7e53edc400a4464beac",
             "FileCRC": "00000000",
-            "FileSize": 1711508,
+            "FileSize": 1619132,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []
@@ -797,7 +813,7 @@
             "UnityCRC": 0,
             "FileHash": "bb5066efbd43f8fcedb14d0dbcdbdd83",
             "FileCRC": "00000000",
-            "FileSize": 2316,
+            "FileSize": 2417,
             "Encrypted": false,
             "Tags": [],
             "DependBundleIDs": []

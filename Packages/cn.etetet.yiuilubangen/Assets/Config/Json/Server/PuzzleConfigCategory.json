@@ -32,5 +32,43 @@
         -1
       ]
     ]
+  },
+  {
+    "Id": 1003,
+    "Name": "L形小狗拼图",
+    "X": 2,
+    "Y": 2,
+    "PrefabPath": "Puzzle/Puzzle1003",
+    "SlotOffset": [
+      [
+        0,
+        0
+      ],
+      [
+        -1,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "Id": 1004,
+    "Name": "两格小猫拼图",
+    "X": 1,
+    "Y": 2,
+    "PrefabPath": "Puzzle/Puzzle1004",
+    "SlotOffset": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ]
   }
 ]

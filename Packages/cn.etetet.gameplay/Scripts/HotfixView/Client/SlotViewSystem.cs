@@ -38,12 +38,15 @@ namespace ET
                     (slot.position.Y - (int)(gridSize.Y / 2)) * spriteSize.y);
                 self.transform.position = index;    
             }
-            else if (self.GetParent<Puzzle>() != null) //puzzle的slot
+            else if (slot.GetParent<Puzzle>() != null) //puzzle的slot
             {
-                Puzzle puzzle = self.GetParent<Puzzle>();
+                Puzzle puzzle = slot.GetParent<Puzzle>();
                 
-                var index = new Vector2(slot.position.X * spriteSize.x , slot.position.Y * spriteSize.y);
-                self.transform.position = index;
+                // 配置偏移以行、列存储，世界坐标的行方向向下；与覆盖格计算保持一致。
+                var index = new Vector2(slot.position.Y * spriteSize.x, -slot.position.X * spriteSize.y);
+                self.transform.localPosition = index;
+                // 拼图使用动物图案显示，槽位仅保留尺寸和碰撞，不显示调试色块。
+                self.transform.Find("Square").GetComponent<SpriteRenderer>().enabled = false;
             }
         }
 

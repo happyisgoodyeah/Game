@@ -104,7 +104,8 @@ namespace ET
                     Entity entity = gameObjectEntityRef.Entity;
 
                     // 检查实体是否有可拖拽组件
-                    if (entity.HasComponent<DraggableTag>() && entity.HasComponent<DragComponent>())
+                    // 每个可拖拽实体都有控制组件，只允许命中实体自己的组件处理这次输入。
+                    if (entity == self.Parent && entity.HasComponent<DraggableTag>() && entity.HasComponent<DragComponent>())
                     {
                         self.CurrentSelectedEntity = entity;
                         //self.StartDrag(entity, hit.point);
