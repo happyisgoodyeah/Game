@@ -12,6 +12,7 @@ namespace PuzzleGame
         [SerializeField] private Sprite[] backgrounds = new Sprite[3];
         [SerializeField] private Sprite[] floorTiles = new Sprite[3];
         [SerializeField] private Sprite[] obstacles = new Sprite[3];
+        [SerializeField] private GameObject[] environmentLayers = new GameObject[3];
 
         private int theme = -1;
         private SpriteRenderer backdrop;
@@ -37,6 +38,11 @@ namespace PuzzleGame
             Transform icon = transform.Find("Icon");
             if (icon != null) icon.gameObject.SetActive(false);
             backdrop = CreateRenderer("Environment", transform, backgrounds[index], "BackGround", 100);
+            if (index < environmentLayers.Length && environmentLayers[index] != null)
+            {
+                GameObject layers = Instantiate(environmentLayers[index], backdrop.transform, false);
+                layers.name = "EnvironmentLayers";
+            }
             SpriteRenderer frame = CreateRenderer("BoardMat", transform, floorTiles[index], "Grid", -10);
             // 用同材质的大底垫连接九个地格；实际碰撞范围仍为原来的 9×9。
             frame.transform.localScale = Vector3.one * (11.3f / 3f);

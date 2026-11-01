@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier:
   backgrounds:
-  - {fileID: 21300000, guid: c39842985d2593245b45bf9a6cebfb05, type: 3}
+  - {fileID: 21300000, guid: 045e06be3f0db6d4590d1e3d3e4290f5, type: 3}
   - {fileID: 21300000, guid: d56646a4e16aa59448ebcbbd676f1980, type: 3}
   - {fileID: 21300000, guid: 1e86d0c695166c348972e5c830277276, type: 3}
   floorTiles:
@@ -59,6 +59,10 @@ MonoBehaviour:
   - {fileID: -8245361336699684500, guid: 6ab0b27387979614ca672f1c028373fb, type: 3}
   - {fileID: -9120782058574820642, guid: 6ab0b27387979614ca672f1c028373fb, type: 3}
   - {fileID: 3497178452978027683, guid: 6ab0b27387979614ca672f1c028373fb, type: 3}
+  environmentLayers:
+  - {fileID: 3849614016303619248, guid: 37fb7e4872a04aa41bb4828f649ebf33, type: 3}
+  - {fileID: 1938363829005200199, guid: 4515efb157b10904aa39a6f3778ee750, type: 3}
+  - {fileID: 2662705423056719189, guid: a263411aed5d2714eb389a324b2e3152, type: 3}
 --- !u!1 &246251288695714493
 GameObject:
   m_ObjectHideFlags: 0

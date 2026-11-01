@@ -22,12 +22,13 @@ namespace PuzzleGameEditor
         public static void Install()
         {
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            GameObject[] environmentLayers = LevelEnvironmentArtTools.Install();
             foreach (string name in Names)
             {
                 string path = $"{Art}/{name}.png";
                 TextureImporter importer = ConfigureImporter(path);
-                Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-                importer.spritePixelsPerUnit = texture.width / 44f;
+                importer.GetSourceTextureWidthAndHeight(out int width, out _);
+                importer.spritePixelsPerUnit = width / 44f;
                 importer.spriteImportMode = SpriteImportMode.Single;
                 importer.SaveAndReimport();
             }
@@ -65,7 +66,11 @@ namespace PuzzleGameEditor
                     SetSprite(serialized, "backgrounds", i, AssetDatabase.LoadAssetAtPath<Sprite>($"{Art}/{Names[i]}.png"));
                     SetSprite(serialized, "floorTiles", i, tiles.Single(sprite => sprite.name == Names[i] + "-floor"));
                     SetSprite(serialized, "obstacles", i, tiles.Single(sprite => sprite.name == Names[i] + "-obstacle"));
+                    SerializedProperty layers = serialized.FindProperty("environmentLayers");
+                    layers.arraySize = 3;
+                    layers.GetArrayElementAtIndex(i).objectReferenceValue = environmentLayers[i];
                 }
+                SetSprite(serialized, "backgrounds", 0, AssetDatabase.LoadAssetAtPath<Sprite>($"{Art}/Animated/room-static.png"));
                 serialized.ApplyModifiedPropertiesWithoutUndo();
                 PrefabUtility.SaveAsPrefabAsset(grid, gridPath);
             }
@@ -211,6 +216,8 @@ namespace PuzzleGameEditor
                 grid.SetActive(true);
                 // 保存为纯美术预览预制体，不启动 ET 业务，也不切换用户当前场景。
                 art.enabled = false;
+                foreach (LevelEnvironmentAnimation animation in grid.GetComponentsInChildren<LevelEnvironmentAnimation>(true))
+                    animation.ClearPreview();
                 camera.transform.position = new Vector3(0, 0, -10);
                 camera.orthographicSize = 12.375f;
                 PrefabUtility.SaveAsPrefabAsset(container, $"{PreviewDirectory}/Level{level.Id}.prefab");
