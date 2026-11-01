@@ -13,6 +13,9 @@ namespace ET.Client
             self.transform = transform;
             self.parentTransform = transform.parent;
 
+            // 环境外观只读取关卡配置，不改变网格数据、碰撞或拼图位置。
+            transform.GetComponent<PuzzleGame.LevelSceneArt>()?.Configure(self.GetParent<Grid>().Config().Id);
+
             if (self.transform != null)
             {
                 self.slotTransform = transform.Find("SlotTransform");

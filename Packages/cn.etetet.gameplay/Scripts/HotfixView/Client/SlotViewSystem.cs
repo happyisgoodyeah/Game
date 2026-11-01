@@ -17,6 +17,12 @@ namespace ET
             self.parentTransform = transform.parent;
             self.AddComponent<SpriteRenderComponent , GameObject>(transform.Find("Square").gameObject);
             self.UpdatePosition();
+
+            Slot slot = self.GetParent<Slot>();
+            if (slot.GetParent<Grid>() != null)
+            {
+                transform.GetComponentInParent<PuzzleGame.LevelSceneArt>(true)?.ApplySlot(transform, slot.Config().AllowPlace);
+            }
         }
 
         /// <summary>
@@ -36,7 +42,7 @@ namespace ET
                 // (int)不然会出现一个警告
                 var index = new Vector2((slot.position.X - (int)(gridSize.X / 2)) * spriteSize.x ,
                     (slot.position.Y - (int)(gridSize.Y / 2)) * spriteSize.y);
-                self.transform.position = index;    
+                self.transform.position = index;
             }
             else if (slot.GetParent<Puzzle>() != null) //puzzle的slot
             {
