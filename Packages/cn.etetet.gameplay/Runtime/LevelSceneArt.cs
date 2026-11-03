@@ -13,6 +13,7 @@ namespace PuzzleGame
         [SerializeField] private Sprite[] floorTiles = new Sprite[3];
         [SerializeField] private Sprite[] obstacles = new Sprite[3];
         [SerializeField] private GameObject[] environmentLayers = new GameObject[3];
+        [SerializeField] private Sprite roomBearObstacle;
 
         private int theme = -1;
         private SpriteRenderer backdrop;
@@ -46,6 +47,10 @@ namespace PuzzleGame
             SpriteRenderer frame = CreateRenderer("BoardMat", transform, floorTiles[index], "Grid", -10);
             // 用同材质的大底垫连接九个地格；实际碰撞范围仍为原来的 9×9。
             frame.transform.localScale = Vector3.one * (11.3f / 3f);
+            GetComponent<PlacementFeedback>()?.Configure(frame.transform, index);
+            GetComponent<LevelOneBasketReveal>()?.Configure(index == 0 ?
+                backdrop.transform.Find("EnvironmentLayers/PuzzleProps/RevealBasket")?.GetComponent<SpriteRenderer>() : null,
+                previewCamera);
             FitCamera();
             return true;
         }
@@ -60,7 +65,9 @@ namespace PuzzleGame
             Transform previous = slot.Find("SceneSurface");
             SpriteRenderer surface = previous != null ? previous.GetComponent<SpriteRenderer>() :
                 CreateRenderer("SceneSurface", slot, floorTiles[theme], "Slot", 0);
-            surface.sprite = allowPlace ? floorTiles[theme] : obstacles[theme];
+            surface.sprite = allowPlace ? floorTiles[theme] :
+                theme == 0 && roomBearObstacle != null ? roomBearObstacle : obstacles[theme];
+            GetComponent<PlacementFeedback>()?.RegisterSurface(surface.transform);
         }
 
         private static SpriteRenderer CreateRenderer(string name, Transform parent, Sprite sprite, string layer, int order)

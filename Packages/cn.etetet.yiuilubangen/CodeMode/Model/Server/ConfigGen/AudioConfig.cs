@@ -19,6 +19,18 @@ namespace ET
         {
             Id = _buf.ReadInt();
             Path = _buf.ReadString();
+            Key = _buf.ReadString();
+            Group = _buf.ReadString();
+            Volume = _buf.ReadFloat();
+            Loop = _buf.ReadBool();
+            PitchMin = _buf.ReadFloat();
+            PitchMax = _buf.ReadFloat();
+            FadeIn = _buf.ReadFloat();
+            FadeOut = _buf.ReadFloat();
+            MaxInstances = _buf.ReadInt();
+            CooldownMs = _buf.ReadInt();
+            Priority = _buf.ReadInt();
+            Overflow = _buf.ReadString();
 
             EndInit();
         }
@@ -29,10 +41,61 @@ namespace ET
         }
 
         /// <summary>
-        /// Id
+        /// 配置 ID
         /// </summary>
         public readonly int Id;
+        /// <summary>
+        /// YooAsset 完整资源路径
+        /// </summary>
         public readonly string Path;
+        /// <summary>
+        /// 唯一调用名称
+        /// </summary>
+        public readonly string Key;
+        /// <summary>
+        /// Music / Sound / UI / Ambient
+        /// </summary>
+        public readonly string Group;
+        /// <summary>
+        /// 基础音量 0~1
+        /// </summary>
+        public readonly float Volume;
+        /// <summary>
+        /// 是否循环
+        /// </summary>
+        public readonly bool Loop;
+        /// <summary>
+        /// 最低音高 0.1~3
+        /// </summary>
+        public readonly float PitchMin;
+        /// <summary>
+        /// 最高音高 0.1~3
+        /// </summary>
+        public readonly float PitchMax;
+        /// <summary>
+        /// 淡入秒数 &gt;=0
+        /// </summary>
+        public readonly float FadeIn;
+        /// <summary>
+        /// 淡出秒数 &gt;=0
+        /// </summary>
+        public readonly float FadeOut;
+        /// <summary>
+        /// 同 ID 并发上限 &gt;=1
+        /// </summary>
+        public readonly int MaxInstances;
+        /// <summary>
+        /// 重复请求间隔毫秒 &gt;=0
+        /// </summary>
+        public readonly int CooldownMs;
+        /// <summary>
+        /// 优先级 0~256，越小越高
+        /// </summary>
+        public readonly int Priority;
+        /// <summary>
+        /// Reject / ReplaceOldest
+        /// </summary>
+        public readonly string Overflow;
     
         public const int __ID__ = 1647377048;
         public override int GetTypeId() => __ID__;
@@ -47,6 +110,18 @@ namespace ET
             return "{ "
             + "Id:" + Id + ","
             + "Path:" + Path + ","
+            + "Key:" + Key + ","
+            + "Group:" + Group + ","
+            + "Volume:" + Volume + ","
+            + "Loop:" + Loop + ","
+            + "PitchMin:" + PitchMin + ","
+            + "PitchMax:" + PitchMax + ","
+            + "FadeIn:" + FadeIn + ","
+            + "FadeOut:" + FadeOut + ","
+            + "MaxInstances:" + MaxInstances + ","
+            + "CooldownMs:" + CooldownMs + ","
+            + "Priority:" + Priority + ","
+            + "Overflow:" + Overflow + ","
             + "}";
         }
 

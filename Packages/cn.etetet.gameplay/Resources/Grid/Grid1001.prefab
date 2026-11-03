@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 149029530547483344}
   - component: {fileID: 6770715612761559085}
+  - component: {fileID: 4957362780055455316}
+  - component: {fileID: 2927409162699445743}
   m_Layer: 0
   m_Name: Grid1001
   m_TagString: Untagged
@@ -48,7 +50,7 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier:
   backgrounds:
-  - {fileID: 21300000, guid: 045e06be3f0db6d4590d1e3d3e4290f5, type: 3}
+  - {fileID: 21300000, guid: 0319c3e38f9995e4383902a3e40c6d8c, type: 3}
   - {fileID: 21300000, guid: d56646a4e16aa59448ebcbbd676f1980, type: 3}
   - {fileID: 21300000, guid: 1e86d0c695166c348972e5c830277276, type: 3}
   floorTiles:
@@ -63,6 +65,7 @@ MonoBehaviour:
   - {fileID: 3849614016303619248, guid: 37fb7e4872a04aa41bb4828f649ebf33, type: 3}
   - {fileID: 1938363829005200199, guid: 4515efb157b10904aa39a6f3778ee750, type: 3}
   - {fileID: 2662705423056719189, guid: a263411aed5d2714eb389a324b2e3152, type: 3}
+  roomBearObstacle: {fileID: 21300000, guid: 3df4f4d62ec5ad0489e36c07a43f9eeb, type: 3}
 --- !u!1 &246251288695714493
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,8 +261,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed871b0b512fb7f49bd52986e67e2179, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   startAxis: 0
   constraint: 1
   constraintCount: 3
@@ -352,5 +355,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6dd4a34553b75342add90614e3b78b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
+--- !u!114 &2927409162699445743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167707863368894934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75f641a257b92b245aba43f01d1b2d11, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  cloudFrames:
+  - {fileID: -2558078112389244873, guid: 6c1a11cf088227a4bb64e1dcee65f934, type: 3}
+  - {fileID: -1182678973410355817, guid: 6c1a11cf088227a4bb64e1dcee65f934, type: 3}
+  - {fileID: 4243811840051066473, guid: 6c1a11cf088227a4bb64e1dcee65f934, type: 3}
+  - {fileID: -3854143255495046920, guid: 6c1a11cf088227a4bb64e1dcee65f934, type: 3}
+  - {fileID: 2286901325001809650, guid: 6c1a11cf088227a4bb64e1dcee65f934, type: 3}
+  - {fileID: -112654650217472465, guid: 6c1a11cf088227a4bb64e1dcee65f934, type: 3}
+--- !u!114 &4957362780055455316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167707863368894934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308020cf19791234b8380242fa37f227, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:

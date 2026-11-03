@@ -516,6 +516,7 @@ GameObject:
   - component: {fileID: 4214140919193017657}
   - component: {fileID: 6404541180884995245}
   - component: {fileID: 1407583695110955892}
+  - component: {fileID: 912038470020200001}
   m_Layer: 5
   m_Name: UIBlockBG
   m_TagString: Untagged
@@ -566,3 +567,15 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &912038470020200001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8656261713157187708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c147d774bc7a4598b2562d39d5133ec5, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:

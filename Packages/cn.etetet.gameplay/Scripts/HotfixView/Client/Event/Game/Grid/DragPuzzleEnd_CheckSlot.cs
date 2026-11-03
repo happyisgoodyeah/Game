@@ -29,6 +29,8 @@ namespace ET
             if (grid.TryPlaceAndBindPuzzle(puzzle, position, out IntVector2 originPosition))
             {
                 puzzleView.transform.position = grid.GetSlot(originPosition).GetComponent<SlotView>().transform.position;
+                grid.GetComponent<GameObjectComponent>().GameObject.GetComponent<PuzzleGame.PlacementFeedback>()?
+                    .PlayLanding(puzzleView.transform.GetComponent<SpriteRenderer>().bounds.center);
                 return;
             }
 

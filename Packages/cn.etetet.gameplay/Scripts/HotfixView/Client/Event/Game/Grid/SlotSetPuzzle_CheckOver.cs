@@ -36,8 +36,8 @@ namespace ET
                 Log.Info("当前关卡完成");
                 try
                 {
-                    // 等待本次放置及视图定位完成，再执行通关收尾。
-                    await scene.Root().GetComponent<TimerComponent>().WaitFrameAsync();
+                    // 等待最后一次放置的六帧云尘和枕头回弹完成，再执行通关收尾。
+                    await scene.Root().GetComponent<TimerComponent>().WaitAsync(450);
                     session = sessionRef;
                     grid = gridRef;
                     if (session == null || grid == null || session.Version != version)

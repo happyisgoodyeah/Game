@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="*.cs" />
+    <Compile Include="../../Scripts/Model/Client/AudioTypes.cs" />
+    <Compile Include="../../Scripts/ModelView/Client/Audio/*.cs" />
+    <Compile Include="../../Scripts/HotfixView/Client/Audio/*.cs" Exclude="../../Scripts/HotfixView/Client/Audio/PlayAudioRequested_Play.cs" />
+    <Compile Include="../../../cn.etetet.core/Scripts/Core/Share/ETTask/*.cs" Exclude="../../../cn.etetet.core/Scripts/Core/Share/ETTask/ETTaskHelper.cs;../../../cn.etetet.core/Scripts/Core/Share/ETTask/ETCancellationToken.cs" />
+    <Compile Include="../../../cn.etetet.yiuiluban/Scripts/Model/Share/LubanLib/*.cs" />
+    <Compile Include="../../../cn.etetet.yiuilubangen/CodeMode/Model/ClientServer/ConfigGen/AudioConfig*.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,34 @@
+[
+  {
+    "Id": 0,
+    "Path": "Packages/cn.etetet.gameplay/Resources/Audio/audio1.mp3",
+    "Key": "bg1",
+    "Group": "Music",
+    "Volume": 0.65,
+    "Loop": true,
+    "PitchMin": 1,
+    "PitchMax": 1,
+    "FadeIn": 0.5,
+    "FadeOut": 0.5,
+    "MaxInstances": 1,
+    "CooldownMs": 0,
+    "Priority": 32,
+    "Overflow": "Reject"
+  },
+  {
+    "Id": 1,
+    "Path": "Packages/cn.etetet.gameplay/Resources/Audio/audio2.mp3",
+    "Key": "bg2",
+    "Group": "Sound",
+    "Volume": 0.8,
+    "Loop": false,
+    "PitchMin": 0.95,
+    "PitchMax": 1.05,
+    "FadeIn": 0,
+    "FadeOut": 0.1,
+    "MaxInstances": 4,
+    "CooldownMs": 80,
+    "Priority": 128,
+    "Overflow": "ReplaceOldest"
+  }
+]

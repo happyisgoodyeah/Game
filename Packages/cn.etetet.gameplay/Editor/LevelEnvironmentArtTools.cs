@@ -50,6 +50,7 @@ namespace PuzzleGameEditor
                             new Vector2(4.1f, 5.9f), 2, 0.04f, 0.2f, 2.1f);
                         Child(props, "WindowSill").localPosition = new Vector3(-15.4f, 8.9f, 0);
                         Child(props, "Shelf").localPosition = new Vector3(7.7f, 8.9f, 0);
+                        PlacementRevealArtTools.CreateBasket(props);
                     }
                     else if (index == 1)
                         Child(props, "CherryTree").localPosition = new Vector3(18, 9, 0);

@@ -12,6 +12,7 @@ namespace ET.Client
         {
             root.AddComponent<GlobalComponent>();
             root.AddComponent<ResourcesLoaderComponent>();
+            root.AddComponent<AudioComponent>();
             root.AddComponent<PlayerComponent>();
             root.AddComponent<CurrentScenesComponent>();
             root.AddComponent<SaveManagerComponent>();

@@ -22,6 +22,7 @@ namespace PuzzleGameEditor
         public static void Install()
         {
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            PlacementRevealArtTools.ImportSprites();
             GameObject[] environmentLayers = LevelEnvironmentArtTools.Install();
             foreach (string name in Names)
             {
@@ -72,6 +73,7 @@ namespace PuzzleGameEditor
                 }
                 SetSprite(serialized, "backgrounds", 0, AssetDatabase.LoadAssetAtPath<Sprite>($"{Art}/Animated/room-static.png"));
                 serialized.ApplyModifiedPropertiesWithoutUndo();
+                PlacementRevealArtTools.ConfigureGrid(grid);
                 PrefabUtility.SaveAsPrefabAsset(grid, gridPath);
             }
             finally
@@ -198,6 +200,7 @@ namespace PuzzleGameEditor
                         AssetDatabase.LoadAssetAtPath<GameObject>($"{Package}/Resources/Puzzle/Puzzle{piece.Id}.prefab"),
                         grid.transform.Find("PuzzleTransform"));
                     puzzle.transform.position = piece.Trans;
+                    if (piece.Id == 1001) grid.GetComponent<LevelOneBasketReveal>()?.RegisterChick(puzzle);
                 }
 
                 Render(camera, $"{Output}/level-{level.Id}.png", 1920, 1080);

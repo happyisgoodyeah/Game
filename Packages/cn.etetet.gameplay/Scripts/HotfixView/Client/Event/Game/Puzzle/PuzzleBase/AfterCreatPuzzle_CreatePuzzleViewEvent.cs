@@ -32,6 +32,12 @@ namespace ET
             gameObjectComponent.GameObject = Obj;
             //关联
             Obj.GetComponent<GameObjectEntityRef>().Entity = puzzleView;
+            // Chick 的实体和槽位正常加载，解谜揭晓前关闭整个视图，避免隐藏期间被拖拽。
+            if (puzzle.configId == 1001)
+            {
+                puzzle.GetParent<Grid>().GetComponent<GameObjectComponent>().GameObject
+                    .GetComponent<PuzzleGame.LevelOneBasketReveal>()?.RegisterChick(Obj);
+            }
 
             await ETTask.CompletedTask;
         }
