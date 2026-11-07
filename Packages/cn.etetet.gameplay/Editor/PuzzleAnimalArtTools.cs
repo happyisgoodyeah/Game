@@ -10,12 +10,12 @@ using UnityEngine;
 namespace PuzzleGameEditor
 {
     /// <summary>
-    /// 将已导出的 C 组动画帧接入拼图，并验证资源、占格和循环播放。
+    /// 将已导出的动物待机和拎起帧接入拼图，并验证资源、占格和循环播放。
     /// </summary>
     public static class PuzzleAnimalArtTools
     {
         private const string Package = "Packages/cn.etetet.gameplay";
-        private const string ReportDirectory = "ArtOutput/PuzzleC_Loop8_20261031/qa";
+        private const string ReportDirectory = "ArtOutput/PuzzleSketch_20261106/qa";
         private const string PlayCheckKey = "PuzzleGame.AnimalAnimationPlayCheck";
         private const string InstallRequest = "ArtOutput/PuzzleC_Loop8_20261031/install-request.txt";
 
@@ -34,12 +34,17 @@ namespace PuzzleGameEditor
             for (int animal = 0; animal < Ids.Length; ++animal)
             {
                 Sprite[] frames = new Sprite[8];
+                Sprite[] pickedUpFrames = new Sprite[8];
                 for (int index = 0; index < frames.Length; ++index)
                 {
                     string path = $"{Package}/Resources/Sprite/PuzzleAnimals/{Animals[animal]}/{index:00}.png";
                     ConfigureSprite(path, Pivots[animal]);
                     frames[index] = AssetDatabase.LoadAssetAtPath<Sprite>(path);
                     Require(frames[index] != null, $"缺少动画帧：{path}");
+                    string pickedUpPath = $"{Package}/Resources/Sprite/PuzzleAnimals/{Animals[animal]}/PickedUp/{index:00}.png";
+                    ConfigureSprite(pickedUpPath, Pivots[animal]);
+                    pickedUpFrames[index] = AssetDatabase.LoadAssetAtPath<Sprite>(pickedUpPath);
+                    Require(pickedUpFrames[index] != null, $"缺少拎起动画帧：{pickedUpPath}");
                 }
 
                 if (animal < 2)
@@ -48,8 +53,7 @@ namespace PuzzleGameEditor
                 }
 
                 string destination = $"{Package}/Resources/Puzzle/Puzzle{Ids[animal]}.prefab";
-                string source = animal < 2 ? destination : $"{Package}/Resources/Puzzle/Puzzle1002.prefab";
-                GameObject root = PrefabUtility.LoadPrefabContents(source);
+                GameObject root = PrefabUtility.LoadPrefabContents(destination);
                 try
                 {
                     root.name = $"Puzzle{Ids[animal]}";
@@ -67,11 +71,16 @@ namespace PuzzleGameEditor
                     for (int i = 0; i < frames.Length; ++i)
                         property.GetArrayElementAtIndex(i).objectReferenceValue = frames[i];
                     serialized.FindProperty("framesPerSecond").floatValue = 5f;
+                    SerializedProperty pickedUp = serialized.FindProperty("pickedUpFrames");
+                    pickedUp.arraySize = pickedUpFrames.Length;
+                    for (int i = 0; i < pickedUpFrames.Length; ++i)
+                        pickedUp.GetArrayElementAtIndex(i).objectReferenceValue = pickedUpFrames[i];
+                    serialized.FindProperty("pickedUpFramesPerSecond").floatValue = 8f;
+                    serialized.FindProperty("heldLoopStart").intValue = 2;
                     serialized.ApplyModifiedPropertiesWithoutUndo();
                     animation.enabled = true;
 
-                    ConfigureCollider(root.GetComponent<PolygonCollider2D>(), animal);
-                    ConfigureSlots(root, animal);
+                    // 美术更新保留现有固定碰撞区域和子槽位，不重建玩法层级。
                     PrefabUtility.SaveAsPrefabAsset(root, destination);
                 }
                 finally
@@ -82,7 +91,7 @@ namespace PuzzleGameEditor
 
             AssetDatabase.SaveAssets();
             ValidateAssets();
-            Debug.Log("C 组四种拼图动画已接入，默认循环播放。");
+            Debug.Log("四种拼图的待机和拎起动画已接入。");
         }
 
         private static void ConfigureSprite(string path, Vector2 pivot)
@@ -162,6 +171,7 @@ namespace PuzzleGameEditor
                 PuzzleIdleAnimation animation = prefab.GetComponent<PuzzleIdleAnimation>();
                 Require(animation != null && animation.enabled && animation.FrameCount == 8, $"Puzzle{id} 动画配置错误。");
                 Require(animation.FramesPerSecond == 5f, $"Puzzle{id} 帧率错误。");
+                Require(animation.PickedUpFrameCount == 8, $"Puzzle{id} 缺少八帧拎起动画。");
                 PolygonCollider2D collider = prefab.GetComponent<PolygonCollider2D>();
                 Require(collider != null && !collider.autoTiling && collider.isTrigger, $"Puzzle{id} 碰撞配置错误。");
                 SerializedProperty frames = new SerializedObject(animation).FindProperty("frames");
@@ -172,9 +182,17 @@ namespace PuzzleGameEditor
                     Require(sprite != null && sprite.rect.size == first.rect.size && sprite.pivot == first.pivot,
                         $"Puzzle{id} 第 {i} 帧尺寸或枢轴不一致。");
                 }
+                SerializedProperty pickedUp = new SerializedObject(animation).FindProperty("pickedUpFrames");
+                for (int i = 0; i < pickedUp.arraySize; ++i)
+                {
+                    Sprite sprite = pickedUp.GetArrayElementAtIndex(i).objectReferenceValue as Sprite;
+                    Require(sprite != null && sprite.rect.size == first.rect.size && sprite.pivot == first.pivot &&
+                        Mathf.Approximately(sprite.pixelsPerUnit, first.pixelsPerUnit),
+                        $"Puzzle{id} 第 {i} 帧拎起动画尺寸、枢轴或 PPU 不一致。");
+                }
             }
             Directory.CreateDirectory(ReportDirectory);
-            File.WriteAllText($"{ReportDirectory}/unity-assets-validation.json", "{\"ok\":true,\"prefabs\":4,\"framesPerPrefab\":8}");
+            File.WriteAllText($"{ReportDirectory}/unity-assets-validation.json", "{\"ok\":true,\"prefabs\":4,\"idleFramesPerPrefab\":8,\"pickedUpFramesPerPrefab\":8}");
         }
 
         /// <summary>批处理入口：安装后进入隔离场景，检查默认播放及暂停时的循环。</summary>

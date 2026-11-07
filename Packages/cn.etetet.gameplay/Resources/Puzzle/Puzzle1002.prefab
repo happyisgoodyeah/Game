@@ -220,6 +220,17 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 4049881c3b3d56dea93b23bec2e53de5, type: 3}
   - {fileID: 21300000, guid: 63761579c1485be0889c82991480a6f1, type: 3}
   framesPerSecond: 5
+  pickedUpFrames:
+  - {fileID: 21300000, guid: e3d4ae2e556b424890315482001657ce, type: 3}
+  - {fileID: 21300000, guid: ed535d80367e4dbd979ac674bf93c6e7, type: 3}
+  - {fileID: 21300000, guid: 7b211f3e1b484a4596f04bf59b2b9c62, type: 3}
+  - {fileID: 21300000, guid: 6a0657c6f58d4ffc99365a91afd6533c, type: 3}
+  - {fileID: 21300000, guid: 5f6ef9e83ac042378f87c4caa6f76da9, type: 3}
+  - {fileID: 21300000, guid: 01096ccc10f3426cba46b06672d654a8, type: 3}
+  - {fileID: 21300000, guid: fc1b1d78086d49e0a74bcb9c4d665571, type: 3}
+  - {fileID: 21300000, guid: 8b9c935475f948e1bf676150714a1a50, type: 3}
+  pickedUpFramesPerSecond: 8
+  heldLoopStart: 2
 --- !u!1001 &887521777583765935
 PrefabInstance:
   m_ObjectHideFlags: 0

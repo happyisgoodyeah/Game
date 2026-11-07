@@ -2,6 +2,13 @@ using UnityEngine;
 
 namespace ET
 {
+    /// <summary>指针按下选中或释放，用于表现反馈；不代表开始移动或解除占格。</summary>
+    public struct DragSelectionChangedEvent
+    {
+        public Entity Entity;
+        public bool Selected;
+    }
+
     //拖拽开始事件
     public struct DragStartEvent
     {

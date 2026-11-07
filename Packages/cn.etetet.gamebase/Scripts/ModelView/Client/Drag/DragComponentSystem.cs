@@ -30,6 +30,7 @@ namespace ET
                 {
                     //选中状态后处于鼠标单击事件会触发旋转2逻辑
                     //并且重置所有当前状态
+                    self.PublishSelection(false);
                     self.StartRotate(self.CurrentSelectedEntity.Entity);
                     self.CurrentSelectedEntity = default;
                     self.IsClickDown = false;
@@ -82,6 +83,7 @@ namespace ET
 
                 self.DragStartPos = worldPos;
                 self.IsClickDown = true;
+                self.PublishSelection(true);
             }
         }
 
@@ -134,6 +136,7 @@ namespace ET
             self.IsClickDown = false;
             self.IsDragging = true;
             self.StartWorldPos = hitPoint;
+            self.PublishSelection(true);
 
             // 发布拖拽开始事件
             EventSystem.Instance.Publish(self.CurrentSelectedEntity.Entity.Root(), new DragStartEvent { Entity = entity, StartPosition = hitPoint });
@@ -156,6 +159,7 @@ namespace ET
 
         public static void EndDrag(this DragComponent self)
         {
+            self.PublishSelection(false);
             self.IsDragging = false;
             self.IsClickDown = false;
 
@@ -170,6 +174,14 @@ namespace ET
             EventSystem.Instance.Publish(self.CurrentSelectedEntity.Entity.Root(), new DragEndEvent { Entity = self.CurrentSelectedEntity.Entity, EndPosition = worldPos });
 
             self.CurrentSelectedEntity = default;
+        }
+
+        private static void PublishSelection(this DragComponent self, bool selected)
+        {
+            Entity entity = self.CurrentSelectedEntity;
+            if (entity == null || entity.IsDisposed) return;
+            EventSystem.Instance.Publish(entity.Root(),
+                new DragSelectionChangedEvent { Entity = entity, Selected = selected });
         }
     }
 }
