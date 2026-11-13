@@ -14,7 +14,7 @@ namespace PuzzleGameEditor
     /// <summary>在隔离预览场景验证两种动画的切换、循环、复位和玩法变换不变性。</summary>
     public static class PuzzleAnimationValidation
     {
-        private const string Output = "ArtOutput/PuzzleSketch_20261106/qa";
+        private const string Output = "ArtOutput/PuzzleLNatural_20261110/qa";
 
         [MenuItem("ET/Puzzle/Validate idle and picked up animations")]
         public static void Run()

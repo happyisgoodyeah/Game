@@ -15,7 +15,7 @@ namespace PuzzleGameEditor
     public static class PuzzleAnimalArtTools
     {
         private const string Package = "Packages/cn.etetet.gameplay";
-        private const string ReportDirectory = "ArtOutput/PuzzleSketch_20261106/qa";
+        private const string ReportDirectory = "ArtOutput/PuzzleLNatural_20261110/qa";
         private const string PlayCheckKey = "PuzzleGame.AnimalAnimationPlayCheck";
         private const string InstallRequest = "ArtOutput/PuzzleC_Loop8_20261031/install-request.txt";
 
@@ -181,6 +181,7 @@ namespace PuzzleGameEditor
                     Sprite sprite = frames.GetArrayElementAtIndex(i).objectReferenceValue as Sprite;
                     Require(sprite != null && sprite.rect.size == first.rect.size && sprite.pivot == first.pivot,
                         $"Puzzle{id} 第 {i} 帧尺寸或枢轴不一致。");
+                    if (id == 1003) ValidateLFrame(sprite);
                 }
                 SerializedProperty pickedUp = new SerializedObject(animation).FindProperty("pickedUpFrames");
                 for (int i = 0; i < pickedUp.arraySize; ++i)
@@ -189,10 +190,37 @@ namespace PuzzleGameEditor
                     Require(sprite != null && sprite.rect.size == first.rect.size && sprite.pivot == first.pivot &&
                         Mathf.Approximately(sprite.pixelsPerUnit, first.pixelsPerUnit),
                         $"Puzzle{id} 第 {i} 帧拎起动画尺寸、枢轴或 PPU 不一致。");
+                    if (id == 1003) ValidateLFrame(sprite);
                 }
             }
             Directory.CreateDirectory(ReportDirectory);
-            File.WriteAllText($"{ReportDirectory}/unity-assets-validation.json", "{\"ok\":true,\"prefabs\":4,\"idleFramesPerPrefab\":8,\"pickedUpFramesPerPrefab\":8}");
+            File.WriteAllText($"{ReportDirectory}/unity-assets-validation.json", "{\"ok\":true,\"prefabs\":4,\"idleFramesPerPrefab\":8,\"pickedUpFramesPerPrefab\":8,\"lMissingCellClearWithSixPixelMargin\":true}");
+        }
+
+        /// <summary>检查原始 PNG 的透明区域，避免待机或拎起动作侵入 L 形缺格。</summary>
+        private static void ValidateLFrame(Sprite sprite)
+        {
+            string path = AssetDatabase.GetAssetPath(sprite);
+            Texture2D image = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+            try
+            {
+                Require(image.LoadImage(File.ReadAllBytes(path)), $"无法读取 L 形动画帧：{path}");
+                Require(image.width == 512 && image.height == 512, $"L 形动画画布应为 512×512：{path}");
+                Color32[] pixels = image.GetPixels32();
+                // PNG 顶部右上格在 Unity 的底部原点坐标中对应 y >= 256；
+                // 两个方向各扩展 6 像素，给线条和动画摆动保留边界余量。
+                for (int y = 250; y < 512; ++y)
+                {
+                    for (int x = 250; x < 512; ++x)
+                    {
+                        Require(pixels[y * 512 + x].a == 0, $"L 形动画侵入右上格安全边界：{path}，像素 ({x}, {y})。");
+                    }
+                }
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(image);
+            }
         }
 
         /// <summary>批处理入口：安装后进入隔离场景，检查默认播放及暂停时的循环。</summary>
